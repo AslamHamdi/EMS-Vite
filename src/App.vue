@@ -8,8 +8,8 @@
           </div>
           <div class="" style="height: 10%; width: 100%;">
           </div>
-          <router-link to="/" @click="onTabSelect('home')">
-            <div class="flex justify-center items-center cursor-pointer hover:bg-indigo-900" ref="home"
+          <router-link to="/" @click="onTabSelect('/')">
+            <div class="flex justify-center items-center cursor-pointer hover:bg-indigo-900" ref="/"
                   style="height: 10%; width: 100%;">
                   <i class="fa-solid fa-house-chimney fa-xl" style="color: white;"></i>
               </div>

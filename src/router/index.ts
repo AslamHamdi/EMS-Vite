@@ -4,33 +4,36 @@ import Department from '../components/department/Department.vue'
 import Employee from '../components/employee/Employee.vue'
 import Role from '../components/role/Role.vue'
 import Setting from '../components/setting/Setting.vue'
+import PageNotFound from '../components/public/PageNotFound.vue'
 
 const routes = [
     {
         path: '/',
-        name: 'Home',
+        alias: '/home',
+        name: 'home',
         component: Home
     },
     {
         path: '/employee',
-        name: 'Employee',
+        name: 'employee',
         component: Employee
     },
     {
         path: '/department',
-        name: 'Department',
+        name: 'department',
         component: Department
     },
     {
         path: '/role',
-        name: 'Role',
+        name: 'role',
         component: Role
     },
     {
         path: '/setting',
-        name: 'Setting',
+        name: 'setting',
         component: Setting
     },
+    { path: '/:pathMatch(.*)*', name: 'notfound', component: PageNotFound  },  
 ]
 
 const router = createRouter({

@@ -1,18 +1,34 @@
+import router from "./router"
+
 export default {
     data(){
         return {
-            currentTab: "home"
+            currentTab: ""
         }
     },
     mounted(){
         console.log("Mounted APP")
-        this.onTabSelect(this.currentTab)
+        this.currentTab = this.$router
     },
     methods: {
         onTabSelect(tab: string){
-            this.currentTab = tab
+            this.currentTab = tab ? tab : this.$router.currentRoute
+        }
+    },
+    watch: {
+        currentTab: function(tab: any) {
+            let proxyTab = JSON.parse(JSON.stringify(tab))
+            console.log("proxy: ", proxyTab)
+            let valueTab = ""
+            if(proxyTab.options){
+                console.log("SINI")
+                valueTab = proxyTab.options.history.location == "/" ? "/" : proxyTab.options.history.location.substring(1)
+            }else{
+                valueTab = tab
+            }
+            router.push({path: `${valueTab}`})
             for (let value of Object.entries(this.$refs)) {
-                if(value[0] == this.currentTab){
+                if(value[0] == valueTab){
                     this.$refs[value[0]].classList.add('border-l-4')
                     this.$refs[value[0]].classList.add('bg-indigo-900')
                 }else{
@@ -20,6 +36,7 @@ export default {
                     this.$refs[value[0]].classList.remove('bg-indigo-900')
                 }
             }
+            console.log("WACTH TAB: ", valueTab)
         }
     }
 }
