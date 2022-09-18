@@ -30,7 +30,7 @@
                     <div class="flex space-x-1" style="height: 100%; width: 100%;">
                         <div class="flex items-center justify-center" style="width: 20%;">
                             <img class="w-5 h-5 lg:w-10 lg:h-10 rounded-full object-cover"
-                                src="/public/assets/team-lead.jpg" alt="Rounded avatar">
+                                src="/assets/team-lead.jpg" alt="Rounded avatar">
                         </div>
                         <div class="" style="width: 60%;">
                             <div class="" style="height: 30%;">
@@ -58,7 +58,7 @@
             <div class="flex border-b-2" style="height: 15%; margin: 1.5rem;">
                 <div class="mr-4 lg:mr-0" style="width: 15%;">
                     <div class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
-                        <img class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/public/assets/team-lead.jpg"
+                        <img class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/team-lead.jpg"
                             alt="Rounded avatar">
                         <div
                             class="group flex items-center justify-center absolute w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover">

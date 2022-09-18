@@ -14,7 +14,7 @@
                 <div class="overflow-auto w-full" style="max-height: 93%;">
                     <div v-for="(o, i) in employeeListData" :key="i" class="w-full flex table-list pt-2 pb-2" :class="o.class()">
                         <div class="flex items-center" style="width: 20%">
-                            <img class="w-14 h-14 rounded-full object-cover" src="/public/assets/face.jpg"
+                            <img class="w-14 h-14 rounded-full object-cover" src="/assets/face.jpg"
                             alt="Rounded avatar">
                         </div>
                         <div class="block lg:flex-grow text-sm text-gray-900 font-medium py-4 whitespace-nowrap" style="width: 20%">
@@ -52,7 +52,7 @@
                 <div class="w-full overflow-auto lg:overflow-hidden" style="height: 89%">
                     <div class="w-full flex justify-center items-center my-6" style="height: 25%">
                         <img class="w-32 h-32 rounded-full object-cover"
-                        src="/public/assets/face3.jpg" alt="Rounded avatar">
+                        src="/assets/face3.jpg" alt="Rounded avatar">
                     </div>
                     <div class="w-full flex justify-center" style="height: 70%">
                         <div class="" style="height: 100%; width: 90%">
