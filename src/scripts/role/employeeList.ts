@@ -7,7 +7,7 @@ export default {
     },
     computed:{
         employeeListData(){
-            let data = []
+            let data : object[] = []
             for(let i = 0; i <= 7; i++){
                 data.push({
                     id: 'SFD0020058',

@@ -5,6 +5,7 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx,vue}",
+    "./node_modules/flowbite/**/*.js"
   ],
   theme: {
     placeholderColor: theme => theme('colors'),
@@ -21,6 +22,7 @@ module.exports = {
     },
   },
   plugins: [
+    //require('flowbite/plugin')
   ],
   variants: {
     extend: {

@@ -68,5 +68,6 @@
             </div>
         </div>
     </form>
+    <dialog-app @confirmEditUser="confirmEditUser" :buttons="editButtonList" title="Edit user" text="Are you sure you want to edit this user?"></dialog-app>
 </template>
 <script src="../../scripts/role/form.ts"></script>

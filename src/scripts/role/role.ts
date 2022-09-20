@@ -9,13 +9,19 @@ export default {
         return{
             tabSelected: "form",
             tabClass: [{iconColor: "text-slate-100"},{iconColor: "text-black"}],
-            tabStyle: [{color: '#6A67CE'}, {}]
+            tabStyle: [{color: '#6A67CE'}, {}],
+            editButtonList: [
+                {name: 'Edit', function: this.confirmEditUser()}
+            ]
         }
     },
     methods: {
         onTabSelect(data: any){
             this.tabSelected = data
-        }
+        },
+        confirmEditUser(){
+            console.log("CONFIRM EDIT")
+        },
     },
     computed: {
         componentNow(){

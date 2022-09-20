@@ -57,7 +57,6 @@
     </div>
   </div>
 </template>
-
 <script src="./app.ts"></script>
 
 <style>
