@@ -13,6 +13,8 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "noImplicitThis": false,
+    "noImplicitAny": false,
+    "allowJs": true,
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/public/pageNotFound.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
