@@ -9,11 +9,25 @@ export default class VueCustomComponent{
             }
         }
     }
+    /**
+     * @props {Array} buttons List of buttons that will be displayed on dialog
+     * @props {String} title Action text on dialog
+     * @props {String} text Description text on dialog
+     */
     static __dialog = {
         props: {
-            buttons: [],
-            text: "",
-            title: "",
+            buttons: {
+                type: Array,
+                default: []
+            },
+            title: {
+                type: String,
+                default: "This is dialog action text"
+            },
+            text: {
+                type: String,
+                default: "This is dialog description text"
+            },
         },
         mounted(){
             console.log("MOUNTED DIALOG COMP")
@@ -22,11 +36,14 @@ export default class VueCustomComponent{
         methods: {
             runParentFunction(func){
                 this.$emit(func);
-                //this.$parent[func];
-            }
+            },
+            toggleDialog(){
+                let el = this.$refs.dialogModal!
+                el.classList.toggle('hidden')
+            },
         },
         template: `
-        <div class="cover absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div class="hidden cover absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2" id="dialogModal" ref="dialogModal">
             <div class="shadow-lg rounded-2xl p-4 bg-white dark:bg-gray-800 w-64 m-auto">
                 <div class="w-full h-full text-center">
                     <div class="flex h-full flex-col justify-between">
@@ -41,17 +58,17 @@ export default class VueCustomComponent{
                             {{text}}
                         </p>
                         <div class="flex items-center justify-between gap-4 w-full mt-8">
-                            <button type="button" @click="runParentFunction(buttons[0].function)" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
-                                Delete
-                            </button>
-                            <button type="button" class="py-2 px-4  bg-white hover:bg-gray-100 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-indigo-500 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                            <button type="button" @click="toggleDialog()" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                                 Cancel
+                            </button>
+                            <button v-for="button in buttons" type="button" @click="runParentFunction(button.function)" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                                {{button.name}}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            `
+        `
     }
 }

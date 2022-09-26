@@ -1,15 +1,31 @@
 import axios from "axios"
 
 export default {
+    props: {
+        formStatus: {
+            type: Number,
+            default: 0
+        }
+    },
     mounted(){
         console.log("MOUNTED FORM APP")
         this.getDataFromServer()
+        console.log("FORM STATUS: ", this.formStatus)
     },
     data(){
         return {
-            editButtonList: [
-                {name: 'Edit', function: 'confirmEditUser'}
-            ]
+            employeeForm: {
+                model: {
+                    roleName: "",
+                    roleId: "",
+                    departmentLead: "",
+                    officeAddress: "",
+                    description: "",
+                },
+                rules: {
+
+                }
+            },
         }
     },
     methods: {
@@ -23,8 +39,9 @@ export default {
                 console.error(err);
             }
         },
-        confirmEditUser(){
-            console.log("CONFIRM EDIT")
-        },
+        saveEmployeeDetails(){
+            let data = this.employeeForm.model
+            console.log("EMPLOYEE FORM: ", data) 
+        }
     }
 }
