@@ -14,11 +14,11 @@ export default {
     },
     data(){
         return {
-            employeeForm: {
+            roleForm: {
                 model: {
                     roleName: "",
                     roleId: "",
-                    departmentLead: "",
+                    departmentLead: "Aslam",
                     officeAddress: "",
                     description: "",
                 },
@@ -39,9 +39,32 @@ export default {
                 console.error(err);
             }
         },
-        saveEmployeeDetails(){
-            let data = this.employeeForm.model
+        openForm(){
+            console.log("OPEN FORM")
+        },
+        submitForm(){
+            let data = this.roleForm.model
             console.log("EMPLOYEE FORM: ", data) 
         }
+    },
+    computed: {
+        checkFormStatus() {
+
+        }
+    },
+    watch: {
+        formStatus:{
+            handler: function(newVal, oldVal) {
+                console.log("FORM STATUS WATCH: ", newVal)
+                let els = document.getElementsByClassName('inputStatus')
+                if(newVal == 1){
+                    Array.prototype.forEach.call(els, function(el) {
+                        el.classList.remove('cursor-not-allowed')
+                        el.disabled = false;
+                    });
+                }
+            },
+            immediate: true
+        } 
     }
 }

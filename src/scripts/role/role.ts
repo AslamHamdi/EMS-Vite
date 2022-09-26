@@ -28,7 +28,8 @@ export default {
             console.log("CONFIRM EDIT")
             this.formStatus = 1
             this.$refs.dialogModalComp.toggleDialog()
-        },
+            // this.$refs.input.classList.toggle('cursor-not-allowed')
+        }
     },
     computed: {
         componentNow(){
