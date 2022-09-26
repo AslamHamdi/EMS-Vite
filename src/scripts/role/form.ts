@@ -48,7 +48,7 @@ export default {
         }
     },
     computed: {
-        checkFormStatus() {test
+        checkFormStatus() {
 
         }
     },
