@@ -82,9 +82,9 @@
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
                             <span class="">Team Lead</span>
-                            <div class="float-right space-x-2">
+                            <div v-if="componentNow == 'form-app'" class="float-right space-x-2">
                                 <span @click="openEditUserDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
-                                <span><i class="fa-solid fa-trash cursor-pointer"></i></span>
+                                <span @click="openDeleteUserDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
@@ -118,12 +118,12 @@
             </div>
             <div class="overflow-hidden" style="height: 70%;">
                 <div class="" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 100%;">
-                    <component :is="componentNow" :formStatus="formStatus"></component>
+                    <component :is="componentNow" ref="childComp"></component>
                 </div>
             </div>
         </div>
     </div>
-    <dialog-app ref="dialogModalComp" @confirmEditUser="confirmEditUser" :buttons="dialogButtonList" 
-    title="Edit user" text="Are you sure you want to edit this user?"></dialog-app>
+    <dialog-app ref="dialogModalComp" @confirmEditUser="confirmEditUser" @confirmDeleteUser="confirmDeleteUser" 
+    :buttons="dialogNow" :icon="dialogNow[0].icon" :title="dialogNow[0].title" :text="dialogNow[0].text"></dialog-app>
 </template>
 <script src="../../scripts/role/role.ts"></script>

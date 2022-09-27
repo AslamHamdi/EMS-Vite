@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         onInitialLoadPage(){
-            console.log("MPUNTED EMPLOYEE PAGE")
+            
         },
         getDataFromServer(){
 

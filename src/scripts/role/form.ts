@@ -2,15 +2,14 @@ import axios from "axios"
 
 export default {
     props: {
-        formStatus: {
-            type: Number,
-            default: 0
-        }
+        // formStatus: {
+        //     type: Number,
+        // }
     },
     mounted(){
-        console.log("MOUNTED FORM APP")
         this.getDataFromServer()
         console.log("FORM STATUS: ", this.formStatus)
+        let formStat = this.checkFormStatus
     },
     data(){
         return {
@@ -26,6 +25,7 @@ export default {
 
                 }
             },
+            formStatus: 0
         }
     },
     methods: {
@@ -40,24 +40,28 @@ export default {
             }
         },
         openForm(){
+            this.formStatus = 1
             console.log("OPEN FORM")
         },
         submitForm(){
             let data = this.roleForm.model
-            console.log("EMPLOYEE FORM: ", data) 
+            console.log("ROLE FORM: ", data) 
         }
     },
     computed: {
         checkFormStatus() {
-
+            let data = this.formStatus
+            console.log("FORM STAT COMPUTED: ", data)
+            return data
         }
     },
     watch: {
-        formStatus:{
+        checkFormStatus:{
             handler: function(newVal, oldVal) {
                 console.log("FORM STATUS WATCH: ", newVal)
                 let els = document.getElementsByClassName('inputStatus')
                 if(newVal == 1){
+                    console.log("NEWVAL 1")
                     Array.prototype.forEach.call(els, function(el) {
                         el.classList.remove('cursor-not-allowed')
                         el.disabled = false;

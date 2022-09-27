@@ -7,7 +7,6 @@ export default {
         }
     },
     mounted(){
-        console.log("Mounted APP")
         this.currentTab = this.$router
     },
     methods: {
@@ -18,10 +17,8 @@ export default {
     watch: {
         currentTab: function(tab: any) {
             let proxyTab = JSON.parse(JSON.stringify(tab))
-            console.log("proxy: ", proxyTab)
             let valueTab = ""
             if(proxyTab.options){
-                console.log("SINI")
                 valueTab = proxyTab.options.history.location == "/" ? "/" : proxyTab.options.history.location.substring(1)
             }else{
                 valueTab = tab
@@ -36,7 +33,6 @@ export default {
                     this.$refs[value[0]].classList.remove('bg-indigo-900')
                 }
             }
-            console.log("WACTH TAB: ", valueTab)
         }
     }
 }

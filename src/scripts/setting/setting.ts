@@ -15,7 +15,6 @@ export default {
     methods: {
         onSelectTab(component: any){
             this.selectedTab = component
-            console.log("CURRENT COMPONENT: ", this.selectedTab)
         }
     },
     computed: {

@@ -1,10 +1,10 @@
 export default {
     mounted(){
-        console.log("MOUNTED EMPLOYEE LIST APP")
+        
     },
     computed:{
         employeeListData(){
-            let data = []
+            let data : Object[] = [];
             for(let i = 0; i <= 20; i++){
                 data.push({
                     id: 'SFD0020058',

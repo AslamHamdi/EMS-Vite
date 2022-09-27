@@ -73,11 +73,11 @@
                     <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
                 </div>
             </div>
-        </div>
-        <div class="">
-            <button v-if="formStatus == 1" type="button" @click="submitForm()" class="float-right w-28 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
-                Submit
-            </button>
+            <div class="">
+                <button v-if="formStatus == 1" type="button" @click="submitForm()" class="float-right w-28 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                    Submit
+                </button>
+            </div>
         </div>
     </form>
 </template>
