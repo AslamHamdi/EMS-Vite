@@ -17,9 +17,14 @@ export default {
                 model: {
                     roleName: "",
                     roleId: "",
-                    departmentLead: "Aslam",
+                    inDepartment: "",
+                    roleLeader: "",
                     officeAddress: "",
-                    description: "",
+                    companyId: "",
+                    roleDesc: "",
+                    createdDate: "",
+                    lastEditedDate: "",
+                    createdByUserId: "",
                 },
                 rules: {
 
@@ -39,13 +44,29 @@ export default {
                 console.error(err);
             }
         },
+        createNewRole(){
+            Object.assign(this.$data, this.$options.data.apply(this))
+            this.formStatus = 1
+        },
         openForm(){
             this.formStatus = 1
             console.log("OPEN FORM")
         },
         submitForm(){
-            let data = this.roleForm.model
-            console.log("ROLE FORM: ", data) 
+            let dataToPost = {}
+            dataToPost = this.roleForm.model
+            try {
+                axios.post('/api/v1/addOrEditRole', {
+                    data: dataToPost
+                }).then(resp => {
+                    console.log("SUCCESS")
+                }).catch(error => [
+                    console.error("ERROR AXIOS: ", error)
+                ])
+            } catch (error) {
+                console.error("ERROR AXIOS CATCH: ", error)
+            }
+            console.log("ROLE FORM: ", dataToPost) 
         }
     },
     computed: {

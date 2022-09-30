@@ -46,7 +46,7 @@
           </router-link>
         </div>
       </div>
-      <div id="content" class="w-max h-full inline-block pl-4 mt-2">
+      <div id="content" class="w-full h-full inline-block pl-4 mt-2">
         <router-view/>
       </div>
       <div style="width: 280px;">

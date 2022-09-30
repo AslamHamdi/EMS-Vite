@@ -1,8 +1,8 @@
 <template>
     <div class="space-y-4 flex" style="height: 96.9%;">
-        <div class="border-r-2 border-slate-200 space-y-4" style="width: 23%; height: 100%;">
+        <div class="border-r-2 border-slate-200 space-y-4" style="width: 20%; height: 100%;">
             <div class="lg:flex sm:flex-wrap" style="">
-                <h1 class="text-2xl font-bold" style="width: 50%;">Department</h1>
+                <h1 class="text-xl lg:text-2xl font-bold" style="width: 50%;">Department</h1>
                 <div class="" style="width: 30%;">
                 </div>
                 <div class="" style="width: 20%;">

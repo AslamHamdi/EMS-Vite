@@ -94,6 +94,10 @@ background: #4a488b;
     box-shadow: 0 0 10px  #d8d8f1;
 }
 
+.clip {
+    text-overflow: clip;
+  }
+
 .ellipsiphy {
     overflow: hidden !important; 
     text-overflow: ellipsis !important;

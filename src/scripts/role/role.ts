@@ -37,6 +37,12 @@ export default {
         onTabSelect(data: any){
             this.tabSelected = data
         },
+        getAllRole(){
+            let dataToPost = {}
+        },
+        createNewRole(){
+            this.$refs.childComp.createNewRole()
+        },
         openEditUserDialog(){
             this.whichDialog = 'edit'
             this.$refs.dialogModalComp.toggleDialog()
