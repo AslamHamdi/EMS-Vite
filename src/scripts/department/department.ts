@@ -9,12 +9,49 @@ export default {
         return{
             tabSelected: "form",
             tabClass: [{iconColor: "text-slate-100"},{iconColor: "text-black"}],
-            tabStyle: [{color: '#6A67CE'}, {}]
+            tabStyle: [{color: '#6A67CE'}, {}],
+            editDialogButtonList: [
+                {icon: `
+                <svg fill="white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="mt-4 w-12 h-12 m-auto text-indigo-500" xmlns="http://www.w3.org/2000/svg" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                </svg>`, 
+                title: "Edit role", text: `Are you sure you want to edit this role?`},
+                {name: 'Confirm', function: 'confirmEditUser', addOnClass: `bg-sky-500 hover:bg-sky-700`},
+            ],
+            deleteDialogButtonList: [
+                {icon: `
+                <svg width="40" height="40" class="mt-4 w-12 h-12 m-auto text-indigo-500" fill="currentColor" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M704 1376v-704q0-14-9-23t-23-9h-64q-14 0-23 9t-9 23v704q0 14 9 23t23 9h64q14 0 23-9t9-23zm256 0v-704q0-14-9-23t-23-9h-64q-14 0-23 9t-9 23v704q0 14 9 23t23 9h64q14 0 23-9t9-23zm256 0v-704q0-14-9-23t-23-9h-64q-14 0-23 9t-9 23v704q0 14 9 23t23 9h64q14 0 23-9t9-23zm-544-992h448l-48-117q-7-9-17-11h-317q-10 2-17 11zm928 32v64q0 14-9 23t-23 9h-96v948q0 83-47 143.5t-113 60.5h-832q-66 0-113-58.5t-47-141.5v-952h-96q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h309l70-167q15-37 54-63t79-26h320q40 0 79 26t54 63l70 167h309q14 0 23 9t9 23z">
+                    </path>
+                </svg>`, 
+                title: "Delete role", 
+                text: `Are you sure you want to delete this role? <br><br>
+                        <b>Reminder:</b> <br>
+                        This action cannot be undone`},
+                {name: 'Confirm', function: 'confirmDeleteUser', addOnClass: `bg-red-400 hover:bg-red-700`},
+            ],
+            whichDialog: ""
         }
     },
     methods: {
         onTabSelect(data: any){
             this.tabSelected = data
+        },        openEditUserDialog(){
+            this.whichDialog = 'edit'
+            this.$refs.dialogModalComp.toggleDialog()
+        },
+        confirmEditUser(){
+            console.log("CONFIRM EDIT")
+            this.$refs.childComp.openForm()
+            this.$refs.dialogModalComp.toggleDialog()
+        },
+        openDeleteUserDialog(){
+            this.whichDialog = 'delete'
+            this.$refs.dialogModalComp.toggleDialog()
+        },
+        confirmDeleteUser(){
+            console.log("USER DELETED")
+            this.$refs.dialogModalComp.toggleDialog()
         }
     },
     computed: {
@@ -30,6 +67,14 @@ export default {
                 this.tabStyle = [{}, {color: '#6A67CE'}]
             }
             return component
+        },
+        dialogNow(){
+            let data = this.editDialogButtonList
+            if(this.whichDialog == 'delete'){
+                data = this.deleteDialogButtonList
+            }
+            console.log("DIALOG NOW: ", data)
+            return data
         }
     },
     components: {

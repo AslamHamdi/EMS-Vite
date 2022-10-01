@@ -49,18 +49,38 @@ input:focus {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
+
 }
   
    
 /* Handle */
 ::-webkit-scrollbar-thumb {
-background: #6A67CE; 
-border-radius: 10px;
+    background: #6A67CE; 
+    border-radius: 10px;
+    width: 20px;
 }
   
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
+background: #4a488b; 
+}
+
+
+.table-scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+  
+/* Handle */
+.table-scrollbar::-webkit-scrollbar-thumb {
+    background: #6A67CE; 
+    border-radius: 10px;
+    border-right: 7px;
+}
+
+  
+/* Handle on hover */
+.table-scrollbar::-webkit-scrollbar-thumb:hover {
 background: #4a488b; 
 }
 

@@ -1,7 +1,7 @@
 <template>
-    <div class="" style="height: 100%; width: 100%;">
-        <div class="flex" style="height: 70%">
-            <div class="flex justify-center items-center w-1/2" style="height: 98%">
+    <div class="overflow-auto" style="height: 100%; width: 100%;">
+        <div class="lg:flex lg:flex-wrap" style="height: 65%; width: 99.7%;">
+            <div class="justify-center items-center lg:w-1/2" style="height: 98.7%">
                 <div class="w-full" style="height: 100%">
                     <!-- Header -->
                     <div class="w-full flex pb-4 border-b-2 border-gray-200" style="height: 7%">
@@ -12,7 +12,7 @@
                         <div class="cursor-pointer flex justify-center text-base text-gray-400" style="width: 20%"><span class="float-right pr-8" style="">●</span> </div>
                     </div>
                     <!-- Body -->
-                    <div class="overflow-auto w-full" style="max-height: 93%;">
+                    <div class="table-scrollbar overflow-auto w-full" style="max-height: 93%;">
                         <div v-for="(o, i) in employeeListData" :key="i" class="w-full flex table-list pt-2 pb-2" :class="o.class()">
                             <div class="flex items-center" style="width: 20%">
                                 <img class="w-14 h-14 rounded-full object-cover" src="/assets/face.jpg"
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center h-full" style="width: 50%">
+            <div class="flex justify-center lg:w-1/2 h-full">
                 <div class="rounded-2xl" style="height: 90%; width: 97%; margin-top: 34px; box-shadow: 0 0 20px  #d8d8f1;">
                     <div class="flex justify-center" style="height: 10%;">
                         <div class="border-b-2 flex items-end" style="width: 95%">
@@ -60,13 +60,13 @@
                                 <div class="lg:flex border-b-2 border-slate-200 w-full pt-2" >
                                     <div class="hidden lg:block font-medium" style="width: 30%">Name</div>
                                     <div class="grow">
-                                        <div class="lg:float-right">Muhammad Aslam Hamdi Bin Amran</div>
+                                        <div class="lg:float-right">John Doe</div>
                                     </div>
                                 </div>
                                 <div class="lg:flex border-b-2 border-slate-200 w-full pt-2" >
                                     <div class="hidden lg:block font-medium" style="width: 30%">Email</div>
                                     <div class="grow" >
-                                        <div class="lg:float-right">m.aslamhamdi@gmail.com</div>
+                                        <div class="lg:float-right">john.doe@gmail.com</div>
                                     </div>
                                 </div>
                                 <div class="lg:flex border-b-2 border-slate-200 w-full pt-2" >
@@ -84,7 +84,7 @@
                                 <div class="lg:flex border-b-2 border-slate-200 w-full pt-2" >
                                     <div class="hidden lg:block font-medium" style="width: 30%">Report to</div>
                                     <div class="grow" >
-                                        <div class="lg:float-right">Amran Bin Hassan</div>
+                                        <div class="lg:float-right">John Smith</div>
                                     </div>
                                 </div>
                             </div>
@@ -92,11 +92,11 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="w-full" style="height: 30%">
-            <div class="flex justify-center w-full h-full">
-                <div class="rounded-2xl" style="height: 98%; width: 99%; padding: 2px; box-shadow: 0 0 20px  #d8d8f1;">
-                   
+            <div class="w-full" style="height: 53%;">
+                <div class="flex justify-center w-full h-full">
+                    <div class="rounded-2xl" style="height: 98%; width: 99%; padding: 2px; box-shadow: 0 0 20px  #d8d8f1;">
+                    
+                    </div>
                 </div>
             </div>
         </div>

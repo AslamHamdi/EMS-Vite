@@ -9,7 +9,9 @@
                         DEPARTMENT NAME
                     </label>
                     <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cursor-not-allowed"
+                        v-model="deptForm.model.deptName"
+                        disabled
                         type="text" placeholder="Jane">
                     <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                 </div>
@@ -18,7 +20,9 @@
                         DEPARTMENT ID
                     </label>
                     <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cursor-not-allowed"
+                        v-model="deptForm.model.deptId"
+                        disabled
                         type="text" placeholder="Doe">
                 </div>
                 <div class="w-full md:w-1/2 lg:w-1/3 px-3">
@@ -26,8 +30,10 @@
                         DEPARTMENT LEAD
                     </label>
                     <div class="relative">
-                        <select
-                            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                        <select v-model="deptForm.model.deptLeader.employeeId"
+                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 cursor-not-allowed"
+                            disabled>
+                            <option value="" disabled selected>Select your option</option>
                             <option>Aslam</option>
                             <option>Hamdi</option>
                             <option>Amran</option>
@@ -48,7 +54,9 @@
                         OFFICE ADDRESS
                     </label>
                     <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white cursor-not-allowed"
+                        v-model="deptForm.model.officeAddress"
+                        disabled
                         id="grid-password" type="text" placeholder="A-17-09 Residensi Desa Satumas">
                     <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
                 </div>
@@ -60,11 +68,18 @@
                         DESCRIPTION
                     </label>
                     <textarea
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded border-gray-200 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                        rows="4"
+                        class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded border-gray-200 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 cursor-not-allowed"
+                        v-model="deptForm.model.deptDesc"
+                        disabled
+                        rows="6"
                         placeholder="A Software Developer is a professional who is charged with designing and coding software for businesses and consumers alike. They work closely with clients to determine what they need, then use programming languages like Java or C++ to create programs. They must have critical thinking skills, as well as strong problem-solving abilities."></textarea>
                     <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
                 </div>
+            </div>
+            <div class="">
+                <button v-if="formStatus == 1" type="button" @click="submitForm()" class="float-right w-28 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                    Submit
+                </button>
             </div>
         </div>
     </form>

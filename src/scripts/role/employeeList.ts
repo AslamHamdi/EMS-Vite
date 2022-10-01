@@ -12,7 +12,7 @@ export default {
                 data.push({
                     id: 'SFD0020058',
                     name: "Wokle",
-                    email: 'wokle08@gmail.com',
+                    email: 'wokle@gmail.com',
                     class: () => {
                         let returner = ""
                         if(i%2 == 0){

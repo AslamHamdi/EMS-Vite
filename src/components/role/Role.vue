@@ -40,7 +40,7 @@
                             <div class="" style="height: 70%;">
                                 <div class="flex items-end" style="height: 50%;">
                                     <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">Created by
-                                        Aslam Hamdi
+                                        John Doe
                                     </div>
                                 </div>
                             </div>

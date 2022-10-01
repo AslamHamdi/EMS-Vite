@@ -5,18 +5,19 @@ class Post {
 
     }
 
-    async getAllRole() {
+    async getAllDepartment() {
         let result = {
             text: "HELLO THERE"
         }
         return result
     }
 
-    async addOrEditRole(payload) {
+    async addOrEditDepartment(payload) {
         let data = payload
-        let sql = "call ems.sp_role(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @companyId2); SELECT @companyId2;"
+        console.log("PAYLOAD: ", data)
+        let sql = "call ems.sp_department(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @companyId2); SELECT @companyId2;"
         const result = await db.query(sql,
-            [2, data.roleName, data.roleId, 1, 1, 1, data.officeAddress, data.roleDesc, data.createdDate, data.lastEditedDate, 1, null],
+            [2, data.deptName, data.deptId, 1, 1, data.officeAddress, data.deptDesc, data.createdDate, data.lastEditedDate, 1, null],
             function (err, result) {
                 if (err) {
                     console.error("ERROR: ", err)
