@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
     mounted(){
         this.onInitialLoadPage();
@@ -13,8 +15,9 @@ export default {
                     gender: "",
                     icNum: "",
                     address: "",
-                    city: "",
+                    country: "",
                     state: "",
+                    city: "",
                     zip: "",
                     maritalStatus: "",
                     phoneNum: "",
@@ -94,8 +97,31 @@ export default {
         selectForm(form: Number){
             this.whichForm = form
         },
+        dataMakerBeforeSubmit(){
+            let data = {}
+            data = {
+                ...data, 
+                userForm: this.userForm.model, 
+                companyForm: this.companyForm.model, 
+                emergencyForm: this.emergencyForm.model 
+            }
+            return data
+        },
         submitForm(){
-
+            let dataToPost = {}
+            dataToPost = this.dataMakerBeforeSubmit()
+            try {
+                axios.post('/api/v1/addOrEditEmployee', {
+                    data: dataToPost
+                }).then(resp => {
+                    console.log("SUCCESS")
+                }).catch(error => [
+                    console.error("ERROR AXIOS: ", error)
+                ])
+            } catch (error) {
+                console.error("ERROR AXIOS CATCH: ", error)
+            }
+            console.log("ROLE FORM: ", dataToPost) 
         }
     },
     computed: {
@@ -127,19 +153,6 @@ export default {
         }
     },
     watch: {
-        // checkFormStatus:{
-        //     handler: function(newVal, oldVal) {
-        //         console.log("FORM STATUS WATCH: ", newVal)
-        //         let els = document.getElementsByClassName('inputStatus')
-        //         if(newVal == 1){
-        //             console.log("NEWVAL 1")
-        //             Array.prototype.forEach.call(els, function(el) {
-        //                 el.classList.remove('cursor-not-allowed')
-        //                 el.disabled = false;
-        //             });
-        //         }
-        //     },
-        //     immediate: true
-        // } 
+
     }
 }
