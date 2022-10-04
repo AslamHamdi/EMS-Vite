@@ -118,7 +118,9 @@
             </div>
             <div class="overflow-hidden" style="height: 70%;">
                 <div class="" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 100%;">
-                    <component :is="componentNow" ref="childComp"></component>
+                    <Transition name="bounce" mode="out-in">
+                        <component :is="componentNow" ref="childComp"></component>
+                    </Transition>
                 </div>
             </div>
         </div>
