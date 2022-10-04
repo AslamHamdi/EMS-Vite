@@ -84,8 +84,8 @@
                         <div class="font-bold label-heading flex-grow">
                             <span class="">Software Developer</span>
                             <div v-if="componentNow == 'form-app'" class="float-right space-x-2">
-                                <span @click="openEditUserDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
-                                <span @click="openDeleteUserDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
+                                <span @click="openEditDeptDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
+                                <span @click="openDeleteDeptDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
@@ -123,7 +123,7 @@
             </div>
         </div>
     </div>
-    <dialog-app ref="dialogModalComp" @confirmEditUser="confirmEditUser" @confirmDeleteUser="confirmDeleteUser" 
+    <dialog-app ref="dialogModalComp" @confirmEditDept="confirmEditDept" @confirmDeleteDept="confirmDeleteDept" 
     :buttons="dialogNow" :icon="dialogNow[0].icon" :title="dialogNow[0].title" :text="dialogNow[0].text"></dialog-app>
 </template>
 <script src="../../scripts/department/department.ts"></script>

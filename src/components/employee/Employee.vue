@@ -91,8 +91,8 @@
                         <div class="font-bold label-heading flex-grow">
                             <span class="">Aslam Hamdi</span>
                             <div class="float-right space-x-2">
-                                <span><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
-                                <span><i class="fa-solid fa-trash cursor-pointer"></i></span>
+                                <span @click="openEditEmployeeDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
+                                <span @click="openDeleteEmployeeDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
@@ -105,283 +105,402 @@
                 </div>
             </div>
             <div class="overflow-auto" style="height: 81%;">
-                <div class="" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 100%;">
-                    <form class="space-y-4 lg:space-y-0 space-x-0 lg:space-x-6 w-full h-max block lg:flex"
-                        style="width: 100%;">
+                <!-- Form tab -->
+                <div class="flex mb-8" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 10%">
+                    <div class="flex flex-grow space-x-2 cursor-pointer" ref="personalFormButton" @click="selectForm(1)">
+                        <div class="flex items-center justify-center" style="width: 20%; height: 100%;">
+                            <div class="w-8 h-8 lg:w-12 lg:h-12 rounded-full object-cover flex justify-center items-center" :class="[whichForm == 1 ? 'bg-indigo-500' : 'bg-gray-500']">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="white" class="h-3/5 w-3/5" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <g>
+                                        <circle cx="256" cy="128" r="128"/>
+                                        <path d="M256,298.667c-105.99,0.118-191.882,86.01-192,192C64,502.449,73.551,512,85.333,512h341.333   c11.782,0,21.333-9.551,21.333-21.333C447.882,384.677,361.99,298.784,256,298.667z"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-grow flex items-center">
+                            <div>
+                                <p class="text-md lg:text-lg font-semibold lg:font-bold" :class="[whichForm == 1 ? 'text-indigo-500' : 'text-gray-500']">Personal Information</p>
+                                <p class="hidden lg:block text-sm lg:text-md" :class="[whichForm == 1 ? 'text-indigo-500' : 'text-gray-500']">Personal Information</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-grow space-x-2 cursor-pointer" ref="personalFormButton" @click="selectForm(2)">
+                        <div class="flex items-center justify-center" style="width: 20%; height: 100%;">
+                            <div class="w-8 h-8 lg:w-12 lg:h-12 rounded-full object-cover flex justify-center items-center" :class="[whichForm == 2 ? 'bg-indigo-500' : 'bg-gray-500']">
+                                <svg id="Layer_1" height="512" viewBox="0 0 24 24" fill="white" class="h-3/5 w-3/5" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1">
+                                    <path d="m4 13h3v2h-3zm5 2h3v-2h-3zm-5 4h3v-2h-3zm5 0h3v-2h-3zm-5-12h3v-2h-3zm5 0h3v-2h-3zm-5 4h3v-2h-3zm5 0h3v-2h-3zm15-3v16h-24v-21a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v2h5a3 3 0 0 1 3 3zm-10-5a1 1 0 0 0 -1-1h-10a1 1 0 0 0 -1 1v19h12zm8 5a1 1 0 0 0 -1-1h-5v15h6zm-4 7h2v-2h-2zm0 4h2v-2h-2zm0-8h2v-2h-2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-grow flex items-center">
+                            <div>
+                                <p class="text-md lg:text-lg font-semibold lg:font-bold" :class="[whichForm == 2 ? 'text-indigo-500' : 'text-gray-500']">Company Information</p>
+                                <p class="hidden lg:block text-sm lg:text-md" :class="[whichForm == 2 ? 'text-indigo-500' : 'text-gray-500']">Company Information</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-grow space-x-2 cursor-pointer" ref="personalFormButton" @click="selectForm(3)">
+                        <div class="flex items-center justify-center" style="width: 20%; height: 100%;">
+                            <div class="w-8 h-8 lg:w-12 lg:h-12 rounded-full object-cover flex justify-center items-center" :class="[whichForm == 3 ? 'bg-indigo-500' : 'bg-gray-500']">
+                                <svg id="Layer_1" viewBox="0 0 24 24" fill="white" class="h-3/5 w-3/5" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1">
+                                    <path d="m19.828 3.414-2.242-2.242a3.975 3.975 0 0 0 -2.829-1.172h-8.757a3 3 0 0 0 -3 3v21h18v-17.758a4.022 4.022 0 0 0 -1.172-2.828zm-1.414 1.414a1.923 1.923 0 0 1 .141.172h-2.555v-2.555a1.923 1.923 0 0 1 .172.141zm-13.414 17.172v-19a1 1 0 0 1 1-1h8v5h5v15zm2-6h10v-6h-10zm2-4h6v2h-6zm-2 6h10v2h-10z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-grow flex items-center">
+                            <div>
+                                <p class="text-md lg:text-lg font-semibold lg:font-bold" :class="[whichForm == 3 ? 'text-indigo-500' : 'text-gray-500']">Emergency Information</p>
+                                <p class="hidden lg:block text-sm lg:text-md" :class="[whichForm == 3 ? 'text-indigo-500' : 'text-gray-500']">Emergency Information</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 85%;">
+                    <form class="space-y-4 lg:space-y-0 space-x-0 lg:space-x-6 w-full h-max block" style="width: 100%;">
                         <!-- Form 1 -->
-                        <div class="w-full lg:w-2/4">
-                            <h3 class="mb-8 font-semibold">Personal Information</h3>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        First Name
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="Jane">
-                                    <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                        <Transition name="bounce" mode="out-in">
+                            <div class="w-full" v-if="whichForm == 1">
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            First Name
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.fName"
+                                            type="text" placeholder="Jane">
+                                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                                    </div>
+                                    <div class="w-full md:w-1/3 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            Last Name
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.lName"
+                                            type="text" placeholder="Doe">
+                                    </div>
+                                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            DATE OF BIRTH
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.dateOfBirth"
+                                            type="text" placeholder="dd-mmm-yyyy">
+                                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                                    </div>
                                 </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        Last Name
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="Doe">
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        DATE OF BIRTH
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="dd-mmm-yyyy">
-                                    <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-                                </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        SEX
-                                    </label>
-                                    <div class="relative">
-                                        <select
-                                            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                        </select>
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                            </svg>
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            GENDER
+                                        </label>
+                                        <div class="relative">
+                                            <select
+                                                v-model="userForm.model.gender"
+                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 ? null : true"
+                                                class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                                                <option value="" disabled selected>Select your option</option>
+                                                <option>Male</option>
+                                                <option>Female</option>
+                                            </select>
+                                            <div
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                </svg>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            IC NUMBER
+                                        </label>
+                                        <input
+                                            class="inputStatus aappearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.icNum"
+                                            type="text" placeholder="123456-78-9001">
+                                        <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            ADDRESS
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.address"
+                                            type="text" placeholder="A-17-09 Residensi Desa Satumas">
+                                        <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap -mx-3 mb-8">
+                                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            City
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.city"
+                                            type="text" placeholder="Albuquerque">
+                                    </div>
+                                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            State
+                                        </label>
+                                        <div class="relative">
+                                            <select
+                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 ? null : true"   
+                                                v-model="userForm.model.state"
+                                                class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                                                <option value="" disabled selected>Select your option</option>
+                                                <option>New Mexico</option>
+                                                <option>Missouri</option>
+                                                <option>Texas</option>
+                                            </select>
+                                            <div
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            Zip
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.zip"
+                                            type="text" placeholder="90210">
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            MARITAL STATUS
+                                        </label>
+                                        <div class="relative">
+                                            <select
+                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 ? null : true"
+                                                v-model="userForm.model.maritalStatus"    
+                                                class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                                                <option value="" disabled selected>Select your option</option>
+                                                <option>Single</option>
+                                                <option>Married</option>
+                                            </select>
+                                            <div
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            Phone number
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="userForm.model.phoneNum"
+                                            type="text" placeholder="011-2345678">
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        IC NUMBER
-                                    </label>
-                                    <input
-                                        class="aappearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="123456-78-9001">
-                                    <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        ADDRESS
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="A-17-09 Residensi Desa Satumas">
-                                    <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap -mx-3 mb-8">
-                                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        City
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="Albuquerque">
-                                </div>
-                                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        State
-                                    </label>
-                                    <div class="relative">
-                                        <select
-                                            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
-                                            <option>New Mexico</option>
-                                            <option>Missouri</option>
-                                            <option>Texas</option>
-                                        </select>
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        Zip
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="90210">
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        MARITAL STATUS
-                                    </label>
-                                    <div class="relative">
-                                        <select
-                                            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
-                                            <option>Single</option>
-                                            <option>Married</option>
-                                        </select>
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        Phone number
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="011-2345678">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-2 border-slate-200"></div>
+
                         <!-- Form 2 -->
-                        <div class="w-full lg:w-2/4">
-                            <h3 class="mb-8 font-semibold">Company Information</h3>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        EMAIL ADDRESS
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="email" placeholder="jane.doe@gmail.com">
-                                    <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
+                            <div class="w-full" v-else-if="whichForm == 2">
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            EMAIL ADDRESS
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="companyForm.model.emailAddress"
+                                            type="email" placeholder="jane.doe@gmail.com">
+                                        <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        EMPLOYEE ID
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="SFD0020058">
-                                    <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            EMPLOYEE ID
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="companyForm.model.employeeId"
+                                            type="text" placeholder="SFD0020058">
+                                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            DATE REGISTERED
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="companyForm.model.dateReg"
+                                            type="text" placeholder="dd-mmmm-yyyy">
+                                    </div>
                                 </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        DATE REGISTERED
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="dd-mmmm-yyyy">
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        DEPARTMENT
-                                    </label>
-                                    <div class="relative">
-                                        <select
-                                            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
-                                            <option>Software</option>
-                                            <option>Dev Ops</option>
-                                            <option>Network</option>
-                                            <option>Sales</option>
-                                            <option>Marketing</option>
-                                        </select>
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                            </svg>
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            DEPARTMENT
+                                        </label>
+                                        <div class="relative">
+                                            <select
+                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 ? null : true"
+                                                v-model="companyForm.model.department"    
+                                                class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                                                <option value="" disabled selected>Select your option</option>
+                                                <option>Software</option>
+                                                <option>Dev Ops</option>
+                                                <option>Network</option>
+                                                <option>Sales</option>
+                                                <option>Marketing</option>
+                                            </select>
+                                            <div
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            ROLE/POSITION
+                                        </label>
+                                        <div class="relative">
+                                            <select
+                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 ? null : true"
+                                                v-model="companyForm.model.position"    
+                                                class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                                                <option value="" disabled selected>Select your option</option>
+                                                <option>Front end dev</option>
+                                                <option>Back end dev</option>
+                                                <option>Digital marketer</option>
+                                                <option>Software tester</option>
+                                            </select>
+                                            <div
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                </svg>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        POSITION
-                                    </label>
-                                    <div class="relative">
-                                        <select
-                                            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
-                                            <option>Front end dev</option>
-                                            <option>Back end dev</option>
-                                            <option>Digital marketer</option>
-                                            <option>Software tester</option>
-                                        </select>
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                            </svg>
-                                        </div>
+                                <div class="flex flex-wrap -mx-3 mb-3">
+                                    <div class="w-full px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            Password
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="companyForm.model.password"
+                                            type="password" placeholder="******************">
+                                        <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex flex-wrap -mx-3 mb-3">
-                                <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        Password
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                                        type="password" placeholder="******************">
-                                    <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
+
+                        <!-- Form 3 -->
+                            <div class="w-full" v-else-if="whichForm == 3">
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            NAME
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="emergencyForm.model.name"
+                                            type="text" placeholder="Mark Smith">
+                                        <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            RELATIONSHIP
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="emergencyForm.model.relationship"
+                                            type="text" placeholder="Father">
+                                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            PHONE NUMBER
+                                        </label>
+                                        <input
+                                            class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 ? null : true"
+                                            v-model="emergencyForm.model.phoneNum"
+                                            type="text" placeholder="011-2345678">
+                                    </div>
                                 </div>
                             </div>
-                            <hr>
-                            <h3 class="mb-4 mt-2 font-semibold">Emergency Contact</h3>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        NAME
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                                        type="text" placeholder="Mark Smith">
-                                    <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        RELATIONSHIP
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="Father">
-                                    <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-                                </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                        PHONE NUMBER
-                                    </label>
-                                    <input
-                                        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        type="text" placeholder="011-2345678">
-                                </div>
-                            </div>
-                        </div>
+                        </Transition>
+                        
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <dialog-app ref="dialogModalComp" @openForm="openForm" @confirmDeleteEmployee="confirmDeleteEmployee" 
+    :buttons="dialogNow" :icon="dialogNow[0].icon" :title="dialogNow[0].title" :text="dialogNow[0].text"></dialog-app>
 </template>
 <script src="../../scripts/employee/employee.ts"></script>

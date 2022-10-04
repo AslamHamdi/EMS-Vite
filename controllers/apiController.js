@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const roleController = require('./api/roleController')
 const departmentController = require('./api/departmentController')
+const employeeController = require('./api/employeeController')
 
 /* #region Role api router*/
 router
@@ -15,7 +16,6 @@ router
     .post(roleController.addOrEditRole)
 /* #endregion */
 
-
 /* #region Department api router*/
 router
     .route("/getAllDepartment")
@@ -28,5 +28,16 @@ router
     .post(departmentController.addOrEditDepartment)
 /* #endregion */
 
+/* #region Employee api router*/
+router
+    .route("/getAllEmployee")
+    .get(employeeController.getAllEmployee)
+    .post(employeeController.getAllEmployee)
+
+router
+    .route("/addOrEditEmployee")
+    .get(employeeController.addOrEditEmployee)
+    .post(employeeController.addOrEditEmployee)
+/* #endregion */
 
 module.exports = router
