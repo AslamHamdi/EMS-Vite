@@ -6,7 +6,7 @@
                 <div class="" style="width: 30%;">
                 </div>
                 <div class="" style="width: 20%;">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
+                    <button @click="createNewDepartment()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
                         style="height: 35px; background-color: #6A67CE; box-shadow: -4px 4px  #4a488b;">
                         <i class="fa-solid fa-xl fa-plus"></i>
                     </button>

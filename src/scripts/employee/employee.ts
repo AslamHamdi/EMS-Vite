@@ -21,6 +21,7 @@ export default {
                     zip: "",
                     maritalStatus: "",
                     phoneNum: "",
+                    profilePicture: "",
                 }
             },
             companyForm: {
@@ -62,11 +63,12 @@ export default {
             whichForm: 1,
             whichDialog: "",
             formStatus: 0, //to keep track whether to add new employee or edit existing employee
+            dpChange: "",
         }
     },
     methods: {
         onInitialLoadPage(){
-            
+            this.dpChange = this.$refs.imageFrame.src
         },
         getDataFromServer(){
 
@@ -74,16 +76,16 @@ export default {
         onSelectEmployee(employeeId: any){
 
         },
+        createNewEmployee(){
+            Object.assign(this.$data, this.$options.data.apply(this))
+            this.formStatus = 1
+        },
         openEditEmployeeDialog(){
             this.whichDialog = 'edit'
             this.$refs.dialogModalComp.toggleDialog()
         },
-        confirmEditEmployee(){
-
-        },
         openForm(){
             this.formStatus = 1
-            console.log("OPEN FORM DEPT")
             this.$refs.dialogModalComp.toggleDialog()
         },
         openDeleteEmployeeDialog(){
@@ -91,7 +93,6 @@ export default {
             this.$refs.dialogModalComp.toggleDialog()
         },
         confirmDeleteEmployee(employeeId: any){
-            console.log("USER DELETED")
             this.$refs.dialogModalComp.toggleDialog()
         },
         selectForm(form: Number){
@@ -107,12 +108,29 @@ export default {
             }
             return data
         },
+        openUploadDialog(){
+            document.getElementById("uploadFile")!.click()
+        },
+        onChangeFileInput(){
+            this.dpChange = this.$refs.uploadImageRef.files[0]
+        },
         submitForm(){
+            let form = new FormData()
+
             let dataToPost = {}
             dataToPost = this.dataMakerBeforeSubmit()
+
+            let uploadImage = this.$refs.uploadImageRef.files[0]
+            
+            form.append('data', JSON.stringify(dataToPost))
+            form.append('image', uploadImage )
             try {
-                axios.post('/api/v1/addOrEditEmployee', {
-                    data: dataToPost
+                axios.post('/api/v1/addOrEditEmployee', form, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Accept-Language': 'en-US,en;q=0.8',
+                        'Content-Type': `multipart/form-data`,
+                    }
                 }).then(resp => {
                     console.log("SUCCESS")
                 }).catch(error => [
@@ -121,7 +139,6 @@ export default {
             } catch (error) {
                 console.error("ERROR AXIOS CATCH: ", error)
             }
-            console.log("ROLE FORM: ", dataToPost) 
         }
     },
     computed: {
@@ -143,16 +160,23 @@ export default {
             if(this.whichDialog == 'delete'){
                 data = this.deleteDialogButtonList
             }
-            console.log("DIALOG NOW: ", data)
-            return data
-        },
-        checkFormStatus() {
-            let data = this.formStatus
-            console.log("FORM STAT COMPUTED: ", data)
             return data
         }
     },
     watch: {
-
+        dpChange(newDp, oldDp){
+            if(oldDp != "" && oldDp != newDp){
+                if(newDp.type){
+                    let uploadImage = newDp
+                    let FR = new FileReader
+                    FR.readAsDataURL(uploadImage);
+                    let imageRef = this.$refs.imageFrame
+                    FR.addEventListener("load", function(evt) {
+                        console.log("EVT: ", evt.target!.result!)
+                        imageRef.src = evt.target!.result!;
+                    }); 
+                }
+            }
+        }
     }
 }

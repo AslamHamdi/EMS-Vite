@@ -41,6 +41,10 @@ export default {
             }
             console.log("ROLE FORM: ", dataToPost) 
         },
+        createNewDepartment(){
+            Object.assign(this.$data, this.$options.data.apply(this))
+            this.formStatus = 1
+        },
         openForm(){
             this.formStatus = 1
             console.log("OPEN FORM DEPT")

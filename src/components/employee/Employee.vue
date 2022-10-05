@@ -6,7 +6,7 @@
                 <div class="" style="width: 30%;">
                 </div>
                 <div class="" style="width: 20%;">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
+                    <button @click="createNewEmployee()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
                         style="height: 35px; background-color: #6A67CE; box-shadow: -4px 4px  #4a488b;">
                         <i class="fa-solid fa-user-plus"></i>
                     </button>
@@ -64,9 +64,9 @@
         </div>
         <div class="" style="width: 80%;">
             <div class="flex border-b-2" style="height: 15%; margin: 1.5rem;">
-                <div class="mr-4 lg:mr-0" style="width: 15%;">
+                <div @click="openUploadDialog()"  class="mr-4 lg:mr-0" style="width: 15%;">
                     <div class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
-                        <img class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/face2.jpg"
+                        <img ref="imageFrame" id="imageFrame" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/face2.jpg"
                             alt="Rounded avatar">
                         <div
                             class="group flex items-center justify-center absolute w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover">
@@ -86,6 +86,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="file" name="uploadImage" ref="uploadImageRef" @change="onChangeFileInput()" id="uploadFile" hidden>
                 <div class="w-full flex items-center" style="">
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">

@@ -35,7 +35,10 @@ export default {
     methods: {
         onTabSelect(data: any){
             this.tabSelected = data
-        },        
+        },    
+        createNewDepartment(){
+            this.$refs.childComp.createNewDepartment()
+        },    
         openEditDeptDialog(){
             this.whichDialog = 'edit'
             this.$refs.dialogModalComp.toggleDialog()
