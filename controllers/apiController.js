@@ -5,8 +5,7 @@ const router = express.Router()
 const roleController = require('./api/roleController')
 const departmentController = require('./api/departmentController')
 const employeeController = require('./api/employeeController')
-const multer = require('multer');
-const upload = multer({ dest: process.env.USER_FILES_PATH })
+
 
 /* #region Role api router*/
 router
@@ -41,7 +40,8 @@ router
 router
     .route("/addOrEditEmployee")
     .get(employeeController.addOrEditEmployee)
-    .post(upload.single('image'), employeeController.addOrEditEmployee)
+    .post(employeeController.addOrEditEmployee)
+
 /* #endregion */
 
 module.exports = router

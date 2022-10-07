@@ -165,8 +165,13 @@ export default {
     },
     watch: {
         dpChange(newDp, oldDp){
-            if(oldDp != "" && oldDp != newDp){
+            console.log("SONO")
+            console.log("NEW: ", newDp)
+            console.log("OLD: ", oldDp)
+            if(newDp != "" && newDp != oldDp){
+                console.log("SINI")
                 if(newDp.type){
+                    console.log("SANA")
                     let uploadImage = newDp
                     let FR = new FileReader
                     FR.readAsDataURL(uploadImage);
