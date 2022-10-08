@@ -3,7 +3,7 @@ import Form from "../../components/department/Form.vue"
 
 export default {
     mounted(){
-        localStorage.setItem('currentTab', 'department')
+
     },
     data(){
         return{
@@ -29,13 +29,19 @@ export default {
                         <b>This action cannot be undone</b>`},
                 {name: 'Confirm', function: 'confirmDeleteDept', addOnClass: `bg-red-400 hover:bg-red-700`},
             ],
-            whichDialog: ""
+            whichDialog: "",
+            imageUploaded: "",
+            childFormStatus: 0
         }
     },
     methods: {
         onTabSelect(data: any){
             this.tabSelected = data
-        },    
+        },  
+        getChildFormStatus(val: Number){
+            this.childFormStatus = val
+            console.log("CHILD FORM STAT: ", this.childFormStatus)
+        },
         createNewDepartment(){
             this.$refs.childComp.createNewDepartment()
         },    
@@ -55,7 +61,14 @@ export default {
         confirmDeleteDept(){
             console.log("USER DELETED")
             this.$refs.dialogModalComp.toggleDialog()
-        }
+        },
+        openUploadDialog(){
+            document.getElementById("uploadFile")!.click()
+        },
+        onChangeFileInput(){
+            this.imageUploaded = this.$refs.uploadImageRef.files[0]
+            console.log("IMAGE UPLOADED: ", this.imageUploaded)
+        },
     },
     computed: {
         componentNow(){
@@ -66,6 +79,7 @@ export default {
                  this.tabStyle = [{color: '#6A67CE'}, {}]
             }else{
                 component = "employee-list-app"
+                this.childFormStatus = 0
                 this.tabClass = [{iconColor: "text-black"},{iconColor: "text-slate-100"}],
                 this.tabStyle = [{}, {color: '#6A67CE'}]
             }
@@ -78,6 +92,27 @@ export default {
             }
             console.log("DIALOG NOW: ", data)
             return data
+        },
+    },
+    watch: {
+        imageUploaded(newImage, oldImage){
+            console.log("SONO")
+            console.log("NEW: ", newImage)
+            console.log("OLD: ", oldImage)
+            if(newImage != "" && newImage != oldImage){
+                console.log("SINI")
+                if(newImage.type){
+                    console.log("SANA")
+                    let uploadImage = newImage
+                    let FR = new FileReader
+                    FR.readAsDataURL(uploadImage);
+                    let imageRef = this.$refs.imageFrame
+                    FR.addEventListener("load", function(evt) {
+                        console.log("EVT: ", evt.target!.result!)
+                        imageRef.src = evt.target!.result!;
+                    }); 
+                }
+            }
         }
     },
     components: {

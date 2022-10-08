@@ -75,6 +75,7 @@ export default {
                         el.disabled = false;
                     });
                 }
+                this.$emit('passFormStatus', newVal)
             },
             immediate: true
         } 
