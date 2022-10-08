@@ -124,6 +124,7 @@ export default {
             
             form.append('data', JSON.stringify(dataToPost))
             form.append('image', uploadImage )
+
             try {
                 axios.post('/api/v1/addOrEditEmployee', form, {
                     headers: {
@@ -133,9 +134,9 @@ export default {
                     }
                 }).then(resp => {
                     console.log("SUCCESS")
-                }).catch(error => [
+                }).catch(error => {
                     console.error("ERROR AXIOS: ", error)
-                ])
+                })
             } catch (error) {
                 console.error("ERROR AXIOS CATCH: ", error)
             }

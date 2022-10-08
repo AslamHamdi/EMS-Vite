@@ -13,8 +13,7 @@ exports.getAllDepartment = async (req, res, next) => {
 exports.addOrEditDepartment = async (req, res, next) => {
     try {
         let data = new Post()
-        let payload = req.body.data
-        data = await data.addOrEditDepartment(payload)
+        data = await data.addOrEditDepartment(req)
         res.status(200).json({ data })
     } catch (error) {
         console.log(error)

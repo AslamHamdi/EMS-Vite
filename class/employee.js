@@ -22,7 +22,7 @@ class Post {
         let uploadPath;
         let filePathDb = ""
 
-        uploadPath = `../public/user_files/${data.userForm.fName + '_' + data.userForm.lName}/`;
+        uploadPath = `../public/company_files/company_name/user_files/${data.userForm.fName + '_' + data.userForm.lName}/`;
 
         if (payload.files && Object.keys(payload.files).length > 0) {
             uploadedImage = payload.files.image;
@@ -54,7 +54,7 @@ class Post {
                     console.log("FILE UPLOADED")
                 }
             })
-            filePathDb = data.userForm.fName + '_' + data.userForm.lName + '/' + uploadedImage.name
+            filePathDb = 'company_name/user_files/' + data.userForm.fName + '_' + data.userForm.lName + '/' + uploadedImage.name
         }
 
         let sql = `call ems.sp_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 

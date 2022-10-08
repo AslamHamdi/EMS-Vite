@@ -67,7 +67,7 @@ export default {
         },
         onChangeFileInput(){
             this.imageUploaded = this.$refs.uploadImageRef.files[0]
-            console.log("IMAGE UPLOADED: ", this.imageUploaded)
+            //console.log("IMAGE UPLOADED: ", this.imageUploaded)
         },
     },
     computed: {

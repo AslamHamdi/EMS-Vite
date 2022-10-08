@@ -22,8 +22,8 @@ export default {
                     officeAddress: "",
                     companyId: "",
                     roleDesc: "",
-                    createdDate: "",
-                    lastEditedDate: "",
+                    createdDate: new Date,
+                    lastEditedDate: new Date,
                     createdByUserId: "",
                 },
                 rules: {
@@ -53,11 +53,21 @@ export default {
             console.log("OPEN FORM")
         },
         submitForm(){
+            let form = new FormData()
+
             let dataToPost = {}
             dataToPost = this.roleForm.model
+
+            form.append('data', JSON.stringify(dataToPost))
+            form.append('image', this.$parent.$parent.imageUploaded )
+
             try {
-                axios.post('/api/v1/addOrEditRole', {
-                    data: dataToPost
+                axios.post('/api/v1/addOrEditRole', form, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Accept-Language': 'en-US,en;q=0.8',
+                        'Content-Type': `multipart/form-data`,
+                    }
                 }).then(resp => {
                     console.log("SUCCESS")
                 }).catch(error => [
@@ -66,7 +76,7 @@ export default {
             } catch (error) {
                 console.error("ERROR AXIOS CATCH: ", error)
             }
-            console.log("ROLE FORM: ", dataToPost) 
+            console.log("ROLE FORM: ", form) 
         }
     },
     computed: {
@@ -88,6 +98,7 @@ export default {
                         el.disabled = false;
                     });
                 }
+                this.$emit('passFormStatus', newVal)
             },
             immediate: true
         } 

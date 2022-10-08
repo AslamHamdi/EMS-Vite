@@ -30,12 +30,18 @@ export default {
                         This action cannot be undone`},
                 {name: 'Confirm', function: 'confirmDeleteUser', addOnClass: `bg-red-400 hover:bg-red-700`},
             ],
-            whichDialog: ""
+            whichDialog: "",
+            imageUploaded: "",
+            childFormStatus: 0
         }
     },
     methods: {
         onTabSelect(data: any){
             this.tabSelected = data
+        },
+        getChildFormStatus(val: Number){
+            this.childFormStatus = val
+            console.log("CHILD FORM STAT: ", this.childFormStatus)
         },
         getAllRole(){
             let dataToPost = {}
@@ -59,7 +65,14 @@ export default {
         confirmDeleteUser(){
             console.log("USER DELETED")
             this.$refs.dialogModalComp.toggleDialog()
-        }
+        },
+        openUploadDialog(){
+            document.getElementById("uploadFile")!.click()
+        },
+        onChangeFileInput(){
+            this.imageUploaded = this.$refs.uploadImageRef.files[0]
+            //console.log("IMAGE UPLOADED: ", this.imageUploaded)
+        },
     },
     computed: {
         componentNow(){

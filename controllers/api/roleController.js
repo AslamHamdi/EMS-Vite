@@ -13,8 +13,7 @@ exports.getAllRole = async (req, res, next) => {
 exports.addOrEditRole = async (req, res, next) => {
     try {
         let data = new Post()
-        let payload = req.body.data
-        data = await data.addOrEditRole(payload)
+        data = await data.addOrEditRole(req)
         res.status(200).json({ data })
     } catch (error) {
         console.log(error)

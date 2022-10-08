@@ -56,16 +56,16 @@
         </div>
         <div class="" style="width: 80%;">
             <div class="flex border-b-2" style="height: 15%; margin: 1.5rem;">
-                <div class="mr-4 lg:mr-0" style="width: 15%;">
-                    <div class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
+                <div @click="openUploadDialog()" class="mr-4 lg:mr-0" style="width: 15%;">
+                    <div :class="[childFormStatus === 1 ? '' : 'cursor-not-allowed']" class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
                         <img class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/team-lead.jpg"
                             alt="Rounded avatar">
                         <div
                             class="group flex items-center justify-center absolute w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover">
-                            <div class="rounded-full object-cover absolute group-hover:bg-slate-500 group-hover:opacity-20"
+                            <div :class="[childFormStatus === 1 ? '' : 'hidden']" class="rounded-full object-cover absolute group-hover:bg-slate-500 group-hover:opacity-20"
                                 style="width: 100%; height: 100%;">
                             </div>
-                            <div class="rounded-full object-cover" style="width: 100%; height: 100%;">
+                            <div :class="[childFormStatus === 1 ? '' : 'hidden']" class="rounded-full object-cover" style="width: 100%; height: 100%;">
                                 <div class="hidden group-hover:flex group-hover:opacity-1 justify-center items-center pt-4"
                                     style="width: 100%; height: 50%;">
                                     <i class="hidden group-hover:block fa-solid fa-camera fa-xl change-dp-icon"></i>
@@ -78,6 +78,7 @@
                         </div>
                     </div>
                 </div>
+                <input :disabled="childFormStatus === 1 ? null : true" type="file" name="uploadImage" ref="uploadImageRef" @change="onChangeFileInput()" id="uploadFile" hidden>
                 <div class="w-full flex items-center" style="">
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
@@ -119,7 +120,7 @@
             <div class="overflow-hidden" style="height: 70%;">
                 <div class="" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 100%;">
                     <Transition name="bounce" mode="out-in">
-                        <component :is="componentNow" ref="childComp"></component>
+                        <component :is="componentNow" ref="childComp" @passFormStatus="getChildFormStatus"></component>
                     </Transition>
                 </div>
             </div>
