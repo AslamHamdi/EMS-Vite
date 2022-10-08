@@ -22,8 +22,8 @@ export default {
                     officeAddress: "",
                     companyId: "",
                     roleDesc: "",
-                    createdDate: new Date,
-                    lastEditedDate: new Date,
+                    createdDate: '01-02-2022',
+                    lastEditedDate: '01-02-2022',
                     createdByUserId: "",
                 },
                 rules: {

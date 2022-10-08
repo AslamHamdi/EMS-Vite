@@ -58,7 +58,7 @@ class Post {
 
         let sql = "call ems.sp_role(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @companyId2); SELECT @companyId2;"
         const result = await db.query(sql,
-            [2, data.roleName, data.roleId, 1, 1, 1, data.officeAddress, data.roleDesc, data.createdDate, data.lastEditedDate, 1, filePathDb, null],
+            [2, data.roleName, data.roleId, 1, 1, 1, data.officeAddress, data.roleDesc, new Date(data.createdDate), new Date(data.lastEditedDate), 1, filePathDb, null],
             function (err, result) {
                 if (err) {
                     console.error("ERROR: ", err)
