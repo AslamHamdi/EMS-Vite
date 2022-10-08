@@ -23,7 +23,6 @@
                         disabled
                         type="text" placeholder="Doe" v-model="roleForm.model.roleId">
                 </div>
-test
             </div>
             <div class="flex flex-wrap -mx-3 mb-8">
                 <div class="w-full md:w-1/2 lg:w-1/2 px-3">
