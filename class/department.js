@@ -22,7 +22,6 @@ class Post {
 
         uploadPath = `../public/company_files/company_name/department/${data.deptName}/`;
 
-
         if (payload.files && Object.keys(payload.files).length > 0) {
             uploadedImage = payload.files.image;
 

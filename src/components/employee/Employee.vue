@@ -196,9 +196,10 @@
                                             :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
                                             :disabled="formStatus === 1 ? null : true"
                                             v-model="userForm.model.dateOfBirth"
-                                            type="text" placeholder="dd-mmm-yyyy">
+                                            type="date" placeholder="dd-mmm-yyyy">
                                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                                     </div>
+
                                 </div>
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full md:w-1/2 px-3">
@@ -403,7 +404,7 @@
                                             :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
                                             :disabled="formStatus === 1 ? null : true"
                                             v-model="companyForm.model.dateReg"
-                                            type="text" placeholder="dd-mmmm-yyyy">
+                                            type="date" placeholder="dd-mmmm-yyyy">
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap -mx-3 mb-6">

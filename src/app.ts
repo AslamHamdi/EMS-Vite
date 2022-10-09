@@ -12,6 +12,9 @@ export default {
     methods: {
         onTabSelect(tab: string){
             this.currentTab = tab ? tab : this.$router.currentRoute
+        },
+        consoleHello(){
+            console.log("HELLO FROM APP")
         }
     },
     watch: {

@@ -1,4 +1,5 @@
 import axios from "axios"
+import * as __customFunction from '../../libraries/custom-function';
 
 export default {
     props: {
@@ -69,12 +70,15 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    console.log("SUCCESS")
-                }).catch(error => [
-                    console.error("ERROR AXIOS: ", error)
-                ])
+                    __customFunction.showDefaultToast("Role succesfully saved into company's database")
+                }).catch(error => {
+                    __customFunction.showDefaultToast("Some error occured during saving the role details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
+                    
+                })
             } catch (error) {
-                console.error("ERROR AXIOS CATCH: ", error)
+                __customFunction.showDefaultToast("Some error occured during saving the role details. Please try again or contact developer")
+                console.error("try catch error: ", error)
             }
             console.log("ROLE FORM: ", form) 
         }

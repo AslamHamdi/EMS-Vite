@@ -45,7 +45,7 @@ export default class VueCustomComponent{
             },
         },
         template: `
-        <div class="hidden cover absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2" id="dialogModal" ref="dialogModal">
+        <div class="info-dialog hidden cover absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2" id="dialogModal" ref="dialogModal">
             <div class="shadow-lg rounded-2xl p-4 bg-white dark:bg-gray-800 w-64 m-auto">
                 <div class="w-full h-full text-center">
                     <div class="flex h-full flex-col justify-between">

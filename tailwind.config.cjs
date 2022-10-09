@@ -26,9 +26,9 @@ module.exports = {
   ],
   variants: {
     extend: {
-        display: ["group-hover"],
+      display: ["group-hover"],
     },
-},
+  },
 }
 
 // npx tailwindcss-cli build -i ./ClientApp/src/css/Shared/init_tailwind.css -o ./ClientApp/src/css/Shared/layoutTailwind.css -w

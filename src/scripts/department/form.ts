@@ -1,4 +1,5 @@
 import axios from "axios"
+import * as __customFunction from '../../libraries/custom-function';
 
 export default {
     mounted(){
@@ -42,12 +43,14 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    console.log("SUCCESS")
+                    __customFunction.showDefaultToast("Department succesfully saved into company's database")
                 }).catch(error => {
-                    console.error("ERROR AXIOS: ", error)
+                    __customFunction.showDefaultToast("Some error occured during saving the department details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
                 })
             } catch (error) {
-                console.error("ERROR AXIOS CATCH: ", error)
+                __customFunction.showDefaultToast("Some error occured during saving the department details. Please try again or contact developer")
+                console.error("try catch error: ", error)
             }
             console.log("ROLE FORM: ", form) 
         },

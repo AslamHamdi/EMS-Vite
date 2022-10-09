@@ -145,8 +145,37 @@ background: #4a488b;
       transform: scale(1);
     }
 }
+
+.info-dialog {
+    animation: fade-in 0.5s;
+}
+
+
 @keyframes slideup {
     0% {top: 0px;}
     75% {top: 0px;}
     100% {top: -20px;}
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fade-out {
+    100% { opacity: 0; }
+}
+
+@keyframes slide-in {
+    100% { transform: translateY(100px); }
+}
+
+@keyframes slide-out {
+    0% { transform: translateY(100px); }
+    100% { transform: translateY(200%); }
+}
+
+.Vue-Toastification__toast--success.my-custom-toast-class {
+    /* background-color: red; */
+    height: 5px !important;
 }

@@ -1,8 +1,10 @@
 import axios from 'axios'
+import * as __customFunction from '../../libraries/custom-function';
 
 export default {
     mounted(){
         this.onInitialLoadPage();
+        __customFunction.showDefaultToast("HELLO")
     },
     data() {
         return{
@@ -133,12 +135,14 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    console.log("SUCCESS")
+                    __customFunction.showDefaultToast("Employee succesfully saved into company's database")
                 }).catch(error => {
-                    console.error("ERROR AXIOS: ", error)
+                    __customFunction.showDefaultToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
                 })
             } catch (error) {
-                console.error("ERROR AXIOS CATCH: ", error)
+                __customFunction.showDefaultToast("Some error occured during saving the employee details. Please try again or contact developer")
+                console.error('axios catch error: ', error)
             }
         }
     },
