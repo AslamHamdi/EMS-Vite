@@ -1,15 +1,57 @@
 import axios from 'axios'
 import * as __customFunction from '../../libraries/custom-function';
 
+function initialState () {
+    return {
+        userForm: {
+            model: {
+                fName: "",
+                lName: "",
+                dateOfBirth: "",
+                gender: "",
+                icNum: "",
+                address: "",
+                country: "",
+                state: "",
+                city: "",
+                zip: "",
+                maritalStatus: "",
+                phoneNum: "",
+                profilePicture: "",
+            }
+        },
+        companyForm: {
+            model: {
+                emailAddress: "",
+                employeeId: "",
+                dateReg: "",
+                department: "",
+                position: "",
+                password: "",
+            }
+        },
+        emergencyForm: {
+            model: {
+                name: "",
+                relationship: "",
+                phoneNum: ""
+            }
+        },
+    }
+}
+
 export default {
     mounted(){
         this.onInitialLoadPage();
-        this.getAllEmployee()
+        //this.getAllEmployee()
         //this.getEmployeeById()
+        this.getDataFromServer()
     },
     data() {
         return{
             employeeList: [],
+            departmentList: [],
+            roleList: [],
             userForm: {
                 model: {
                     fName: "",
@@ -71,7 +113,57 @@ export default {
     },
     methods: {
         onInitialLoadPage(){
-            this.dpChange = this.$refs.imageFrame.src
+            //this.dpChange = this.$refs.imageFrame.src
+        },
+        testo(event){
+            console.log("CAKL: ", event.target.value)
+        },
+        getDataFromServer(){
+            let dataToPost = {
+                
+            }
+            try {
+                this.$refs.loaderComp.show()
+                axios.post('/api/v1/getAllDepartment', dataToPost, {
+                    
+                }).then(resp => {
+                    this.departmentList = resp.data.data
+                    //console.log("ALL DEPARTMENT: ", this.departmentList)
+                }).catch(error => {
+                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
+                })
+
+                axios.post('/api/v1/getAllRole', dataToPost, {
+                    
+                }).then(resp => {
+                    this.roleList = resp.data.data
+                    //console.log("ALL Role: ", this.roleList)
+                }).catch(error => {
+                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
+                })
+
+                axios.post('/api/v1/getAllEmployee', dataToPost, {
+                    
+                }).then(resp => {
+
+                    this.employeeList = resp.data.data
+                    //console.log("ALL Employee: ", this.employeeList)
+                }).catch(error => {
+                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
+                })
+
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
+
+            } catch (error) {
+                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                console.error('axios catch error: ', error)
+            }
+
         },
         getAllEmployee(){
             let dataToPost = {
@@ -94,24 +186,36 @@ export default {
         getEmployeeById(employeeId: any){
             let dataToPost = {
                 data: {
-                    employeeId: 21
+                    employeeId: employeeId
                 }
             }
             try {
+                this.$refs.loaderComp.show()
                 axios.post('/api/v1/getEmployeeById', dataToPost, {
                 }).then(resp => {
-                    __customFunction.showSuccessToast("Employee succesfully saved into company's database")
+                    let data = resp.data.data
+                    this.userForm = data.userForm
+                    this.companyForm = data.companyForm
+                    this.emergencyForm = data.emergencyForm
+                    this.dpChange = this.userForm.model.profilePicture ? `company_files/${this.userForm.model.profilePicture}` : 'assets/face2.jpg' 
+                    console.log("USR FORM: ", this.userForm)
+                    console.log("ROLE LIST: ", this.roleList)
                 }).catch(error => {
                     __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
                 })
+
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 500)
             } catch (error) {
                 __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
                 console.error('axios catch error: ', error)
             }
         },
         createNewEmployee(){
-            Object.assign(this.$data, this.$options.data.apply(this))
+            Object.assign(this.$data, initialState())
+            this.dpChange = 'assets/face2.jpg' 
             this.formStatus = 1
             __customFunction.showDefaultToast("Please fill in the form provided")
         },
@@ -162,6 +266,7 @@ export default {
             form.append('image', uploadImage )
 
             try {
+                this.$refs.loaderComp.show()
                 axios.post('/api/v1/addOrEditEmployee', form, {
                     headers: {
                         'accept': 'application/json',
@@ -174,10 +279,17 @@ export default {
                     __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
                 })
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
             } catch (error) {
                 __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
                 console.error('axios catch error: ', error)
             }
+            this.getDataFromServer()
+            Object.assign(this.$data, initialState())
+            this.dpChange = 'assets/face2.jpg' 
+            this.formStatus = 1
         }
     },
     computed: {
@@ -204,20 +316,15 @@ export default {
     },
     watch: {
         dpChange(newDp, oldDp){
-            console.log("SONO")
-            console.log("NEW: ", newDp)
-            console.log("OLD: ", oldDp)
             if(newDp != "" && newDp != oldDp){
-                console.log("SINI")
                 if(newDp.type){
-                    console.log("SANA")
                     let uploadImage = newDp
                     let FR = new FileReader
                     FR.readAsDataURL(uploadImage);
                     let imageRef = this.$refs.imageFrame
-                    FR.addEventListener("load", function(evt) {
-                        console.log("EVT: ", evt.target!.result!)
+                    FR.addEventListener("load", (evt) => {
                         imageRef.src = evt.target!.result!;
+                        this.dpChange = evt.target!.result!;
                     }); 
                 }
             }

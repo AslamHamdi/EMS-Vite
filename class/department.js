@@ -7,11 +7,23 @@ class Post {
 
     }
 
-    async getAllDepartment() {
-        let result = {
-            text: "HELLO THERE"
-        }
-        return result
+    async getAllDepartment(payload) {
+        let sql = "call ems.sp_department(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @companyId2); SELECT @companyId2;"
+        const result = await db.query(sql,
+            [1, null, null, null, 1, null, null, null, null, null, null, null],
+            function (err, result) {
+                if (err) {
+                    console.error("ERROR: ", err)
+                } else {
+                    console.log("RESULT: ", result)
+                }
+            }
+        );
+
+        let dbData = result[0][0]
+        let returner = dbData
+        console.log("DB DATA DEPT: ", returner)
+        return returner
     }
 
     async addOrEditDepartment(payload) {

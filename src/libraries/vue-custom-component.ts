@@ -1,3 +1,5 @@
+import { template } from "lodash"
+
 export default class VueCustomComponent{
     static __tableFunction = {
         props: {
@@ -70,4 +72,39 @@ export default class VueCustomComponent{
         </div>
         `
     }
+
+    static __loader = {
+        props: {
+
+        },
+        mounted(){
+            console.log("LOADER MOUNTED")
+        },
+        methods: {
+            show(){
+                let el = this.$refs.loaderApp!
+                el.classList.toggle('hidden')
+            },
+            hide(){
+                let el = this.$refs.loaderApp!
+                el.classList.toggle('hidden')
+            }
+        },
+        template: `
+        <div ref="loaderApp" class="hidden cover absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div class="p-4 w-64 m-auto">
+                <div class="w-full h-full text-center flex">
+                
+                <div class="loadingio-spinner-ellipsis-4tvh5ho9z8g"><div class="ldio-8tfjwqrc4zu">
+                <div></div><div></div><div></div><div></div><div></div>
+                </div></div>
+                    
+                </div>
+            </div>
+        </div>
+       
+        `
+    }
 }
+
+//  <div class="loader-default lds-ellipsis"><div></div><div></div><div></div><div></div></div>

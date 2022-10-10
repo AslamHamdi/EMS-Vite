@@ -1,4 +1,3 @@
-import Toastify from 'toastify-js'
 import { useToast, POSITION } from "vue-toastification";
 
 export function tConvert (time) {

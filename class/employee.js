@@ -4,6 +4,8 @@ const db = require('../config/db')
 const fs = require('fs');
 const path = require('path');
 
+const moment = require('moment/moment');
+
 class Post {
     contructor() {
 
@@ -66,7 +68,7 @@ class Post {
                 model: {
                     fName: dbData.fName,
                     lName: dbData.lName,
-                    dateOfBirth: dbData.birthDate,
+                    dateOfBirth: moment(dbData.birthDate).format('YYYY-MM-DD'),// dbData.birthDate,
                     gender: dbData.gender,
                     icNum: dbData.icNum,
                     address: dbData.address,
@@ -83,9 +85,9 @@ class Post {
                 model: {
                     emailAddress: dbData.emailAddress,
                     employeeId: dbData.employeeId,
-                    dateReg: dbData.dateReg,
-                    department: dbData.deptName,
-                    position: dbData.roleName,
+                    dateReg: moment(dbData.dateReg).format('YYYY-MM-DD'),// dbData.dateReg, 
+                    department: dbData.deptId,
+                    position: dbData.roleId,
                 }
             },
             emergencyForm: {

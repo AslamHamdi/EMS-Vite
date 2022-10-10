@@ -8,10 +8,22 @@ class Post {
     }
 
     async getAllRole() {
-        let result = {
-            text: "HELLO THERE"
-        }
-        return result
+        let sql = "call ems.sp_role(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @companyId2); SELECT @companyId2;"
+        const result = await db.query(sql,
+            [1, null, null, null, 1, 1, null, null, null, null, null, null, null],
+            function (err, result) {
+                if (err) {
+                    console.error("ERROR: ", err)
+                } else {
+                    console.log("RESULT: ", result)
+                }
+            }
+        );
+
+        let dbData = result[0][0]
+        let returner = dbData
+        console.log("DB DATA ROLE: ", returner)
+        return returner
     }
 
     async addOrEditRole(payload) {

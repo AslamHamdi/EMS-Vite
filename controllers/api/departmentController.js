@@ -3,7 +3,7 @@ const Post = require('../../class/department')
 exports.getAllDepartment = async (req, res, next) => {
     try {
         let data = new Post()
-        data = await data.getAllDepartment()
+        data = await data.getAllDepartment(req)
         res.status(200).json({ data })
     } catch (error) {
         console.log(error)

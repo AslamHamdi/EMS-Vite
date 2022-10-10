@@ -26,25 +26,25 @@
                 </button>
             </div>
             <div class="overflow-auto" style="height: 84.2%;">
-                <div v-for="n in 5" :key="n" class="employee-list cursor-pointer" style="height: 85px; margin-right: 4px;">
+                <div v-for="(o, i) in employeeList" :key="i" class="employee-list cursor-pointer" @click="getEmployeeById(o.employeeId)" style="height: 85px; margin-right: 4px;">
                     <div class="flex space-x-1" style="height: 100%; width: 100%;">
                         <div class="flex items-center justify-center" style="width: 20%;">
-                            <img class="w-5 h-5 lg:w-10 lg:h-10 rounded-full object-cover" src="/assets/face.jpg"
+                            <img class="w-5 h-5 lg:w-10 lg:h-10 rounded-full object-cover" :src="[o.profilePicture ? 'company_files/' + o.profilePicture : 'assets/face.jpg']"
                                 alt="Rounded avatar">
                         </div>
                         <div class="" style="width: 60%;">
                             <div class="" style="height: 30%;">
-                                <div class="font-bold label-heading ellipsiphy " style="max-width: 200px;">Aslam Hamdi
+                                <div class="font-bold label-heading ellipsiphy " style="max-width: 200px;">{{o.fName + ' ' + o.lName}}
                                 </div>
                             </div>
                             <div class="" style="height: 70%;">
                                 <div class="flex items-end" style="height: 50%;">
-                                    <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 100px;">Developer
+                                    <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 100px;">{{o.roleName}}
                                     </div>
                                 </div>
                                 <div class="" style="height: 50%;">
                                     <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">
-                                        m.aslamhamdi@gmail.com
+                                        {{o.emailAddress}}
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                         <div class="" style="width: 20%;">
                             <div class="float-right pr-3" style="height: 30%;">
                                 <div class="text-slate-500 text-xl" style="max-width: 100px;">
-                                    <span v-if="n%3 == 0" class="" style="color: green;">●</span>
+                                    <span v-if="i%3 == 0" class="" style="color: green;">●</span>
                                     <span v-else class="" style="color: gray;">●</span>
                                 </div>
                                 <!-- <span class="font-bold label-heading hidden lg:block">Dec 02</span> -->
@@ -66,7 +66,7 @@
             <div class="flex border-b-2" style="height: 15%; margin: 1.5rem;">
                 <div @click="openUploadDialog()"  class="mr-4 lg:mr-0" style="width: 15%;">
                     <div :class="[formStatus === 1 ? '' : 'cursor-not-allowed']" class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
-                        <img ref="imageFrame" id="imageFrame" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/face2.jpg"
+                        <img ref="imageFrame" id="imageFrame" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" :src="[this.dpChange ?  this.dpChange : 'assets/face2.jpg']"
                             alt="Rounded avatar">
                         <div
                             class="group flex items-center justify-center absolute w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover">
@@ -90,14 +90,14 @@
                 <div class="w-full flex items-center" style="">
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
-                            <span class="">Aslam Hamdi</span>
+                            <span class="">{{this.userForm.model.fName ? `${this.userForm.model.fName} ${this.userForm.model.lName}` : 'John Doe'}}</span>
                             <div class="float-right space-x-2">
                                 <span @click="openEditEmployeeDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
                                 <span @click="openDeleteEmployeeDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
-                            Developer
+                            {{this.companyForm.model.position ? `${roleList.find(o => o.id === this.companyForm.model.position).role_name}` : 'Software Developer'}}
                         </div>
                         <div class="text-slate-500 text-sm" style="max-width: 100px;">
                             <span class="" style="color: green;">●</span> Active
@@ -169,6 +169,7 @@
                                             First Name
                                         </label>
                                         <input
+                                            ref="formInput"
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
                                             :disabled="formStatus === 1 ? null : true"
@@ -413,17 +414,13 @@
                                             DEPARTMENT
                                         </label>
                                         <div class="relative">
-                                            <select
+                                            <select @change="testo($event)"
                                                 :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
                                                 :disabled="formStatus === 1 ? null : true"
                                                 v-model="companyForm.model.department"    
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
-                                                <option>Software</option>
-                                                <option>Dev Ops</option>
-                                                <option>Network</option>
-                                                <option>Sales</option>
-                                                <option>Marketing</option>
+                                                <option v-for="(o, i) in departmentList" :key="i" :value="o.id">{{o.department_name}}</option>
                                             </select>
                                             <div
                                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -446,10 +443,7 @@
                                                 v-model="companyForm.model.position"    
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
-                                                <option>Front end dev</option>
-                                                <option>Back end dev</option>
-                                                <option>Digital marketer</option>
-                                                <option>Software tester</option>
+                                                <option v-for="(o, i) in roleList" :key="i" :value="o.id">{{o.role_name}}</option>
                                             </select>
                                             <div
                                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -534,5 +528,6 @@
     </div>
     <dialog-app ref="dialogModalComp" @openForm="openForm" @confirmDeleteEmployee="confirmDeleteEmployee" 
     :buttons="dialogNow" :icon="dialogNow[0].icon" :title="dialogNow[0].title" :text="dialogNow[0].text"></dialog-app>
+    <loader-app ref="loaderComp"></loader-app>
 </template>
 <script src="../../scripts/employee/employee.ts"></script>
