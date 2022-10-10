@@ -9,11 +9,96 @@ class Post {
 
     }
 
-    async getAllEmployee() {
-        let result = {
-            text: "HELLO THERE"
+    async getAllEmployee(payload) {
+        let data = payload.body.data
+
+        let sql = `call ems.sp_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                                        ?, ?, ?, ?, ?,
+                                        ?, ?, ?,
+                                        @employeeId2); 
+                                        SELECT @employeeId2;`
+        const result = await db.query(sql,
+            [1, null, 1, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null,
+                null, null, null,
+                null],
+            function (err, result) {
+                if (err) {
+                    console.error("ERROR: ", err)
+                } else {
+                    console.log("RESULT: ", result)
+                }
+            }
+        );
+
+        let returner = result[0][0]
+        console.log("RESULT ALL EMPLOYEE: ", returner)
+        //let result = ""
+        return returner
+    }
+
+    async getEmployeeById(payload) {
+        let data = payload.body.data
+        console.log("DATA: ", data)
+
+        let sql = `call ems.sp_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                                        ?, ?, ?, ?, ?,
+                                        ?, ?, ?,
+                                        @employeeId2); 
+                                        SELECT @employeeId2;`
+        const result = await db.query(sql,
+            [2, data.employeeId, 1, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null,
+                null, null, null,
+                null],
+            function (err, result) {
+                if (err) {
+                    console.error("ERROR: ", err)
+                } else {
+                    console.log("RESULT: ", result)
+                }
+            }
+        );
+
+        let dbData = result[0][0][0]
+        let returner = {
+            userForm: {
+                model: {
+                    fName: dbData.fName,
+                    lName: dbData.lName,
+                    dateOfBirth: dbData.birthDate,
+                    gender: dbData.gender,
+                    icNum: dbData.icNum,
+                    address: dbData.address,
+                    country: dbData.country,
+                    state: dbData.state,
+                    city: dbData.city,
+                    zip: dbData.zip,
+                    maritalStatus: dbData.maritalStatus,
+                    phoneNum: dbData.phoneNumber,
+                    profilePicture: dbData.profilePicture
+                }
+            },
+            companyForm: {
+                model: {
+                    emailAddress: dbData.emailAddress,
+                    employeeId: dbData.employeeId,
+                    dateReg: dbData.dateReg,
+                    department: dbData.deptName,
+                    position: dbData.roleName,
+                }
+            },
+            emergencyForm: {
+                model: {
+                    name: dbData.emergencyName,
+                    relationship: dbData.emergencyRelationship,
+                    phoneNum: dbData.emergencyPhoneNum
+                }
+            }
         }
-        return result
+        console.log("RESULT EMPLOYEE BY ID: ", returner)
+        //let result = ""
+        return returner
     }
 
     async addOrEditEmployee(payload) {
@@ -63,9 +148,9 @@ class Post {
                                         @employeeId2); 
                                         SELECT @employeeId2;`
         const result = await db.query(sql,
-            [2, data.companyForm.employeeId, 1, data.userForm.fName, data.userForm.lName, new Date(data.userForm.dateOfBirth), data.userForm.gender, data.userForm.icNum, data.userForm.address, data.userForm.country, data.userForm.state, data.userForm.city, data.userForm.zip, data.userForm.maritalStatus, data.userForm.phoneNum, filePathDb,
+            [3, data.companyForm.employeeId, 1, data.userForm.fName, data.userForm.lName, new Date(data.userForm.dateOfBirth), data.userForm.gender, data.userForm.icNum, data.userForm.address, data.userForm.country, data.userForm.state, data.userForm.city, data.userForm.zip, data.userForm.maritalStatus, data.userForm.phoneNum, filePathDb,
                 data.companyForm.emailAddress, new Date(data.companyForm.dateReg), 1, 1, data.companyForm.password,
-                data.emergencyForm.name, data.companyForm.relationship, data.companyForm.phoneNum,
+                data.emergencyForm.name, data.emergencyForm.relationship, data.emergencyForm.phoneNum,
                 null],
             function (err, result) {
                 if (err) {

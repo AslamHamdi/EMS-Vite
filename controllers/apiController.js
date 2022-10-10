@@ -38,6 +38,11 @@ router
     .post(employeeController.getAllEmployee)
 
 router
+    .route("/getEmployeeById")
+    .get(employeeController.getEmployeeById)
+    .post(employeeController.getEmployeeById)
+
+router
     .route("/addOrEditEmployee")
     .get(employeeController.addOrEditEmployee)
     .post(employeeController.addOrEditEmployee)

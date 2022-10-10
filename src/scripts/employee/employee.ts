@@ -4,7 +4,8 @@ import * as __customFunction from '../../libraries/custom-function';
 export default {
     mounted(){
         this.onInitialLoadPage();
-        __customFunction.showDefaultToast("HELLO")
+        this.getAllEmployee()
+        //this.getEmployeeById()
     },
     data() {
         return{
@@ -72,15 +73,47 @@ export default {
         onInitialLoadPage(){
             this.dpChange = this.$refs.imageFrame.src
         },
-        getDataFromServer(){
-
+        getAllEmployee(){
+            let dataToPost = {
+                test: 'ehllo'
+            }
+            try {
+                axios.post('/api/v1/getAllEmployee', dataToPost, {
+                    
+                }).then(resp => {
+                    __customFunction.showSuccessToast("Employee succesfully saved into company's database")
+                }).catch(error => {
+                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
+                })
+            } catch (error) {
+                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                console.error('axios catch error: ', error)
+            }
         },
-        onSelectEmployee(employeeId: any){
-
+        getEmployeeById(employeeId: any){
+            let dataToPost = {
+                data: {
+                    employeeId: 21
+                }
+            }
+            try {
+                axios.post('/api/v1/getEmployeeById', dataToPost, {
+                }).then(resp => {
+                    __customFunction.showSuccessToast("Employee succesfully saved into company's database")
+                }).catch(error => {
+                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
+                })
+            } catch (error) {
+                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                console.error('axios catch error: ', error)
+            }
         },
         createNewEmployee(){
             Object.assign(this.$data, this.$options.data.apply(this))
             this.formStatus = 1
+            __customFunction.showDefaultToast("Please fill in the form provided")
         },
         openEditEmployeeDialog(){
             this.whichDialog = 'edit'
@@ -89,6 +122,7 @@ export default {
         openForm(){
             this.formStatus = 1
             this.$refs.dialogModalComp.toggleDialog()
+            __customFunction.showDefaultToast("Please fill in the form provided")
         },
         openDeleteEmployeeDialog(){
             this.whichDialog = 'delete'
@@ -135,13 +169,13 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    __customFunction.showDefaultToast("Employee succesfully saved into company's database")
+                    __customFunction.showSuccessToast("Employee succesfully saved into company's database")
                 }).catch(error => {
-                    __customFunction.showDefaultToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
                 })
             } catch (error) {
-                __customFunction.showDefaultToast("Some error occured during saving the employee details. Please try again or contact developer")
+                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
                 console.error('axios catch error: ', error)
             }
         }

@@ -1,5 +1,6 @@
 import Form from "../../components/role/Form.vue"
 import EmployeeList from "../../components/role/EmployeeList.vue"
+import * as __customFunction from '../../libraries/custom-function';
 
 export default {
     mounted(){
@@ -56,6 +57,7 @@ export default {
         confirmEditUser(){
             console.log("CONFIRM EDIT")
             this.$refs.childComp.openForm()
+            __customFunction.showDefaultToast("Please fill in the form provided")
             this.$refs.dialogModalComp.toggleDialog()
         },
         openDeleteUserDialog(){
@@ -95,6 +97,27 @@ export default {
             }
             console.log("DIALOG NOW: ", data)
             return data
+        }
+    },
+    watch: {
+        imageUploaded(newImage, oldImage){
+            console.log("SONO")
+            console.log("NEW: ", newImage)
+            console.log("OLD: ", oldImage)
+            if(newImage != "" && newImage != oldImage){
+                console.log("SINI")
+                if(newImage.type){
+                    console.log("SANA")
+                    let uploadImage = newImage
+                    let FR = new FileReader
+                    FR.readAsDataURL(uploadImage);
+                    let imageRef = this.$refs.imageFrame
+                    FR.addEventListener("load", function(evt) {
+                        console.log("EVT: ", evt.target!.result!)
+                        imageRef.src = evt.target!.result!;
+                    }); 
+                }
+            }
         }
     },
     components: {

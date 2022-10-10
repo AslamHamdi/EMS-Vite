@@ -43,13 +43,13 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    __customFunction.showDefaultToast("Department succesfully saved into company's database")
+                    __customFunction.showSuccessToast("Department succesfully saved into company's database")
                 }).catch(error => {
-                    __customFunction.showDefaultToast("Some error occured during saving the department details. Please try again or contact developer")
+                    __customFunction.showErrorToast("Some error occured during saving the department details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
                 })
             } catch (error) {
-                __customFunction.showDefaultToast("Some error occured during saving the department details. Please try again or contact developer")
+                __customFunction.showErrorToast("Some error occured during saving the department details. Please try again or contact developer")
                 console.error("try catch error: ", error)
             }
             console.log("ROLE FORM: ", form) 
@@ -57,6 +57,7 @@ export default {
         createNewDepartment(){
             Object.assign(this.$data, this.$options.data.apply(this))
             this.formStatus = 1
+            __customFunction.showDefaultToast("Please fill in the form provided")
         },
         openForm(){
             this.formStatus = 1

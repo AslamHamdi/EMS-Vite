@@ -58,7 +58,7 @@
             <div class="flex border-b-2" style="height: 15%; margin: 1.5rem;">
                 <div @click="openUploadDialog()" class="mr-4 lg:mr-0" style="width: 15%;">
                     <div :class="[childFormStatus === 1 ? '' : 'cursor-not-allowed']" class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
-                        <img class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/team-lead.jpg"
+                        <img ref="imageFrame" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/team-lead.jpg"
                             alt="Rounded avatar">
                         <div
                             class="group flex items-center justify-center absolute w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover">
