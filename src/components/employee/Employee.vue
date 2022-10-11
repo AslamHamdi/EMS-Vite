@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="relative mb-2" style="width: 97%; height: 5%;">
-                <input type="text" id="voice-search"
+                <input type="text" id="voice-search" v-model="searchText" @change="onSearchChange()"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-2xl block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search..." required>
                 <button type="button" class="flex absolute inset-y-0 right-0 items-center pr-3">
@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="overflow-auto" style="height: 84.2%;">
-                <div v-for="(o, i) in employeeList" :key="i" class="employee-list cursor-pointer" @click="getEmployeeById(o.employeeId)" style="height: 85px; margin-right: 4px;">
+                <div v-for="(o, i) in employeeList" ref="employeeDiv" :key="i" class="employee-list cursor-pointer" @click="getEmployeeById(o.employeeId)" style="height: 85px; margin-right: 4px;">
                     <div class="flex space-x-1" style="height: 100%; width: 100%;">
                         <div class="flex items-center justify-center" style="width: 20%;">
                             <img class="w-5 h-5 lg:w-10 lg:h-10 rounded-full object-cover" :src="[o.profilePicture ? 'company_files/' + o.profilePicture : 'assets/face.jpg']"
@@ -34,16 +34,18 @@
                         </div>
                         <div class="" style="width: 60%;">
                             <div class="" style="height: 30%;">
-                                <div class="font-bold label-heading ellipsiphy " style="max-width: 200px;">{{o.fName + ' ' + o.lName}}
+                                <div class="employee-name font-bold label-heading ellipsiphy " style="max-width: 200px;">
+                                    {{o.fName + ' ' + o.lName}}
                                 </div>
                             </div>
                             <div class="" style="height: 70%;">
                                 <div class="flex items-end" style="height: 50%;">
-                                    <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 100px;">{{o.roleName}}
+                                    <div class="employee-role text-slate-500 text-sm ellipsiphy " style="max-width: 100px;">
+                                        {{o.roleName}}
                                     </div>
                                 </div>
                                 <div class="" style="height: 50%;">
-                                    <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">
+                                    <div class="employee-email text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">
                                         {{o.emailAddress}}
                                     </div>
                                 </div>
@@ -258,15 +260,13 @@
                                             COUNTRY
                                         </label>
                                         <div class="relative">
-                                            <select
+                                            <select @change="testo()"
                                                 :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
                                                 :disabled="formStatus === 1 ? null : true"   
                                                 v-model="userForm.model.country"
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
-                                                <option>New Mexico</option>
-                                                <option>Missouri</option>
-                                                <option>Texas</option>
+                                                <option v-for="(o, i) in countryList" :key="i">{{o.name}}</option>
                                             </select>
                                             <div
                                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -291,9 +291,7 @@
                                                 v-model="userForm.model.state"
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
-                                                <option>New Mexico</option>
-                                                <option>Missouri</option>
-                                                <option>Texas</option>
+                                                <option v-for="(o, i) in stateList" :key="i">{{o.name}}</option>
                                             </select>
                                             <div
                                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

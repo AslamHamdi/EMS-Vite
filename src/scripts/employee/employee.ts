@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as __customFunction from '../../libraries/custom-function';
+import { Country, State, City }  from 'country-state-city';
 
 function initialState () {
     return {
@@ -42,10 +43,7 @@ function initialState () {
 
 export default {
     mounted(){
-        this.onInitialLoadPage();
-        //this.getAllEmployee()
-        //this.getEmployeeById()
-        this.getDataFromServer()
+        this.onInitialLoadPage()
     },
     data() {
         return{
@@ -107,80 +105,51 @@ export default {
             ],
             whichForm: 1,
             whichDialog: "",
-            formStatus: 0, //to keep track whether to add new employee or edit existing employee
+            formStatus: 0, 
             dpChange: "",
+            searchText: "",
+            countryList: [],
+            selectedCountry: "",
         }
     },
     methods: {
         onInitialLoadPage(){
+            this.getDataFromServer()
+            this.countryList = Country.getAllCountries()
             //this.dpChange = this.$refs.imageFrame.src
         },
         testo(event){
-            console.log("CAKL: ", event.target.value)
+            let tt = this.stateList
+        },
+        onSearchChange(){
+            console.log("TEXT: ", this.searchText)
         },
         getDataFromServer(){
-            let dataToPost = {
-                
-            }
+            let dataToPost = {}
+            let endpoints = [
+                '/api/v1/getAllDepartment',
+                '/api/v1/getAllRole',
+                '/api/v1/getAllEmployee'
+            ]
+
             try {
                 this.$refs.loaderComp.show()
-                axios.post('/api/v1/getAllDepartment', dataToPost, {
-                    
-                }).then(resp => {
-                    this.departmentList = resp.data.data
-                    //console.log("ALL DEPARTMENT: ", this.departmentList)
-                }).catch(error => {
+                Promise.all(endpoints.map((endpoint) => 
+                axios.get(endpoint, dataToPost)))
+                .then(resp => {
+                    this.departmentList = resp[0].data.data
+                    this.roleList = resp[1].data.data
+                    this.employeeList = resp[2].data.data})
+                .catch((error) => {
                     __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
-                    console.error(new Error('axios catch error: ', error))
-                })
-
-                axios.post('/api/v1/getAllRole', dataToPost, {
-                    
-                }).then(resp => {
-                    this.roleList = resp.data.data
-                    //console.log("ALL Role: ", this.roleList)
-                }).catch(error => {
-                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
-                    console.error(new Error('axios catch error: ', error))
-                })
-
-                axios.post('/api/v1/getAllEmployee', dataToPost, {
-                    
-                }).then(resp => {
-
-                    this.employeeList = resp.data.data
-                    //console.log("ALL Employee: ", this.employeeList)
-                }).catch(error => {
-                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
-                    console.error(new Error('axios catch error: ', error))
-                })
-
+                    console.error(error.message)
+                });
                 setTimeout(() => {
                     this.$refs.loaderComp.hide()
                 }, 800)
-
             } catch (error) {
                 __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
-                console.error('axios catch error: ', error)
-            }
-
-        },
-        getAllEmployee(){
-            let dataToPost = {
-                test: 'ehllo'
-            }
-            try {
-                axios.post('/api/v1/getAllEmployee', dataToPost, {
-                    
-                }).then(resp => {
-                    __customFunction.showSuccessToast("Employee succesfully saved into company's database")
-                }).catch(error => {
-                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
-                    console.error(new Error('axios catch error: ', error))
-                })
-            } catch (error) {
-                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
-                console.error('axios catch error: ', error)
+                console.error(error)
             }
         },
         getEmployeeById(employeeId: any){
@@ -198,8 +167,6 @@ export default {
                     this.companyForm = data.companyForm
                     this.emergencyForm = data.emergencyForm
                     this.dpChange = this.userForm.model.profilePicture ? `company_files/${this.userForm.model.profilePicture}` : 'assets/face2.jpg' 
-                    console.log("USR FORM: ", this.userForm)
-                    console.log("ROLE LIST: ", this.roleList)
                 }).catch(error => {
                     __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
@@ -312,6 +279,12 @@ export default {
                 data = this.deleteDialogButtonList
             }
             return data
+        },
+        stateList(){
+            let data : object[] = []
+            let country = this.countryList.find(x => x.name === this.userForm.model.country);
+            data = country ? State.getStatesOfCountry(country.isoCode) : []
+            return data
         }
     },
     watch: {
@@ -328,6 +301,19 @@ export default {
                     }); 
                 }
             }
+        },
+        searchText(newText, oldText){
+            let employeeDivRefs = this.$refs.employeeDiv
+            employeeDivRefs.forEach((o, i) => {
+                let nameEl = o.querySelector('.employee-name')
+                let roleEl = o.querySelector('.employee-role')
+                let emailEl = o.querySelector('.employee-email')
+                if(nameEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1 || roleEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1 || emailEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1){
+                    o.classList.remove('hidden')
+                }else{
+                    o.classList.add('hidden')
+                }
+            })
         }
     }
 }

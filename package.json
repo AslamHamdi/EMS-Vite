@@ -23,6 +23,7 @@
     "config": "^3.3.7",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "country-state-city": "^3.1.2",
     "deepmerge": "^4.2.2",
     "dotenv": "^16.0.1",
     "element-plus": "^2.2.17",
