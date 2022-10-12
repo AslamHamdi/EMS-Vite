@@ -47,6 +47,11 @@ router
     .get(employeeController.addOrEditEmployee)
     .post(employeeController.addOrEditEmployee)
 
+router
+    .route("/deleteEmployee")
+    .get(employeeController.deleteEmployee)
+    .post(employeeController.deleteEmployee)
+
 /* #endregion */
 
 module.exports = router

@@ -12,10 +12,11 @@ export default class VueCustomComponent{
         }
     }
     /**
-     * @props {Array} buttons List of buttons that will be displayed on dialog
+     * @props {Array} buttons: List of buttons that will be displayed on dialog
      * name = button text, function = parent function to run, addOnClass = additional button class for color, hover, etc
-     * @props {String} title Action text on dialog
-     * @props {String} text Description text on dialog
+     * @props {String} title: Action text on dialog
+     * @props {String} text: Description text on dialog
+     * @props {String} icon: icon on top of text
      */
     static __dialog = {
         props: {
@@ -34,11 +35,10 @@ export default class VueCustomComponent{
             },
         },
         mounted(){
-            console.log("BUTTONS: ", this.buttons)
+
         },
         methods: {
             runParentFunction(func){
-                console.log("FUNCTION TO RUN: ", func)
                 this.$emit(func);
             },
             toggleDialog(){
@@ -48,7 +48,7 @@ export default class VueCustomComponent{
         },
         template: `
         <div class="info-dialog hidden cover absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2" id="dialogModal" ref="dialogModal">
-            <div class="shadow-lg rounded-2xl p-4 bg-white dark:bg-gray-800 w-64 m-auto">
+            <div class="bounce-enter-active shadow-lg rounded-2xl p-4 bg-white dark:bg-gray-800 w-64 m-auto">
                 <div class="w-full h-full text-center">
                     <div class="flex h-full flex-col justify-between">
                         <span v-html="icon"></span>
@@ -78,7 +78,7 @@ export default class VueCustomComponent{
 
         },
         mounted(){
-            console.log("LOADER MOUNTED")
+            
         },
         methods: {
             show(){
@@ -106,5 +106,3 @@ export default class VueCustomComponent{
         `
     }
 }
-
-//  <div class="loader-default lds-ellipsis"><div></div><div></div><div></div><div></div></div>

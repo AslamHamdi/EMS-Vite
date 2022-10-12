@@ -39,6 +39,7 @@
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
     "morgan": "^1.10.0",
+    "mosha-vue-toastify": "^1.0.23",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",

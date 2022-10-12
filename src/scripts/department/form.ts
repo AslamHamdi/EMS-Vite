@@ -1,5 +1,4 @@
 import axios from "axios"
-import * as __customFunction from '../../libraries/custom-function';
 
 export default {
     mounted(){
@@ -43,13 +42,13 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    __customFunction.showSuccessToast("Department succesfully saved into company's database")
+                    this.__showSuccessToast("Department succesfully saved into company's database")
                 }).catch(error => {
-                    __customFunction.showErrorToast("Some error occured during saving the department details. Please try again or contact developer")
+                    this.__showDangerToast("Some error occured during saving the department details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
                 })
             } catch (error) {
-                __customFunction.showErrorToast("Some error occured during saving the department details. Please try again or contact developer")
+                this.__showDangerToast("Some error occured during saving the department details. Please try again or contact developer")
                 console.error("try catch error: ", error)
             }
             console.log("ROLE FORM: ", form) 
@@ -57,7 +56,7 @@ export default {
         createNewDepartment(){
             Object.assign(this.$data, this.$options.data.apply(this))
             this.formStatus = 1
-            __customFunction.showDefaultToast("Please fill in the form provided")
+            this.__showInfoToast("Please fill in the form provided")
         },
         openForm(){
             this.formStatus = 1

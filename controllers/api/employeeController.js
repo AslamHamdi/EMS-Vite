@@ -29,3 +29,13 @@ exports.addOrEditEmployee = async (req, res, next) => {
         console.log(error)
     }
 }
+
+exports.deleteEmployee = async (req, res, next) => {
+    try {
+        let data = new Post()
+        data = await data.deleteEmployee(req)
+        res.status(200).json({ data })
+    } catch (error) {
+        console.log(error)
+    }
+}

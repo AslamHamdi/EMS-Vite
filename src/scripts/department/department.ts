@@ -1,6 +1,5 @@
 import EmployeeList from "../../components/department/EmployeeList.vue"
 import Form from "../../components/department/Form.vue"
-import * as __customFunction from '../../libraries/custom-function';
 
 export default {
     mounted(){
@@ -53,7 +52,7 @@ export default {
         confirmEditDept(){
             console.log("CONFIRM EDIT")
             this.$refs.childComp.openForm()
-            __customFunction.showDefaultToast("Please fill in the form provided")
+            this.__showDefaultToast("Please fill in the form provided")
             this.$refs.dialogModalComp.toggleDialog()
         },
         openDeleteDeptDialog(){

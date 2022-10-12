@@ -1,5 +1,4 @@
 import axios from 'axios'
-import * as __customFunction from '../../libraries/custom-function';
 import { Country, State, City }  from 'country-state-city';
 
 function initialState () {
@@ -38,6 +37,7 @@ function initialState () {
                 phoneNum: ""
             }
         },
+        idd: 0,
     }
 }
 
@@ -84,6 +84,7 @@ export default {
                     phoneNum: ""
                 }
             },
+            idd: 0,
             editDialogButtonList: [
                 {icon: `
                 <svg fill="white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="mt-4 w-12 h-12 m-auto text-indigo-500" xmlns="http://www.w3.org/2000/svg" >
@@ -121,9 +122,6 @@ export default {
         testo(event){
             let tt = this.stateList
         },
-        onSearchChange(){
-            console.log("TEXT: ", this.searchText)
-        },
         getDataFromServer(){
             let dataToPost = {}
             let endpoints = [
@@ -135,20 +133,21 @@ export default {
             try {
                 this.$refs.loaderComp.show()
                 Promise.all(endpoints.map((endpoint) => 
-                axios.get(endpoint, dataToPost)))
-                .then(resp => {
-                    this.departmentList = resp[0].data.data
-                    this.roleList = resp[1].data.data
-                    this.employeeList = resp[2].data.data})
-                .catch((error) => {
-                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
-                    console.error(error.message)
-                });
+                    axios.get(endpoint, dataToPost))
+                    ).then(resp => {
+                        this.departmentList = resp[0].data.data
+                        this.roleList = resp[1].data.data
+                        this.employeeList = resp[2].data.data
+                    }).catch((error) => {
+                        this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
+                        console.error(error.message)
+                    }
+                );
                 setTimeout(() => {
                     this.$refs.loaderComp.hide()
                 }, 800)
             } catch (error) {
-                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
                 console.error(error)
             }
         },
@@ -167,8 +166,10 @@ export default {
                     this.companyForm = data.companyForm
                     this.emergencyForm = data.emergencyForm
                     this.dpChange = this.userForm.model.profilePicture ? `company_files/${this.userForm.model.profilePicture}` : 'assets/face2.jpg' 
+                    this.idd = data.idd
+                    this.formStatus = 0
                 }).catch(error => {
-                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
                 })
 
@@ -176,7 +177,7 @@ export default {
                     this.$refs.loaderComp.hide()
                 }, 500)
             } catch (error) {
-                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
                 console.error('axios catch error: ', error)
             }
         },
@@ -184,7 +185,7 @@ export default {
             Object.assign(this.$data, initialState())
             this.dpChange = 'assets/face2.jpg' 
             this.formStatus = 1
-            __customFunction.showDefaultToast("Please fill in the form provided")
+            this.__showInfoToast("Please fill in the form provided")
         },
         openEditEmployeeDialog(){
             this.whichDialog = 'edit'
@@ -193,14 +194,40 @@ export default {
         openForm(){
             this.formStatus = 1
             this.$refs.dialogModalComp.toggleDialog()
-            __customFunction.showDefaultToast("Please fill in the form provided")
+            this.__showInfoToast("Please fill in the form provided")
         },
         openDeleteEmployeeDialog(){
             this.whichDialog = 'delete'
             this.$refs.dialogModalComp.toggleDialog()
         },
-        confirmDeleteEmployee(employeeId: any){
+        confirmDeleteEmployee(){
+            let dataToPost = {
+                data: {
+                    employeeId: this.idd
+                }
+            }
+            try {
+                this.$refs.loaderComp.show()
+                axios.post('/api/v1/deleteEmployee', dataToPost, {
+                }).then(resp => {
+                    let data = resp.data.data
+                    this.__showDefaultToast("Employee successfully deleted")
+                }).catch(error => {
+                    this.__showDangerToast("Some error occured when deleting the employee details. Please try again or contact developer")
+                    console.error(new Error('axios catch error: ', error))
+                })
+
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 500)
+            } catch (error) {
+                this.__showDangerToast("Some error occured when deleting the employee details. Please try again or contact developer")
+                console.error('axios catch error: ', error)
+            }
+            Object.assign(this.$data, initialState())
+            this.dpChange = 'assets/face2.jpg' 
             this.$refs.dialogModalComp.toggleDialog()
+            this.getDataFromServer()
         },
         selectForm(form: Number){
             this.whichForm = form
@@ -241,22 +268,22 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    __customFunction.showSuccessToast("Employee succesfully saved into company's database")
+                    this.__showSuccessToast("Employee succesfully saved")
                 }).catch(error => {
-                    __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                    this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
                 })
                 setTimeout(() => {
                     this.$refs.loaderComp.hide()
                 }, 800)
             } catch (error) {
-                __customFunction.showErrorToast("Some error occured during saving the employee details. Please try again or contact developer")
+                this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
                 console.error('axios catch error: ', error)
             }
-            this.getDataFromServer()
             Object.assign(this.$data, initialState())
             this.dpChange = 'assets/face2.jpg' 
             this.formStatus = 1
+            this.getDataFromServer()
         }
     },
     computed: {
