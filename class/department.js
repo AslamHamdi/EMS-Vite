@@ -1,6 +1,6 @@
+const { type } = require('os');
 const db = require('../config/db')
-const fs = require('fs');
-const path = require('path');
+const ems = require('../lib/ems')
 
 class Post {
     contructor() {
@@ -8,9 +8,14 @@ class Post {
     }
 
     async getAllDepartment(payload) {
-        let sql = "call ems.sp_department(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @companyId2); SELECT @companyId2;"
+        let sql = `call ems.sp_department(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?,
+            @companyId2); 
+            SELECT @companyId2;`
         const result = await db.query(sql,
-            [1, null, null, null, 1, null, null, null, null, null, null, null],
+            [1, null, null, null, 1, null, null, null, null, null, null, null,
+                null],
             function (err, result) {
                 if (err) {
                     console.error("ERROR: ", err)
@@ -26,50 +31,70 @@ class Post {
         return returner
     }
 
+    async getDepartmentById(payload) {
+        let data = payload.body.data
+        let sql = `call ems.sp_department(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?,
+            @companyId2); 
+            SELECT @companyId2;`
+        const result = await db.query(sql,
+            [2, null, data, null, 1, null, null, null, null, null, null,
+                null,
+                null],
+            function (err, result) {
+                if (err) {
+                    console.error("ERROR: ", err)
+                } else {
+                    console.log("RESULT: ", result)
+                }
+            }
+        );
+
+        let dbData = result[0][0][0]
+        let returner = {
+            deptForm: {
+                model: {
+                    deptName: dbData.departmentName,
+                    deptId: dbData.departmentId,
+                    deptLeader: dbData.departmentLeadId,
+                    officeAddress: dbData.officeAddress,
+                    deptDesc: dbData.departmentDesc,
+                    profilePicture: dbData.profilePicture
+                }
+            },
+            idd: dbData.idd
+        }
+        // console.log("DB DATA DEPT BY ID: ", returner)
+        return returner
+
+    }
+
     async addOrEditDepartment(payload) {
         let data = JSON.parse(payload.body.data)
         let uploadedImage;
         let uploadPath;
-        let filePathDb = ""
+        let idd = payload.body.idd == 0 ? null : payload.body.idd
+        let spType = payload.body.type == 'add' ? 3 : 4
+        let filePathDb = data.profilePicture
 
         uploadPath = `../public/company_files/company_name/department/${data.deptName}/`;
 
         if (payload.files && Object.keys(payload.files).length > 0) {
             uploadedImage = payload.files.image;
-
-            if (!fs.existsSync(uploadPath)) {
-                fs.mkdirSync(uploadPath, { recursive: true });
-            }
-
-            fs.readdir(uploadPath, function (err, files) {
-                if (err) {
-                    // some sort of error
-                } else {
-                    if (!files.length) {
-                        // directory appears to be empty 
-                    } else {
-                        for (const file of files) {
-                            fs.unlink(path.join(uploadPath, file), (err) => {
-                                if (err) throw err;
-                            });
-                        }
-                    }
-                }
-            });
-
-            uploadedImage.mv(uploadPath + uploadedImage.name, function (err) {
-                if (err) {
-                    console.log("FILE FAILED UPLOADED")
-                } else {
-                    console.log("FILE UPLOADED")
-                }
-            })
+            ems.saveImage(uploadedImage, uploadPath)
             filePathDb = 'company_name/department/' + data.deptName + '/' + uploadedImage.name
         }
+        let sql = `call ems.sp_department(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+            ?,
+            @companyId2); 
+            SELECT @companyId2;`
 
-        let sql = "call ems.sp_department(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @companyId2); SELECT @companyId2;"
         const result = await db.query(sql,
-            [2, data.deptName, data.deptId, 1, 1, data.officeAddress, data.deptDesc, data.createdDate, data.lastEditedDate, 1, filePathDb, null],
+            [spType, data.deptName, data.deptId, data.deptLeader, 1, data.officeAddress, data.deptDesc, data.createdDate, data.lastEditedDate, 1, filePathDb,
+                idd,
+                null],
             function (err, result) {
                 if (err) {
                     console.error("ERROR: ", err)
@@ -79,6 +104,10 @@ class Post {
             }
         );
         return result
+    }
+
+    async deleteDepartment(payload) {
+
     }
 }
 

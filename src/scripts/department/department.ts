@@ -1,9 +1,10 @@
 import EmployeeList from "../../components/department/EmployeeList.vue"
 import Form from "../../components/department/Form.vue"
+import axios from 'axios'
 
 export default {
     mounted(){
-
+        this.getDataFromServer()
     },
     data(){
         return{
@@ -31,26 +32,87 @@ export default {
             ],
             whichDialog: "",
             imageUploaded: "",
+            departmentList: [],
+            employeeList: [],
             childFormStatus: 0
         }
     },
     methods: {
         onTabSelect(data: any){
             this.tabSelected = data
-        },  
+        }, 
+        refresh(){
+            this.getDataFromServer()
+        },
+        getDataFromServer(){
+            let dataToPost = {}
+            let endpoints = [
+                '/api/v1/getAllDepartment',
+                '/api/v1/getAllEmployee'
+            ]
+
+            try {
+                this.$refs.loaderComp.show()
+                Promise.all(endpoints.map((endpoint) => 
+                    axios.get(endpoint, dataToPost))
+                    ).then(resp => {
+                        this.$nextTick(() => {
+                            this.departmentList = resp[0].data.data
+                            //console.log("DEPT LIST: ", this.departmentList)
+                            this.employeeList = resp[1].data.data
+                        })
+                    }).catch((error) => {
+                        this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
+                        console.error(error.message)
+                    }
+                );
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
+            } catch (error) {
+                this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
+                console.error(error)
+            }
+        },
+        getDepartmentById(deptId: Number){
+            this.$refs.childComp.formStatus = 0
+            let dataToPost = {
+                data: deptId,
+            }
+            try {
+                this.$refs.loaderComp.show()
+                axios.post('/api/v1/getDepartmentById', dataToPost, {
+                }).then(resp => {
+                    let data = resp.data.data
+                    let childForm = this.$refs.childComp.deptForm
+                    this.$refs.childComp.deptForm = data.deptForm
+                    this.$refs.childComp.idd= data.idd
+                    this.imageUploaded = data.deptForm.model.profilePicture ? `company_files/${data.deptForm.model.profilePicture}` : 'assets/developer.jpg' 
+                }).catch(err => {
+                    this.__showDangerToast("Some error occured during fetching the employee details. Please try again or contact developer")
+                    console.error("ERROR: ", err)
+                })
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
+            } catch (err) {
+                this.__showDangerToast("Some error occured during fetching the employee details. Please try again or contact developer")
+                console.error("ERROR: ", err)
+            }
+            //console.log("CHILD: ", this.$refs.childComp)
+        }, 
         getChildFormStatus(val: Number){
             this.childFormStatus = val
-            console.log("CHILD FORM STAT: ", this.childFormStatus)
         },
         createNewDepartment(){
             this.$refs.childComp.createNewDepartment()
+            this.imageUploaded = 'assets/developer.jpg' 
         },    
         openEditDeptDialog(){
             this.whichDialog = 'edit'
             this.$refs.dialogModalComp.toggleDialog()
         },
         confirmEditDept(){
-            console.log("CONFIRM EDIT")
             this.$refs.childComp.openForm()
             this.__showDefaultToast("Please fill in the form provided")
             this.$refs.dialogModalComp.toggleDialog()
@@ -91,25 +153,23 @@ export default {
             if(this.whichDialog == 'delete'){
                 data = this.deleteDialogButtonList
             }
-            console.log("DIALOG NOW: ", data)
             return data
         },
+        departmentListComp(){
+            let data = this.departmentList
+            return data
+        }
     },
     watch: {
         imageUploaded(newImage, oldImage){
-            console.log("SONO")
-            console.log("NEW: ", newImage)
-            console.log("OLD: ", oldImage)
+            console.log("SINI")
             if(newImage != "" && newImage != oldImage){
-                console.log("SINI")
                 if(newImage.type){
-                    console.log("SANA")
                     let uploadImage = newImage
                     let FR = new FileReader
                     FR.readAsDataURL(uploadImage);
                     let imageRef = this.$refs.imageFrame
                     FR.addEventListener("load", function(evt) {
-                        console.log("EVT: ", evt.target!.result!)
                         imageRef.src = evt.target!.result!;
                     }); 
                 }

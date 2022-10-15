@@ -175,12 +175,6 @@ export default {
                     let fileName = this.userForm.model.profilePicture.split('/')
                     fileName = fileName[3]
                     this.dpChange = this.userForm.model.profilePicture ? `company_files/${this.userForm.model.profilePicture}` : 'assets/face2.jpg' 
-                    // let mime = this.__detectMimeType(data.imageData)
-                    // let file = this.__dataURLtoFile(`data:${mime};base64,${data.imageData}`,fileName);
-                    // let url = URL.createObjectURL(file);
-                    // this.userForm.model.profilePicture = file
-                    // this.dpChange = data.imageData ? file : 'assets/face2.jpg' 
-                    // console.log("IMAGE SRC: ", file)
                     this.idd = data.idd
                     this.formStatus = 0
                 }).catch(error => {

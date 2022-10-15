@@ -4,35 +4,41 @@ export default {
     mounted(){
         let formStat = this.checkFormStatus
     },
+    props: {
+        employeeList: Array,
+    },
     data(){
         return {
             deptForm: {
                 model: {
                     deptName: "",
                     deptId: "",
-                    deptLeader: {
-                        employeeId: "",
-                        employeeName: ""
-                    },
+                    deptLeader: "",
                     officeAddress: "",
-                    deptDesc: ""
+                    deptDesc: "",
+                    profilePicture: ""
                 },
                 rules: {
 
                 }
             },
+            idd: 0,
             formStatus: 0,
         }
     },
     methods: {
         submitForm(){
+            let type = this.formStatus == 1 ? 'update' : 'add'
             let form = new FormData()
-
+            console.log("TYPE: ", type)
             let dataToPost = {}
             dataToPost = this.deptForm.model
 
             form.append('data', JSON.stringify(dataToPost))
-            form.append('image', this.$parent.$parent.imageUploaded )
+            form.append('image', this.$parent.$parent.$parent.imageUploaded)
+            form.append('type', type)
+            form.append('idd', this.idd)
+            console.log("FORM: ", this.idd)
 
             try {
                 axios.post('/api/v1/addOrEditDepartment', form, {
@@ -42,25 +48,25 @@ export default {
                         'Content-Type': `multipart/form-data`,
                     }
                 }).then(resp => {
-                    this.__showSuccessToast("Department succesfully saved into company's database")
+                    this.__showSuccessToast("Department succesfully saved")
                 }).catch(error => {
-                    this.__showDangerToast("Some error occured during saving the department details. Please try again or contact developer")
+                    this.__showDangerToast("Some error occured during saving the department details")
                     console.error(new Error('axios catch error: ', error))
                 })
             } catch (error) {
-                this.__showDangerToast("Some error occured during saving the department details. Please try again or contact developer")
+                this.__showDangerToast("Some error occured during saving the department details")
                 console.error("try catch error: ", error)
             }
-            console.log("ROLE FORM: ", form) 
+            this.$parent.$parent.$parent.imageUploaded = 'assets/developer.jpg' 
+            this.$emit('getDataFromServer')
         },
         createNewDepartment(){
             Object.assign(this.$data, this.$options.data.apply(this))
-            this.formStatus = 1
+            this.formStatus = 2
             this.__showInfoToast("Please fill in the form provided")
         },
         openForm(){
             this.formStatus = 1
-            console.log("OPEN FORM DEPT")
         },
         confirmEdit(obj: any){
 
@@ -72,17 +78,14 @@ export default {
     computed: {
         checkFormStatus() {
             let data = this.formStatus
-            console.log("FORM STAT COMPUTED: ", data)
             return data
-        }
+        },
     },
     watch: {
         checkFormStatus:{
             handler: function(newVal, oldVal) {
-                console.log("FORM STATUS WATCH: ", newVal)
                 let els = document.getElementsByClassName('inputStatus')
-                if(newVal == 1){
-                    console.log("NEWVAL 1")
+                if(newVal == 1 || newVal == 2){
                     Array.prototype.forEach.call(els, function(el) {
                         el.classList.remove('cursor-not-allowed')
                         el.disabled = false;

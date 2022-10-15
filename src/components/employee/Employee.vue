@@ -418,7 +418,7 @@
                                                 v-model="companyForm.model.department"    
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
-                                                <option v-for="(o, i) in departmentList" :key="i" :value="o.id">{{o.department_name}}</option>
+                                                <option v-for="(o, i) in departmentList" :key="i" :value="o.id">{{o.departmentName}}</option>
                                             </select>
                                             <div
                                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

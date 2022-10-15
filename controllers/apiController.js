@@ -29,6 +29,12 @@ router
     .route("/addOrEditDepartment")
     .get(departmentController.addOrEditDepartment)
     .post(departmentController.addOrEditDepartment)
+
+router
+    .route("/getDepartmentById")
+    .get(departmentController.getDepartmentById)
+    .post(departmentController.getDepartmentById)
+
 /* #endregion */
 
 /* #region Employee api router*/
