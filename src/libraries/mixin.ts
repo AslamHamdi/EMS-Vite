@@ -59,6 +59,34 @@ export default({
             node.innerHTML = text;
             var content = node.textContent;
             return content!.length > length ? content!.slice(0, length) + clamp : content;
+        },
+        __detectMimeType(b64) { //to check for base64 mime type
+            var signatures = {
+                JVBERi0: "application/pdf",
+                R0lGODdh: "image/gif",
+                R0lGODlh: "image/gif",
+                iVBORw0KGgo: "image/png",
+                "/9j/": "image/jpg"
+            };
+            for (var s in signatures) {
+                if (b64.indexOf(s) === 0) {
+                    return signatures[s];
+                }
+            }
+        },
+        __dataURLtoFile(dataurl, filename) {// to convert data URL (base64) to file object usage eg: MainFunctionCustom.__dataURLtoFile(`data:${mime};base64,${o.value}`, o.name);
+
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = window.atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+    
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+    
+            return new File([u8arr], filename, { type: mime });
         }
     }
 })

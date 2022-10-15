@@ -91,7 +91,7 @@ export default {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                 </svg>`, 
                 title: "Edit staff", text: `Are you sure you want to edit this staff?`},
-                {name: 'Confirm', function: 'openForm', addOnClass: `bg-sky-500 hover:bg-sky-700`},
+                {name: 'Confirm', function: 'confirmEditEmployee', addOnClass: `bg-sky-500 hover:bg-sky-700`},
             ],
             deleteDialogButtonList: [
                 {icon: `
@@ -106,6 +106,12 @@ export default {
             ],
             whichForm: 1,
             whichDialog: "",
+            /**
+             * formStatus
+             * 0 = form close, view only
+             * 1 = edit existing employee
+             * 2 = create new employee
+             */
             formStatus: 0, 
             dpChange: "",
             searchText: "",
@@ -138,6 +144,7 @@ export default {
                         this.departmentList = resp[0].data.data
                         this.roleList = resp[1].data.data
                         this.employeeList = resp[2].data.data
+                        console.log("EMPLOYEE LIST: ", this.employeeList)
                     }).catch((error) => {
                         this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
                         console.error(error.message)
@@ -165,7 +172,15 @@ export default {
                     this.userForm = data.userForm
                     this.companyForm = data.companyForm
                     this.emergencyForm = data.emergencyForm
+                    let fileName = this.userForm.model.profilePicture.split('/')
+                    fileName = fileName[3]
                     this.dpChange = this.userForm.model.profilePicture ? `company_files/${this.userForm.model.profilePicture}` : 'assets/face2.jpg' 
+                    // let mime = this.__detectMimeType(data.imageData)
+                    // let file = this.__dataURLtoFile(`data:${mime};base64,${data.imageData}`,fileName);
+                    // let url = URL.createObjectURL(file);
+                    // this.userForm.model.profilePicture = file
+                    // this.dpChange = data.imageData ? file : 'assets/face2.jpg' 
+                    // console.log("IMAGE SRC: ", file)
                     this.idd = data.idd
                     this.formStatus = 0
                 }).catch(error => {
@@ -184,14 +199,14 @@ export default {
         createNewEmployee(){
             Object.assign(this.$data, initialState())
             this.dpChange = 'assets/face2.jpg' 
-            this.formStatus = 1
+            this.formStatus = 2
             this.__showInfoToast("Please fill in the form provided")
         },
         openEditEmployeeDialog(){
             this.whichDialog = 'edit'
             this.$refs.dialogModalComp.toggleDialog()
         },
-        openForm(){
+        confirmEditEmployee(){
             this.formStatus = 1
             this.$refs.dialogModalComp.toggleDialog()
             this.__showInfoToast("Please fill in the form provided")
@@ -249,15 +264,16 @@ export default {
             this.dpChange = this.$refs.uploadImageRef.files[0]
         },
         submitForm(){
-            let form = new FormData()
-
+            let type = this.formStatus == 1 ? 'update' : 'add'
             let dataToPost = {}
             dataToPost = this.dataMakerBeforeSubmit()
-
             let uploadImage = this.$refs.uploadImageRef.files[0]
-            
+
+            let form = new FormData()
             form.append('data', JSON.stringify(dataToPost))
             form.append('image', uploadImage )
+            form.append('type', type)
+            form.append('idd', this.idd)
 
             try {
                 this.$refs.loaderComp.show()

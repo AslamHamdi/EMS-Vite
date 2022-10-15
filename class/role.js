@@ -22,7 +22,7 @@ class Post {
 
         let dbData = result[0][0]
         let returner = dbData
-        console.log("DB DATA ROLE: ", returner)
+        // console.log("DB DATA ROLE: ", returner)
         return returner
     }
 

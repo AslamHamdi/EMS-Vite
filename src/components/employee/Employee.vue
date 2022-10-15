@@ -67,15 +67,15 @@
         <div class="" style="width: 80%;">
             <div class="flex border-b-2" style="height: 15%; margin: 1.5rem;">
                 <div @click="openUploadDialog()"  class="mr-4 lg:mr-0" style="width: 15%;">
-                    <div :class="[formStatus === 1 ? '' : 'cursor-not-allowed']" class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
+                    <div :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed']" class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
                         <img ref="imageFrame" id="imageFrame" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" :src="[this.dpChange ?  this.dpChange : 'assets/face2.jpg']"
                             alt="Rounded avatar">
                         <div
                             class="group flex items-center justify-center absolute w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover">
-                            <div :class="[formStatus === 1 ? '' : 'hidden']" class="rounded-full object-cover absolute group-hover:bg-slate-500 group-hover:opacity-20"
+                            <div :class="[formStatus === 1 || formStatus === 2? '' : 'hidden']" class="rounded-full object-cover absolute group-hover:bg-slate-500 group-hover:opacity-20"
                                 style="width: 100%; height: 100%;">
                             </div>
-                            <div :class="[formStatus === 1 ? '' : 'hidden']"  class="rounded-full object-cover" style="width: 100%; height: 100%;">
+                            <div :class="[formStatus === 1 || formStatus === 2? '' : 'hidden']"  class="rounded-full object-cover" style="width: 100%; height: 100%;">
                                 <div class="hidden group-hover:flex group-hover:opacity-1 justify-center items-center pt-4"
                                     style="width: 100%; height: 50%;">
                                     <i class="hidden group-hover:block fa-solid fa-camera fa-xl change-dp-icon"></i>
@@ -88,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <input :disabled="formStatus === 1 ? null : true" type="file" name="uploadImage" ref="uploadImageRef" @change="onChangeFileInput()" id="uploadFile" hidden>
+                <input :disabled="formStatus === 1 || formStatus === 2? null : true" type="file" name="uploadImage" ref="uploadImageRef" @change="onChangeFileInput()" id="uploadFile" hidden>
                 <div class="w-full flex items-center" style="">
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
@@ -173,8 +173,8 @@
                                         <input
                                             ref="formInput"
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.fName"
                                             type="text" placeholder="Jane">
                                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
@@ -185,8 +185,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.lName"
                                             type="text" placeholder="Doe">
                                     </div>
@@ -196,8 +196,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.dateOfBirth"
                                             type="date" placeholder="dd-mmm-yyyy">
                                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
@@ -212,8 +212,8 @@
                                         <div class="relative">
                                             <select
                                                 v-model="userForm.model.gender"
-                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                                :disabled="formStatus === 1 ? null : true"
+                                                :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 || formStatus === 2? null : true"
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
                                                 <option>Male</option>
@@ -235,8 +235,8 @@
                                         </label>
                                         <input
                                             class="inputStatus aappearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.icNum"
                                             type="text" placeholder="123456-78-9001">
                                         <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
@@ -249,8 +249,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.address"
                                             type="text" placeholder="A-17-09 Residensi Desa Satumas">
                                         <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
@@ -261,8 +261,8 @@
                                         </label>
                                         <div class="relative">
                                             <select @change="testo()"
-                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                                :disabled="formStatus === 1 ? null : true"   
+                                                :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 || formStatus === 2? null : true"   
                                                 v-model="userForm.model.country"
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
@@ -286,8 +286,8 @@
                                         </label>
                                         <div class="relative">
                                             <select
-                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                                :disabled="formStatus === 1 ? null : true"   
+                                                :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 || formStatus === 2? null : true"   
                                                 v-model="userForm.model.state"
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
@@ -309,8 +309,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.city"
                                             type="text" placeholder="Albuquerque">
                                     </div>
@@ -320,8 +320,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.zip"
                                             type="text" placeholder="90210">
                                     </div>
@@ -333,8 +333,8 @@
                                         </label>
                                         <div class="relative">
                                             <select
-                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                                :disabled="formStatus === 1 ? null : true"
+                                                :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 || formStatus === 2? null : true"
                                                 v-model="userForm.model.maritalStatus"    
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
@@ -357,8 +357,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="userForm.model.phoneNum"
                                             type="text" placeholder="011-2345678">
                                     </div>
@@ -374,8 +374,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="companyForm.model.emailAddress"
                                             type="email" placeholder="jane.doe@gmail.com">
                                         <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
@@ -388,8 +388,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="companyForm.model.employeeId"
                                             type="text" placeholder="SFD0020058">
                                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
@@ -400,8 +400,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="companyForm.model.dateReg"
                                             type="date" placeholder="dd-mmmm-yyyy">
                                     </div>
@@ -413,8 +413,8 @@
                                         </label>
                                         <div class="relative">
                                             <select @change="testo($event)"
-                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                                :disabled="formStatus === 1 ? null : true"
+                                                :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 || formStatus === 2? null : true"
                                                 v-model="companyForm.model.department"    
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
@@ -436,8 +436,8 @@
                                         </label>
                                         <div class="relative">
                                             <select
-                                                :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                                :disabled="formStatus === 1 ? null : true"
+                                                :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                                :disabled="formStatus === 1 || formStatus === 2? null : true"
                                                 v-model="companyForm.model.position"    
                                                 class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
                                                 <option value="" disabled selected>Select your option</option>
@@ -461,8 +461,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="companyForm.model.password"
                                             type="password" placeholder="******************">
                                         <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
@@ -479,8 +479,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="emergencyForm.model.name"
                                             type="text" placeholder="Mark Smith">
                                         <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
@@ -493,8 +493,8 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="emergencyForm.model.relationship"
                                             type="text" placeholder="Father">
                                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
@@ -505,14 +505,14 @@
                                         </label>
                                         <input
                                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :class="[formStatus === 1 ? '' : 'cursor-not-allowed'] "
-                                            :disabled="formStatus === 1 ? null : true"
+                                            :class="[formStatus === 1 || formStatus === 2? '' : 'cursor-not-allowed'] "
+                                            :disabled="formStatus === 1 || formStatus === 2? null : true"
                                             v-model="emergencyForm.model.phoneNum"
                                             type="text" placeholder="011-2345678">
                                     </div>
                                 </div>
                                 <div class="">
-                                    <button v-if="formStatus == 1" type="button" @click="submitForm()" class="float-right w-28 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                                    <button v-if="formStatus == 1 || formStatus == 2" type="button" @click="submitForm()" class="float-right w-28 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                                         Submit
                                     </button>
                                 </div>
@@ -524,7 +524,7 @@
             </div>
         </div>
     </div>
-    <dialog-app ref="dialogModalComp" @openForm="openForm" @confirmDeleteEmployee="confirmDeleteEmployee" 
+    <dialog-app ref="dialogModalComp" @confirmEditEmployee="confirmEditEmployee" @confirmDeleteEmployee="confirmDeleteEmployee" 
     :buttons="dialogNow" :icon="dialogNow[0].icon" :title="dialogNow[0].title" :text="dialogNow[0].text"></dialog-app>
     <loader-app ref="loaderComp"></loader-app>
 </template>
