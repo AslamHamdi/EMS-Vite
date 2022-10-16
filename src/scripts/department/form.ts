@@ -16,7 +16,9 @@ export default {
                     deptLeader: "",
                     officeAddress: "",
                     deptDesc: "",
-                    profilePicture: ""
+                    profilePicture: "",
+                    createdDate: new Date(),
+                    lastEditedDate: new Date()
                 },
                 rules: {
 
@@ -30,7 +32,6 @@ export default {
         submitForm(){
             let type = this.formStatus == 1 ? 'update' : 'add'
             let form = new FormData()
-            console.log("TYPE: ", type)
             let dataToPost = {}
             dataToPost = this.deptForm.model
 
@@ -38,9 +39,9 @@ export default {
             form.append('image', this.$parent.$parent.$parent.imageUploaded)
             form.append('type', type)
             form.append('idd', this.idd)
-            console.log("FORM: ", this.idd)
 
             try {
+                this.$parent.$parent.$parent.$refs.loaderComp.show()
                 axios.post('/api/v1/addOrEditDepartment', form, {
                     headers: {
                         'accept': 'application/json',
@@ -53,12 +54,18 @@ export default {
                     this.__showDangerToast("Some error occured during saving the department details")
                     console.error(new Error('axios catch error: ', error))
                 })
+                setTimeout(() => {
+                    this.$parent.$parent.$parent.$refs.loaderComp.hide()
+                }, 800)
             } catch (error) {
                 this.__showDangerToast("Some error occured during saving the department details")
                 console.error("try catch error: ", error)
             }
             this.$parent.$parent.$parent.imageUploaded = 'assets/developer.jpg' 
-            this.$emit('getDataFromServer')
+            this.clearForm()
+            setTimeout(() => {
+                this.$emit('getDataFromServer')
+            }, 500)
         },
         createNewDepartment(){
             Object.assign(this.$data, this.$options.data.apply(this))
@@ -68,11 +75,9 @@ export default {
         openForm(){
             this.formStatus = 1
         },
-        confirmEdit(obj: any){
-
-        },
-        confirmDelete(obj: any){
-
+        clearForm(){
+            Object.assign(this.$data, this.$options.data.apply(this))
+            this.formStatus = 2
         }
     },
     computed: {
@@ -90,10 +95,22 @@ export default {
                         el.classList.remove('cursor-not-allowed')
                         el.disabled = false;
                     });
+                }else{
+                    Array.prototype.forEach.call(els, function(el) {
+                        el.classList.add('cursor-not-allowed')
+                        el.disabled = true;
+                    });
                 }
                 this.$emit('passFormStatus', newVal)
             },
             immediate: true
-        } 
+        }, 
+        deptForm:{
+            handler: function(newData, oldData) {
+                this.$parent.$parent.$parent.childFormData = newData.model
+                this.$parent.$parent.$parent.childFormData.idd = this.idd
+            },
+            deep: true
+        }
     }
 }

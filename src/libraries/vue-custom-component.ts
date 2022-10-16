@@ -83,11 +83,11 @@ export default class VueCustomComponent{
         methods: {
             show(){
                 let el = this.$refs.loaderApp!
-                el.classList.toggle('hidden')
+                el.classList.remove('hidden')
             },
             hide(){
                 let el = this.$refs.loaderApp!
-                el.classList.toggle('hidden')
+                el.classList.add('hidden')
             }
         },
         template: `

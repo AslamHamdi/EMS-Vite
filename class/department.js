@@ -14,7 +14,8 @@ class Post {
             @companyId2); 
             SELECT @companyId2;`
         const result = await db.query(sql,
-            [1, null, null, null, 1, null, null, null, null, null, null, null,
+            [1, null, null, null, 1, null, null, null, null, null, null,
+                null,
                 null],
             function (err, result) {
                 if (err) {
@@ -32,7 +33,8 @@ class Post {
     }
 
     async getDepartmentById(payload) {
-        let data = payload.body.data
+        let data = payload.query.data
+        console.log("DATA: ", payload.query)
         let sql = `call ems.sp_department(
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
             ?,
@@ -92,7 +94,7 @@ class Post {
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [spType, data.deptName, data.deptId, data.deptLeader, 1, data.officeAddress, data.deptDesc, data.createdDate, data.lastEditedDate, 1, filePathDb,
+            [spType, data.deptName, data.deptId, data.deptLeader, 1, data.officeAddress, data.deptDesc, new Date(data.createdDate), new Date(data.lastEditedDate), 1, filePathDb,
                 idd,
                 null],
             function (err, result) {
@@ -107,7 +109,54 @@ class Post {
     }
 
     async deleteDepartment(payload) {
+        let data = payload.body.data
 
+        let sql = `call ems.sp_department(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+            ?,
+            @companyId2); 
+            SELECT @companyId2;`
+
+        const result = await db.query(sql,
+            [5, null, data, null, 1, null, null, null, null, null, null,
+                null,
+                null],
+            function (err, result) {
+                if (err) {
+                    console.error("ERROR: ", err)
+                } else {
+                    console.log("RESULT: ", result)
+                }
+            }
+        );
+        return result
+
+    }
+
+    async getEmployeesByDepartment(payload) {
+        let data = payload.query.data
+
+        let sql = `call ems.sp_department(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?,
+            @companyId2); 
+            SELECT @companyId2;`
+        const result = await db.query(sql,
+            [6, null, data, null, null, null, null, null, null, null, null,
+                null,
+                null],
+            function (err, result) {
+                if (err) {
+                    console.error("ERROR: ", err)
+                } else {
+                    console.log("RESULT: ", result)
+                }
+            }
+        );
+
+        let dbData = result[0][0]
+        console.log("DB DATA: ", dbData)
+        return dbData
     }
 }
 

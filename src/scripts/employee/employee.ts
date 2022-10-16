@@ -144,7 +144,6 @@ export default {
                         this.departmentList = resp[0].data.data
                         this.roleList = resp[1].data.data
                         this.employeeList = resp[2].data.data
-                        console.log("EMPLOYEE LIST: ", this.employeeList)
                     }).catch((error) => {
                         this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
                         console.error(error.message)

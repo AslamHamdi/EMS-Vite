@@ -34,7 +34,10 @@ export default {
             imageUploaded: "",
             departmentList: [],
             employeeList: [],
-            childFormStatus: 0
+            childFormStatus: 0,
+            childFormData: "",
+            searchText: "",
+            deptEmployeeList: []
         }
     },
     methods: {
@@ -58,7 +61,6 @@ export default {
                     ).then(resp => {
                         this.$nextTick(() => {
                             this.departmentList = resp[0].data.data
-                            //console.log("DEPT LIST: ", this.departmentList)
                             this.employeeList = resp[1].data.data
                         })
                     }).catch((error) => {
@@ -79,19 +81,27 @@ export default {
             let dataToPost = {
                 data: deptId,
             }
+            let endpoints = [
+                '/api/v1/getDepartmentById',
+                '/api/v1/getEmployeesByDepartment'
+            ]
             try {
                 this.$refs.loaderComp.show()
-                axios.post('/api/v1/getDepartmentById', dataToPost, {
-                }).then(resp => {
-                    let data = resp.data.data
-                    let childForm = this.$refs.childComp.deptForm
-                    this.$refs.childComp.deptForm = data.deptForm
-                    this.$refs.childComp.idd= data.idd
-                    this.imageUploaded = data.deptForm.model.profilePicture ? `company_files/${data.deptForm.model.profilePicture}` : 'assets/developer.jpg' 
-                }).catch(err => {
-                    this.__showDangerToast("Some error occured during fetching the employee details. Please try again or contact developer")
-                    console.error("ERROR: ", err)
-                })
+                Promise.all(endpoints.map((endpoint) => 
+                    axios.get(endpoint, {params: {data: deptId,} }))
+                    ).then(resp => {
+                        let data1 = resp[0].data.data
+                        let data2 = resp[1].data.data
+
+                        this.$refs.childComp.deptForm = data1.deptForm
+                        this.$refs.childComp.idd = data1.idd
+                        this.imageUploaded = data1.deptForm.model.profilePicture ? `company_files/${data1.deptForm.model.profilePicture}` : 'assets/developer.jpg' 
+                        this.deptEmployeeList = [...data2];
+                    }).catch((error) => {
+                        this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
+                        console.error(error.message)
+                    }
+                );
                 setTimeout(() => {
                     this.$refs.loaderComp.hide()
                 }, 800)
@@ -99,6 +109,7 @@ export default {
                 this.__showDangerToast("Some error occured during fetching the employee details. Please try again or contact developer")
                 console.error("ERROR: ", err)
             }
+            this.$refs.childComp.formStatus = 0
             //console.log("CHILD: ", this.$refs.childComp)
         }, 
         getChildFormStatus(val: Number){
@@ -122,15 +133,38 @@ export default {
             this.$refs.dialogModalComp.toggleDialog()
         },
         confirmDeleteDept(){
-            console.log("USER DELETED")
+            let dataToPost = {
+                data: this.childFormData.idd,
+            }
+            try {
+                this.$refs.loaderComp.show()
+                axios.post('/api/v1/deleteDepartment', dataToPost, {
+                }).then(resp => {
+                    let data = resp.data.data
+                    this.__showDefaultToast("Department successfully deleted") 
+                }).catch(err => {
+                    this.__showDangerToast("Some error occured during fetching the department details. Please try again or contact developer")
+                    console.error("ERROR: ", err)
+                })
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
+            } catch (err) {
+                this.__showDangerToast("Some error occured during fetching the department details. Please try again or contact developer")
+                console.error("ERROR: ", err)
+            }
+            this.imageUploaded = 'assets/developer.jpg' 
+            this.$refs.childComp.clearForm()
             this.$refs.dialogModalComp.toggleDialog()
+            setTimeout(() => {
+                this.getDataFromServer()
+            }, 500)
         },
         openUploadDialog(){
             document.getElementById("uploadFile")!.click()
         },
         onChangeFileInput(){
             this.imageUploaded = this.$refs.uploadImageRef.files[0]
-            //console.log("IMAGE UPLOADED: ", this.imageUploaded)
         },
     },
     computed: {
@@ -142,7 +176,7 @@ export default {
                  this.tabStyle = [{color: '#6A67CE'}, {}]
             }else{
                 component = "employee-list-app"
-                this.childFormStatus = 0
+                // this.childFormStatus = 0
                 this.tabClass = [{iconColor: "text-black"},{iconColor: "text-slate-100"}],
                 this.tabStyle = [{}, {color: '#6A67CE'}]
             }
@@ -158,7 +192,7 @@ export default {
         departmentListComp(){
             let data = this.departmentList
             return data
-        }
+        },
     },
     watch: {
         imageUploaded(newImage, oldImage){
@@ -174,6 +208,19 @@ export default {
                     }); 
                 }
             }
+        },
+        searchText(newText, oldText){
+            let deptDivRefs = this.$refs.deptDiv
+            deptDivRefs.forEach((o, i) => {
+                let nameEl = o.querySelector('.dept-name')
+                let createdByEl = o.querySelector('.dept-created-by')
+                let createdDateEl = o.querySelector('.dept-date-created')
+                if(nameEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1 || createdByEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1 || createdDateEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1){
+                    o.classList.remove('hidden')
+                }else{
+                    o.classList.add('hidden')
+                }
+            })
         }
     },
     components: {

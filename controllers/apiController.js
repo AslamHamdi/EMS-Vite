@@ -35,6 +35,16 @@ router
     .get(departmentController.getDepartmentById)
     .post(departmentController.getDepartmentById)
 
+router
+    .route("/deleteDepartment")
+    .get(departmentController.deleteDepartment)
+    .post(departmentController.deleteDepartment)
+
+router
+    .route("/getEmployeesByDepartment")
+    .get(departmentController.getEmployeesByDepartment)
+    .post(departmentController.getEmployeesByDepartment)
+
 /* #endregion */
 
 /* #region Employee api router*/

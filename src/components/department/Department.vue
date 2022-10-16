@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="relative mb-2" style="width: 97%; height: 5%;">
-                <input type="text" id="voice-search"
+                <input type="text" id="voice-search" v-model="searchText"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-2xl block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search..." required>
                 <button type="button" class="flex absolute inset-y-0 right-0 items-center pr-3">
@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="overflow-auto" style="height: 84.2%;">
-                <div v-for="o in departmentListComp" :key="o.id" class="employee-list cursor-pointer" @click="getDepartmentById(o.id)" style="height: 85px; margin-right: 4px;">
+                <div v-for="o in departmentListComp" ref="deptDiv" :key="o.id" class="employee-list cursor-pointer" @click="getDepartmentById(o.id)" style="height: 85px; margin-right: 4px;">
                     <div class="flex space-x-1" style="height: 100%; width: 100%;">
                         <div class="flex items-center justify-center" style="width: 20%;">
                             <img class="w-5 h-5 lg:w-10 lg:h-10 rounded-full object-cover"
@@ -34,13 +34,13 @@
                         </div>
                         <div class="" style="width: 60%;">
                             <div class="" style="height: 30%;">
-                                <div class="font-bold label-heading ellipsiphy " style="max-width: 200px;">
+                                <div class="dept-name font-bold label-heading ellipsiphy " style="max-width: 200px;">
                                     {{o.departmentName}}
                                 </div>
                             </div>
                             <div class="" style="height: 70%;">
                                 <div class="flex items-end" style="height: 50%;">
-                                    <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">Created by
+                                    <div class="dept-created-by text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">Created by
                                         {{o.createdByUser}}
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="" style="width: 20%;">
                             <div class="" style="height: 100%;">
-                                <span class="font-bold label-heading hidden lg:block">Dec 22</span>
+                                <span class="dept-date-created font-bold label-heading hidden lg:block">Dec 22</span>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                 <div class="w-full flex items-center" style="">
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
-                            <span class="">Software Developer</span>
+                            <span class="">{{childFormData.deptName ? childFormData.deptName : 'Software Development'}}</span>
                             <div v-if="componentNow == 'form-app'" class="float-right space-x-2">
                                 <span @click="openEditDeptDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
                                 <span @click="openDeleteDeptDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
@@ -123,7 +123,7 @@
                     <Transition name="bounce" mode="out-in">
                         <keep-alive>
                             <component :is="componentNow" ref="childComp" @getDataFromServer="refresh" @passFormStatus="getChildFormStatus"
-                            :employee-list="employeeList"></component>
+                            :employee-list="employeeList" :dept-employee-list="deptEmployeeList"></component>
                         </keep-alive>
                     </Transition>
                 </div>
