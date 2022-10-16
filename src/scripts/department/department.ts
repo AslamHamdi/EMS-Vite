@@ -2,9 +2,31 @@ import EmployeeList from "../../components/department/EmployeeList.vue"
 import Form from "../../components/department/Form.vue"
 import axios from 'axios'
 
+function initialState () {
+    return{
+        deptForm: {
+            model: {
+                deptName: "",
+                deptId: "",
+                deptLeader: "",
+                officeAddress: "",
+                deptDesc: "",
+                profilePicture: "",
+                createdDate: new Date(),
+                lastEditedDate: new Date()
+            },
+            rules: {
+
+            }
+        },
+        idd: 0,
+    }
+}
+
 export default {
     mounted(){
         this.getDataFromServer()
+        Object.assign(this.$data.childFormData, initialState())
     },
     data(){
         return{
@@ -35,7 +57,7 @@ export default {
             departmentList: [],
             employeeList: [],
             childFormStatus: 0,
-            childFormData: "",
+            childFormData: initialState(),
             searchText: "",
             deptEmployeeList: []
         }
@@ -93,8 +115,10 @@ export default {
                         let data1 = resp[0].data.data
                         let data2 = resp[1].data.data
 
-                        this.$refs.childComp.deptForm = data1.deptForm
-                        this.$refs.childComp.idd = data1.idd
+                        // this.$refs.childComp.deptForm = data1.deptForm
+                        // this.$refs.childComp.idd = data1.idd
+                        this.childFormData.deptForm = data1.deptForm
+                        this.childFormData.idd = data1.idd
                         this.imageUploaded = data1.deptForm.model.profilePicture ? `company_files/${data1.deptForm.model.profilePicture}` : 'assets/developer.jpg' 
                         this.deptEmployeeList = [...data2];
                     }).catch((error) => {

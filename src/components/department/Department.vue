@@ -84,7 +84,7 @@
                 <div class="w-full flex items-center" style="">
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
-                            <span class="">{{childFormData.deptName ? childFormData.deptName : 'Software Development'}}</span>
+                            <span class="">{{childFormData.deptForm.model.deptName ? childFormData.deptForm.model.deptName : 'Software Development'}}</span>
                             <div v-if="componentNow == 'form-app'" class="float-right space-x-2">
                                 <span @click="openEditDeptDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
                                 <span @click="openDeleteDeptDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
@@ -123,7 +123,7 @@
                     <Transition name="bounce" mode="out-in">
                         <keep-alive>
                             <component :is="componentNow" ref="childComp" @getDataFromServer="refresh" @passFormStatus="getChildFormStatus"
-                            :employee-list="employeeList" :dept-employee-list="deptEmployeeList"></component>
+                            :child-form-data="childFormData" :employee-list="employeeList" :dept-employee-list="deptEmployeeList"></component>
                         </keep-alive>
                     </Transition>
                 </div>

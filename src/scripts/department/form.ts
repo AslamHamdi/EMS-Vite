@@ -1,11 +1,34 @@
 import axios from "axios"
 
+function initialState () {
+    return{
+        deptForm: {
+            model: {
+                deptName: "",
+                deptId: "",
+                deptLeader: "",
+                officeAddress: "",
+                deptDesc: "",
+                profilePicture: "",
+                createdDate: new Date(),
+                lastEditedDate: new Date()
+            },
+            rules: {
+
+            }
+        },
+        idd: 0,
+    }
+}
+
 export default {
     mounted(){
         let formStat = this.checkFormStatus
+        Object.assign(this.$data, initialState())
     },
     props: {
         employeeList: Array,
+        childFormData: Object,
     },
     data(){
         return {
@@ -105,10 +128,12 @@ export default {
             },
             immediate: true
         }, 
-        deptForm:{
+        childFormData:{
             handler: function(newData, oldData) {
-                this.$parent.$parent.$parent.childFormData = newData.model
-                this.$parent.$parent.$parent.childFormData.idd = this.idd
+                this.deptForm = newData.deptForm
+                this.idd = newData.idd
+                console.log("NEW DATA: ", newData)
+                console.log("dept from: ", this.idd)
             },
             deep: true
         }
