@@ -141,6 +141,7 @@ export default {
         },
         createNewDepartment(){
             this.$refs.childComp.createNewDepartment()
+            Object.assign(this.$data.childFormData, initialState())
             this.imageUploaded = 'assets/developer.jpg' 
         },    
         openEditDeptDialog(){
@@ -200,7 +201,6 @@ export default {
                  this.tabStyle = [{color: '#6A67CE'}, {}]
             }else{
                 component = "employee-list-app"
-                // this.childFormStatus = 0
                 this.tabClass = [{iconColor: "text-black"},{iconColor: "text-slate-100"}],
                 this.tabStyle = [{}, {color: '#6A67CE'}]
             }

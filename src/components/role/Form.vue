@@ -34,9 +34,7 @@
                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 cursor-not-allowed"
                             disabled>
                             <option value="" disabled selected>Select your option</option>
-                            <option>Software</option>
-                            <option>Management</option>
-                            <option>Sales</option>
+                            <option v-for="(o, i) in departmentList" :key="i" :value="o.id">{{o.departmentName}}</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -55,9 +53,7 @@
                             class="inputStatus appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 cursor-not-allowed"
                             disabled>
                             <option value="" disabled selected>Select your option</option>
-                            <option>Aslam</option>
-                            <option>Hamdi</option>
-                            <option>Amran</option>
+                            <option v-for="(o, i) in employeeList" :key="i" :value="o.employeeId">{{o.fName + ' ' + o.lName}}</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -98,7 +94,7 @@
                 </div>
             </div>
             <div class="">
-                <button v-if="formStatus == 1" type="button" @click="submitForm()" class="float-right w-28 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                <button v-if="formStatus == 1 || formStatus == 2" type="button" @click="submitForm()" class="float-right w-28 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                     Submit
                 </button>
             </div>

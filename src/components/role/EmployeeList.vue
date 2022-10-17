@@ -13,24 +13,24 @@
                     </div>
                     <!-- Body -->
                     <div class="table-scrollbar overflow-auto w-full" style="max-height: 93%;">
-                        <div v-for="(o, i) in employeeListData" :key="i" class="w-full flex table-list pt-2 pb-2" :class="o.class()">
+                        <div v-for="(o, i) in roleEmployeeListComp"  :key="i" class="w-full flex table-list pt-2 pb-2" :class="o.class()">
                             <div class="flex items-center" style="width: 20%">
-                                <img class="w-14 h-14 rounded-full object-cover" src="/assets/face.jpg"
+                                <img class="w-14 h-14 rounded-full object-cover" :src="o.profilePicture ? 'company_files/' + o.profilePicture : '/assets/face.jpg'"
                                 alt="Rounded avatar">
                             </div>
                             <div class="block lg:flex-grow text-sm text-gray-900 font-medium py-4 whitespace-nowrap" style="width: 20%">
                                 <div class="ellipsiphy" style="max-width: 80px;">
-                                    {{o.id}}
+                                    {{o.employeeId}}
                                 </div>
                             </div>
                             <div class="block lg:flex-grow text-sm text-gray-900 font-medium py-4 whitespace-nowrap" style="width: 20%">
                                 <div class="ellipsiphy">
-                                    {{o.name}}
+                                    {{o.firstName}}
                                 </div>
                             </div>
                             <div class="block lg:flex-grow text-sm text-gray-900 font-medium py-4 whitespace-nowrap" style="width: 20%">
                                 <div class="ellipsiphy">
-                                    {{o.email}}
+                                    {{o.emailAddress}}
                                 </div>
                             </div>
                             <div class="flex-grow flex justify-center items-center text-sm text-gray-900 py-4 text-gray-400" style="width: 20%">

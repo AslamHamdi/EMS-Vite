@@ -70,6 +70,9 @@ export default {
         onTabSelect(data: any){
             this.tabSelected = data
         },
+        refresh(){
+            this.getDataFromServer()
+        },
         getDataFromServer(){
             let dataToPost = {}
             let endpoints = [
@@ -87,9 +90,9 @@ export default {
                             this.departmentList = resp[0].data.data
                             this.employeeList = resp[1].data.data
                             this.roleList = resp[2].data.data
-                            console.log("DEPT: ", this.departmentList)
-                            console.log("EMP: ", this.employeeList)
-                            console.log("ROLE: ", this.roleList)
+                             console.log("DEPT: ", this.departmentList)
+                            // console.log("EMP: ", this.employeeList)
+                            // console.log("ROLE: ", this.roleList)
                         })
                     }).catch((error) => {
                         this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
@@ -104,33 +107,93 @@ export default {
                 console.error(error)
             }
         },
+        getRoleById(roleId: Number){
+            console.log("SNI")
+            this.$refs.childComp.formStatus = 0
+            let dataToPost = {
+                data: roleId,
+            }
+            let endpoints = [
+                '/api/v1/getRoleById',
+                '/api/v1/getEmployeesByRole'
+            ]
+
+            try {
+                this.$refs.loaderComp.show()
+                Promise.all(endpoints.map((endpoint) => 
+                    axios.get(endpoint, {params: {data: roleId,} }))
+                    ).then(resp => {
+                        let data1 = resp[0].data.data
+                        let data2 = resp[1].data.data
+
+                        this.childFormData.roleForm = data1.roleForm
+                        this.childFormData.idd = data1.idd
+                        this.imageUploaded = data1.roleForm.model.profilePicture ? `company_files/${data1.roleForm.model.profilePicture}` : '/assets/team-lead.jpg' 
+                        this.roleEmployeeList = [...data2];
+                    }).catch((error) => {
+                        this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
+                        console.error(error.message)
+                    }
+                );
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
+            } catch (err) {
+                this.__showDangerToast("Some error occured during fetching the employee details. Please try again or contact developer")
+                console.error("ERROR: ", err)
+            }
+            this.$refs.childComp.formStatus = 0
+        },
         getChildFormStatus(val: Number){
             this.childFormStatus = val
             console.log("CHILD FORM STAT: ", this.childFormStatus)
         },
-        getAllRole(){
-            let dataToPost = {}
-        },
         createNewRole(){
             this.$refs.childComp.createNewRole()
+            Object.assign(this.$data.childFormData, initialState())
+            this
+            this.imageUploaded = '/assets/team-lead.jpg' 
         },
-        openEditUserDialog(){
+        openEditRoleDialog(){
             this.whichDialog = 'edit'
             this.$refs.dialogModalComp.toggleDialog()
         },
         confirmEditUser(){
-            console.log("CONFIRM EDIT")
             this.$refs.childComp.openForm()
             this.__showDefaultToast("Please fill in the form provided")
             this.$refs.dialogModalComp.toggleDialog()
         },
-        openDeleteUserDialog(){
+        openDeleteRoleDialog(){
             this.whichDialog = 'delete'
             this.$refs.dialogModalComp.toggleDialog()
         },
         confirmDeleteUser(){
-            console.log("USER DELETED")
+            let dataToPost = {
+                data: this.childFormData.idd,
+            }
+            try {
+                this.$refs.loaderComp.show()
+                axios.post('/api/v1/deleteRole', dataToPost, {
+                }).then(resp => {
+                    let data = resp.data.data
+                    this.__showDefaultToast("Role successfully deleted") 
+                }).catch(err => {
+                    this.__showDangerToast("Some error occured during fetching the role details. Please try again or contact developer")
+                    console.error("ERROR: ", err)
+                })
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
+            } catch (err) {
+                this.__showDangerToast("Some error occured during fetching the role details. Please try again or contact developer")
+                console.error("ERROR: ", err)
+            }
+            this.imageUploaded = '/assets/team-lead.jpg' 
+            this.$refs.childComp.clearForm()
             this.$refs.dialogModalComp.toggleDialog()
+            setTimeout(() => {
+                this.getDataFromServer()
+            }, 500)
         },
         openUploadDialog(){
             document.getElementById("uploadFile")!.click()
@@ -161,27 +224,38 @@ export default {
             }
             console.log("DIALOG NOW: ", data)
             return data
+        },
+        roleListComp(){
+            let data = this.roleList
+            return data
         }
     },
     watch: {
         imageUploaded(newImage, oldImage){
-            console.log("SONO")
-            console.log("NEW: ", newImage)
-            console.log("OLD: ", oldImage)
             if(newImage != "" && newImage != oldImage){
-                console.log("SINI")
                 if(newImage.type){
-                    console.log("SANA")
                     let uploadImage = newImage
                     let FR = new FileReader
                     FR.readAsDataURL(uploadImage);
                     let imageRef = this.$refs.imageFrame
                     FR.addEventListener("load", function(evt) {
-                        console.log("EVT: ", evt.target!.result!)
                         imageRef.src = evt.target!.result!;
                     }); 
                 }
             }
+        },
+        searchText(newText, oldText){
+            let roleDivRefs = this.$refs.roleDiv
+            roleDivRefs.forEach((o, i) => {
+                let nameEl = o.querySelector('.role-name')
+                let createdByEl = o.querySelector('.role-created-by')
+                let createdDateEl = o.querySelector('.role-date-created')
+                if(nameEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1 || createdByEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1 || createdDateEl.innerText.toLowerCase().indexOf(newText.toLowerCase()) !== -1){
+                    o.classList.remove('hidden')
+                }else{
+                    o.classList.add('hidden')
+                }
+            })
         }
     },
     components: {

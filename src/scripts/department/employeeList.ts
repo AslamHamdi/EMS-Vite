@@ -76,7 +76,7 @@ export default {
         },
         deptEmployeeList:{
             handler: function(newData, oldData){
-                console.log("NEW DATA: ", newData)
+                console.log("NEW DATA DEPT: ", newData)
             },
             immediate: true
         }

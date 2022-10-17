@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="relative mb-2" style="width: 97%; height: 5%;">
-                <input type="text" id="voice-search"
+                <input type="text" id="voice-search" v-model="searchText"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-2xl block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search..." required>
                 <button type="button" class="flex absolute inset-y-0 right-0 items-center pr-3">
@@ -26,28 +26,29 @@
                 </button>
             </div>
             <div class="overflow-auto" style="height: 84.2%;">
-                <div v-for="n in 5" :key="n" class="employee-list cursor-pointer" style="height: 85px; margin-right: 4px;">
+                <div v-for="o in roleListComp" ref="roleDiv"  :key="o.id" class="employee-list cursor-pointer" @click="getRoleById(o.id)" style="height: 85px; margin-right: 4px;">
                     <div class="flex space-x-1" style="height: 100%; width: 100%;">
                         <div class="flex items-center justify-center" style="width: 20%;">
                             <img class="w-5 h-5 lg:w-10 lg:h-10 rounded-full object-cover"
-                                src="/assets/team-lead.jpg" alt="Rounded avatar">
+                            :src="[o.profilePicture ? 'company_files/' + o.profilePicture : '/assets/team-lead.jpg']" alt="Rounded avatar">
                         </div>
                         <div class="" style="width: 60%;">
                             <div class="" style="height: 30%;">
-                                <div class="font-bold label-heading ellipsiphy " style="max-width: 200px;">Team Lead
+                                <div class="role-name font-bold label-heading ellipsiphy " style="max-width: 200px;">
+                                    {{o.roleName}}
                                 </div>
                             </div>
                             <div class="" style="height: 70%;">
                                 <div class="flex items-end" style="height: 50%;">
-                                    <div class="text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">Created by
-                                        John Doe
+                                    <div class="role-created-by text-slate-500 text-sm ellipsiphy " style="max-width: 200px;">Created by
+                                        {{o.createdByUser}}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="" style="width: 20%;">
                             <div class="" style="height: 100%;">
-                                <span class="font-bold label-heading hidden lg:block">Dec 22</span>
+                                <span class="role-date-created font-bold label-heading hidden lg:block">Dec 22</span>
                             </div>
                         </div>
                     </div>
@@ -57,15 +58,15 @@
         <div class="" style="width: 80%;">
             <div class="flex border-b-2" style="height: 15%; margin: 1.5rem;">
                 <div @click="openUploadDialog()" class="mr-4 lg:mr-0" style="width: 15%;">
-                    <div :class="[childFormStatus === 1 ? '' : 'cursor-not-allowed']" class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
-                        <img ref="imageFrame" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" src="/assets/team-lead.jpg"
+                    <div :class="[childFormStatus === 1 || childFormStatus === 2 ? '' : 'cursor-not-allowed']" class="flex items-center justify-center cursor-pointer" style="width: 100%; height: 100%;">
+                        <img ref="imageFrame" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover" :src="[this.imageUploaded ?  this.imageUploaded : '/assets/team-lead.jpg']"
                             alt="Rounded avatar">
                         <div
                             class="group flex items-center justify-center absolute w-24 h-24 lg:w-32 lg:h-32 rounded-full object-cover">
-                            <div :class="[childFormStatus === 1 ? '' : 'hidden']" class="rounded-full object-cover absolute group-hover:bg-slate-500 group-hover:opacity-20"
+                            <div :class="[childFormStatus === 1 || childFormStatus === 2 ? '' : 'hidden']" class="rounded-full object-cover absolute group-hover:bg-slate-500 group-hover:opacity-20"
                                 style="width: 100%; height: 100%;">
                             </div>
-                            <div :class="[childFormStatus === 1 ? '' : 'hidden']" class="rounded-full object-cover" style="width: 100%; height: 100%;">
+                            <div :class="[childFormStatus === 1 || childFormStatus === 2 ? '' : 'hidden']" class="rounded-full object-cover" style="width: 100%; height: 100%;">
                                 <div class="hidden group-hover:flex group-hover:opacity-1 justify-center items-center pt-4"
                                     style="width: 100%; height: 50%;">
                                     <i class="hidden group-hover:block fa-solid fa-camera fa-xl change-dp-icon"></i>
@@ -78,14 +79,14 @@
                         </div>
                     </div>
                 </div>
-                <input :disabled="childFormStatus === 1 ? null : true" type="file" name="uploadImage" ref="uploadImageRef" @change="onChangeFileInput()" id="uploadFile" hidden>
+                <input :disabled="childFormStatus === 1 || childFormStatus === 2 ? null : true" type="file" name="uploadImage" ref="uploadImageRef" @change="onChangeFileInput()" id="uploadFile" hidden>
                 <div class="w-full flex items-center" style="">
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
-                            <span class="">Team Lead</span>
+                            <span class="">{{childFormData.roleForm.model.roleName ? childFormData.roleForm.model.roleName : 'Team Leader'}}</span>
                             <div v-if="componentNow == 'form-app'" class="float-right space-x-2">
-                                <span @click="openEditUserDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
-                                <span @click="openDeleteUserDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
+                                <span @click="openEditRoleDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
+                                <span @click="openDeleteRoleDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
@@ -120,7 +121,10 @@
             <div class="overflow-hidden" style="height: 70%;">
                 <div class="" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 100%;">
                     <Transition name="bounce" mode="out-in">
-                        <component :is="componentNow" ref="childComp" @passFormStatus="getChildFormStatus"></component>
+                        <keep-alive>
+                            <component :is="componentNow" ref="childComp" @getDataFromServer="refresh" @passFormStatus="getChildFormStatus"
+                            :child-form-data="childFormData" :employee-list="employeeList" :role-employee-list="roleEmployeeList" :department-list="departmentList"></component>
+                        </keep-alive>
                     </Transition>
                 </div>
             </div>

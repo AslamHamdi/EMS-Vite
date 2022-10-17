@@ -70,6 +70,7 @@ class Post {
             },
             idd: dbData.idd,
         }
+        return returner
     }
 
     async addOrEditRole(payload) {
@@ -79,7 +80,7 @@ class Post {
         let uploadPath;
         let idd = payload.body.idd == 0 ? null : payload.body.idd
         let spType = payload.body.type == 'add' ? 3 : 4
-        let filePathDb = ""
+        let filePathDb = data.profilePicture
 
         uploadPath = `../public/company_files/company_name/role/${data.roleName}/`;
 
@@ -96,7 +97,7 @@ class Post {
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [spType, data.roleName, data.roleId, 1, 1, 1, data.officeAddress, data.roleDesc, new Date(data.createdDate), new Date(data.lastEditedDate), 1, filePathDb,
+            [spType, data.roleName, data.roleId, data.inDepartment, data.roleLeader, 1, data.officeAddress, data.roleDesc, new Date(data.createdDate), new Date(data.lastEditedDate), 1, filePathDb,
                 idd,
                 null],
             function (err, result) {
@@ -120,7 +121,7 @@ class Post {
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [2, null, data, null, 1, null, null, null, null, null, null,
+            [5, null, data, null, 1, null, null, null, null, null, null,
                 null,
                 null],
             function (err, result) {
@@ -144,7 +145,7 @@ class Post {
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [2, null, data, null, 1, null, null, null, null, null, null,
+            [6, null, data, null, 1, null, null, null, null, null, null,
                 null,
                 null],
             function (err, result) {
