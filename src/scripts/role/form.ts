@@ -1,5 +1,27 @@
 import axios from "axios"
 
+function initialState(){
+    return{
+        roleForm: {
+            model: {
+                roleName: "",
+                roleId: "",
+                inDepartment: "",
+                roleLeader: "",
+                officeAddress: "",
+                roleDesc: "",
+                createdDate: new Date(),
+                lastEditedDate: new Date(),
+                profilePicture: "",
+            },
+            rules: {
+
+            }
+        },
+        idd: 0,
+    }
+}
+
 export default {
     props: {
         // formStatus: {
@@ -20,29 +42,22 @@ export default {
                     inDepartment: "",
                     roleLeader: "",
                     officeAddress: "",
-                    companyId: "",
                     roleDesc: "",
                     createdDate: '01-02-2022',
                     lastEditedDate: '01-02-2022',
-                    createdByUserId: "",
+                    profilePicture: "",
                 },
                 rules: {
 
                 }
             },
+            idd: 0,
             formStatus: 0
         }
     },
     methods: {
         async getDataFromServer(){
-            try {
-                let promise = await axios.get('https://api.publicapis.org/entries')
-                if(promise.status){
-                    console.log("RESPONSE: ", promise.data)
-                }
-            } catch (err) {
-                console.error(err);
-            }
+            
         },
         createNewRole(){
             Object.assign(this.$data, this.$options.data.apply(this))

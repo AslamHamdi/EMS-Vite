@@ -1,9 +1,34 @@
 import Form from "../../components/role/Form.vue"
 import EmployeeList from "../../components/role/EmployeeList.vue"
+import axios from "axios"
+
+
+function initialState(){
+    return{
+        roleForm: {
+            model: {
+                roleName: "",
+                roleId: "",
+                inDepartment: "",
+                roleLeader: "",
+                officeAddress: "",
+                roleDesc: "",
+                createdDate: new Date(),
+                lastEditedDate: new Date(),
+                profilePicture: "",
+            },
+            rules: {
+
+            }
+        },
+        idd: 0,
+    }
+}
 
 export default {
     mounted(){
-
+        this.getDataFromServer()
+        Object.assign(this.$data.childFormData, initialState())
     },
     data(){
         return{
@@ -32,12 +57,52 @@ export default {
             ],
             whichDialog: "",
             imageUploaded: "",
-            childFormStatus: 0
+            roleList: [],
+            employeeList: [], //use for leader dropdown list
+            departmentList: [],
+            childFormStatus: 0,
+            childFormData: initialState(),
+            searchText: "",
+            roleEmployeeList: [] //use for table of employee in the role in employee-list component
         }
     },
     methods: {
         onTabSelect(data: any){
             this.tabSelected = data
+        },
+        getDataFromServer(){
+            let dataToPost = {}
+            let endpoints = [
+                '/api/v1/getAllDepartment',
+                '/api/v1/getAllEmployee',
+                '/api/v1/getAllRole',
+            ]
+
+            try {
+                this.$refs.loaderComp.show()
+                Promise.all(endpoints.map((endpoint) => 
+                    axios.get(endpoint, dataToPost))
+                    ).then(resp => {
+                        this.$nextTick(() => {
+                            this.departmentList = resp[0].data.data
+                            this.employeeList = resp[1].data.data
+                            this.roleList = resp[2].data.data
+                            console.log("DEPT: ", this.departmentList)
+                            console.log("EMP: ", this.employeeList)
+                            console.log("ROLE: ", this.roleList)
+                        })
+                    }).catch((error) => {
+                        this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
+                        console.error(error.message)
+                    }
+                );
+                setTimeout(() => {
+                    this.$refs.loaderComp.hide()
+                }, 800)
+            } catch (error) {
+                this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
+                console.error(error)
+            }
         },
         getChildFormStatus(val: Number){
             this.childFormStatus = val

@@ -17,6 +17,21 @@ router
     .route("/addOrEditRole")
     .get(roleController.addOrEditRole)
     .post(roleController.addOrEditRole)
+
+router
+    .route("/getRoleById")
+    .get(roleController.getRoleById)
+    .post(roleController.getRoleById)
+
+router
+    .route("/deleteRole")
+    .get(roleController.deleteRole)
+    .post(roleController.deleteRole)
+
+router
+    .route("/getEmployeesByRole")
+    .get(roleController.getEmployeesByRole)
+    .post(roleController.getEmployeesByRole)
 /* #endregion */
 
 /* #region Department api router*/

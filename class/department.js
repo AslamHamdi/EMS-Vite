@@ -1,4 +1,3 @@
-const { type } = require('os');
 const db = require('../config/db')
 const ems = require('../lib/ems')
 
@@ -13,6 +12,7 @@ class Post {
             ?,
             @companyId2); 
             SELECT @companyId2;`
+
         const result = await db.query(sql,
             [1, null, null, null, 1, null, null, null, null, null, null,
                 null,
@@ -35,11 +35,13 @@ class Post {
     async getDepartmentById(payload) {
         let data = payload.query.data
         console.log("DATA: ", payload.query)
+
         let sql = `call ems.sp_department(
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
             ?,
             @companyId2); 
             SELECT @companyId2;`
+
         const result = await db.query(sql,
             [2, null, data, null, 1, null, null, null, null, null, null,
                 null,
@@ -130,7 +132,6 @@ class Post {
             }
         );
         return result
-
     }
 
     async getEmployeesByDepartment(payload) {
@@ -141,6 +142,7 @@ class Post {
             ?,
             @companyId2); 
             SELECT @companyId2;`
+
         const result = await db.query(sql,
             [6, null, data, null, null, null, null, null, null, null, null,
                 null,

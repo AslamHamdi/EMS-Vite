@@ -55,11 +55,11 @@ export default {
             whichDialog: "",
             imageUploaded: "",
             departmentList: [],
-            employeeList: [],
+            employeeList: [], //use for leader dropdown list
             childFormStatus: 0,
             childFormData: initialState(),
             searchText: "",
-            deptEmployeeList: []
+            deptEmployeeList: [] //use for table of employee in the department in employee-list component
         }
     },
     methods: {

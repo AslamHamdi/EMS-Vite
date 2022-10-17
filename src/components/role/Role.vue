@@ -128,5 +128,6 @@
     </div>
     <dialog-app ref="dialogModalComp" @confirmEditUser="confirmEditUser" @confirmDeleteUser="confirmDeleteUser" 
     :buttons="dialogNow" :icon="dialogNow[0].icon" :title="dialogNow[0].title" :text="dialogNow[0].text"></dialog-app>
+    <loader-app ref="loaderComp"></loader-app>
 </template>
 <script src="../../scripts/role/role.ts"></script>
