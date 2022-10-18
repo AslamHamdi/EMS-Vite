@@ -6,7 +6,7 @@
                 <div class="" style="width: 30%;">
                 </div>
                 <div class="" style="width: 20%;">
-                    <button @click="createNewRole()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
+                    <button v-if="componentNow == 'form-app'" @click="createNewRole()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
                         style="height: 35px; background-color: #6A67CE; box-shadow: -4px 4px  #4a488b;">
                         <i class="fa-solid fa-xl fa-plus"></i>
                     </button>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="" style="width: 20%;">
                             <div class="" style="height: 100%;">
-                                <span class="role-date-created font-bold label-heading hidden lg:block">Dec 22</span>
+                                <span class="role-date-created font-bold label-heading hidden lg:block">{{o.createdDate}}</span>
                             </div>
                         </div>
                     </div>
@@ -84,16 +84,16 @@
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
                             <span class="">{{childFormData.roleForm.model.roleName ? childFormData.roleForm.model.roleName : 'Team Leader'}}</span>
-                            <div v-if="componentNow == 'form-app'" class="float-right space-x-2">
+                            <div v-if="componentNow == 'form-app' && childFormData.idd != 0" class="float-right space-x-2">
                                 <span @click="openEditRoleDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
                                 <span @click="openDeleteRoleDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
-                            Last edited on 16th August 2022
+                            Last edited on {{displayTimeComp.lastEditedDate}}
                         </div>
                         <div class="text-slate-500 text-sm" style="max-width: 100px;">
-                            <span class="" style="color: green;">●</span> Active
+                            <!-- <span class="" style="color: green;">●</span> Active -->
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-    <dialog-app ref="dialogModalComp" @confirmEditUser="confirmEditUser" @confirmDeleteUser="confirmDeleteUser" 
+    <dialog-app ref="dialogModalComp" @confirmEditRole="confirmEditRole" @confirmDeleteRole="confirmDeleteRole" 
     :buttons="dialogNow" :icon="dialogNow[0].icon" :title="dialogNow[0].title" :text="dialogNow[0].text"></dialog-app>
     <loader-app ref="loaderComp"></loader-app>
 </template>

@@ -93,7 +93,7 @@
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
                             <span class="">{{this.userForm.model.fName ? `${this.userForm.model.fName} ${this.userForm.model.lName}` : 'John Doe'}}</span>
-                            <div class="float-right space-x-2">
+                            <div v-if="idd != 0" class="float-right space-x-2">
                                 <span @click="openEditEmployeeDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
                                 <span @click="openDeleteEmployeeDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>

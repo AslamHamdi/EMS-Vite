@@ -19,6 +19,7 @@ function initialState(){
             }
         },
         idd: 0,
+        formStatus: 0
     }
 }
 
@@ -59,9 +60,13 @@ export default {
             let type = this.formStatus == 1 ? 'update' : 'add'
             let form = new FormData()
             let dataToPost = {}
+            if(type == 'update'){
+                this.roleForm.model.lastEditedDate = new Date()
+            }else if(type == 'add'){
+                this.roleForm.model.createdDate = new Date()
+                this.roleForm.model.lastEditedDate = new Date()
+            }
             dataToPost = this.roleForm.model
-
-            console.log("SUBMITTED: ", dataToPost)
 
             form.append('data', JSON.stringify(dataToPost))
             form.append('image', this.$parent.$parent.$parent.imageUploaded )
@@ -77,6 +82,7 @@ export default {
                     }
                 }).then(resp => {
                     this.__showSuccessToast("Role succesfully save")
+                    this.clearForm()
                 }).catch(error => {
                     this.__showDangerToast("Some error occured during saving the role details. Please try again or contact developer")
                     console.error(new Error('axios catch error: ', error))
@@ -87,24 +93,23 @@ export default {
                 console.error("try catch error: ", error)
             }
             this.$parent.$parent.$parent.imageUploaded = '/assets/team-lead.jpg' 
-            this.clearForm()
             setTimeout(() => {
                 this.$emit('getDataFromServer')
             }, 500)
-            console.log("ROLE FORM: ", form) 
         },
         createNewRole(){
             Object.assign(this.$data, this.$options.data.apply(this))
             this.formStatus = 2
             this.__showInfoToast("Please fill in the form provided")
-            console.log("EMP LIST: ", this.employeeList)
         },
         openForm(){
             this.formStatus = 1
         },
         clearForm(){
+            Object.assign(this.$parent.$parent.$parent.childFormData, this.$options.data.apply(this))
             Object.assign(this.$data, this.$options.data.apply(this))
             this.formStatus = 2
+            console.log("THIS DATA: ", this.$data)
         }
 
     },
@@ -117,10 +122,8 @@ export default {
     watch: {
         checkFormStatus:{
             handler: function(newVal, oldVal) {
-                console.log("FORM STATUS WATCH: ", newVal)
                 let els = document.getElementsByClassName('inputStatus')
                 if(newVal == 1 || newVal == 2){
-                    console.log("NEWVAL 1")
                     Array.prototype.forEach.call(els, function(el) {
                         el.classList.remove('cursor-not-allowed')
                         el.disabled = false;
@@ -140,7 +143,6 @@ export default {
                 this.roleForm = newData.roleForm
                 this.idd = newData.idd
                 console.log("NEW DATA: ", newData)
-                console.log("role from: ", this.idd)
             },
             deep: true
         } 

@@ -1,7 +1,6 @@
 export default {
     mounted(){
         // this.$parent.$parent.$parent.getDepartmentById()
-        // console.log("LIUST: ", this.deptEmployeeList)
     },
     props: {
         deptEmployeeList: Array
@@ -51,7 +50,6 @@ export default {
         },
         deptEmployeeListComp(){
             let data = this.deptEmployeeList
-            console.log("COMP DATYA: ", data)
             data.forEach((o, i) => {
                 o.class = () => {
                     let returner = ""

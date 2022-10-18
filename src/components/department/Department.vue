@@ -6,7 +6,7 @@
                 <div class="" style="width: 30%;">
                 </div>
                 <div class="" style="width: 20%;">
-                    <button @click="createNewDepartment()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
+                    <button v-if="componentNow == 'form-app'" @click="createNewDepartment()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
                         style="height: 35px; background-color: #6A67CE; box-shadow: -4px 4px  #4a488b;">
                         <i class="fa-solid fa-xl fa-plus"></i>
                     </button>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="" style="width: 20%;">
                             <div class="" style="height: 100%;">
-                                <span class="dept-date-created font-bold label-heading hidden lg:block">Dec 22</span>
+                                <span class="dept-date-created font-bold label-heading hidden lg:block">{{o.createdDate}}</span>
                             </div>
                         </div>
                     </div>
@@ -85,16 +85,16 @@
                     <div class="w-full">
                         <div class="font-bold label-heading flex-grow">
                             <span class="">{{childFormData.deptForm.model.deptName ? childFormData.deptForm.model.deptName : 'Software Development'}}</span>
-                            <div v-if="componentNow == 'form-app'" class="float-right space-x-2">
+                            <div v-if="componentNow == 'form-app' && childFormData.idd" class="float-right space-x-2">
                                 <span @click="openEditDeptDialog()"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
                                 <span @click="openDeleteDeptDialog()"><i class="fa-solid fa-trash cursor-pointer"></i></span>
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
-                            Last edited on 16th August 2022
+                            Last edited on {{displayTimeComp.lastEditedDate}}
                         </div>
                         <div class="text-slate-500 text-sm" style="max-width: 100px;">
-                            <span class="" style="color: green;">●</span> Active
+                            <!-- <span class="" style="color: green;">●</span> Active -->
                         </div>
                     </div>
                 </div>

@@ -53,7 +53,6 @@ export default {
         },
         roleEmployeeListComp(){
             let data = this.roleEmployeeList
-            console.log("COMP DATYA: ", data)
             data.forEach((o, i) => {
                 o.class = () => {
                     let returner = ""

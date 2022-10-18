@@ -1,7 +1,7 @@
 import Form from "../../components/role/Form.vue"
 import EmployeeList from "../../components/role/EmployeeList.vue"
 import axios from "axios"
-
+import moment from 'moment'
 
 function initialState(){
     return{
@@ -41,7 +41,7 @@ export default {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                 </svg>`, 
                 title: "Edit role", text: `Are you sure you want to edit this role?`},
-                {name: 'Confirm', function: 'confirmEditUser', addOnClass: `bg-sky-500 hover:bg-sky-700`},
+                {name: 'Confirm', function: 'confirmEditRole', addOnClass: `bg-sky-500 hover:bg-sky-700`},
             ],
             deleteDialogButtonList: [
                 {icon: `
@@ -53,7 +53,7 @@ export default {
                 text: `Are you sure you want to delete this role? <br><br>
                         <b>Reminder:</b> <br>
                         This action cannot be undone`},
-                {name: 'Confirm', function: 'confirmDeleteUser', addOnClass: `bg-red-400 hover:bg-red-700`},
+                {name: 'Confirm', function: 'confirmDeleteRole', addOnClass: `bg-red-400 hover:bg-red-700`},
             ],
             whichDialog: "",
             imageUploaded: "",
@@ -90,9 +90,6 @@ export default {
                             this.departmentList = resp[0].data.data
                             this.employeeList = resp[1].data.data
                             this.roleList = resp[2].data.data
-                             console.log("DEPT: ", this.departmentList)
-                            // console.log("EMP: ", this.employeeList)
-                            // console.log("ROLE: ", this.roleList)
                         })
                     }).catch((error) => {
                         this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
@@ -108,7 +105,6 @@ export default {
             }
         },
         getRoleById(roleId: Number){
-            console.log("SNI")
             this.$refs.childComp.formStatus = 0
             let dataToPost = {
                 data: roleId,
@@ -146,7 +142,6 @@ export default {
         },
         getChildFormStatus(val: Number){
             this.childFormStatus = val
-            console.log("CHILD FORM STAT: ", this.childFormStatus)
         },
         createNewRole(){
             this.$refs.childComp.createNewRole()
@@ -158,7 +153,7 @@ export default {
             this.whichDialog = 'edit'
             this.$refs.dialogModalComp.toggleDialog()
         },
-        confirmEditUser(){
+        confirmEditRole(){
             this.$refs.childComp.openForm()
             this.__showDefaultToast("Please fill in the form provided")
             this.$refs.dialogModalComp.toggleDialog()
@@ -167,7 +162,7 @@ export default {
             this.whichDialog = 'delete'
             this.$refs.dialogModalComp.toggleDialog()
         },
-        confirmDeleteUser(){
+        confirmDeleteRole(){
             let dataToPost = {
                 data: this.childFormData.idd,
             }
@@ -200,7 +195,6 @@ export default {
         },
         onChangeFileInput(){
             this.imageUploaded = this.$refs.uploadImageRef.files[0]
-            //console.log("IMAGE UPLOADED: ", this.imageUploaded)
         },
     },
     computed: {
@@ -222,11 +216,30 @@ export default {
             if(this.whichDialog == 'delete'){
                 data = this.deleteDialogButtonList
             }
-            console.log("DIALOG NOW: ", data)
             return data
         },
         roleListComp(){
             let data = this.roleList
+            data.forEach((o, i) => {
+                o.createdDate = o.createdDate ? new Date(o.createdDate) : new Date()
+                o.createdDate = moment(o.createdDate,"DD MM YYYY").format('MMM DD')
+            })
+            return data
+        },
+        displayTimeComp(){
+            let lastEdited;
+            if(this.childFormData.idd){
+                if(this.childFormData.roleForm.model.lastEditedDate){
+                    lastEdited = new Date(this.childFormData.roleForm.model.lastEditedDate)
+                }else{
+                    lastEdited = new Date()
+                }
+            }else{
+                lastEdited = null
+            }
+            let data = {
+                lastEditedDate: lastEdited == null ? '' : moment(lastEdited,"DD MM YYYY").format('Do MMM YYYY'),
+            }
             return data
         }
     },

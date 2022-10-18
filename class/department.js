@@ -64,7 +64,9 @@ class Post {
                     deptLeader: dbData.departmentLeadId,
                     officeAddress: dbData.officeAddress,
                     deptDesc: dbData.departmentDesc,
-                    profilePicture: dbData.profilePicture
+                    profilePicture: dbData.profilePicture,
+                    createdDate: dbData.createdDate,
+                    lastEditedDate: dbData.lastEditedDate
                 }
             },
             idd: dbData.idd

@@ -1,6 +1,7 @@
 import EmployeeList from "../../components/department/EmployeeList.vue"
 import Form from "../../components/department/Form.vue"
 import axios from 'axios'
+import moment from 'moment'
 
 function initialState () {
     return{
@@ -115,8 +116,6 @@ export default {
                         let data1 = resp[0].data.data
                         let data2 = resp[1].data.data
 
-                        // this.$refs.childComp.deptForm = data1.deptForm
-                        // this.$refs.childComp.idd = data1.idd
                         this.childFormData.deptForm = data1.deptForm
                         this.childFormData.idd = data1.idd
                         this.imageUploaded = data1.deptForm.model.profilePicture ? `company_files/${data1.deptForm.model.profilePicture}` : 'assets/developer.jpg' 
@@ -134,7 +133,6 @@ export default {
                 console.error("ERROR: ", err)
             }
             this.$refs.childComp.formStatus = 0
-            //console.log("CHILD: ", this.$refs.childComp)
         }, 
         getChildFormStatus(val: Number){
             this.childFormStatus = val
@@ -215,12 +213,31 @@ export default {
         },
         departmentListComp(){
             let data = this.departmentList
+            data.forEach((o, i) => {
+                o.createdDate = o.createdDate ? new Date(o.createdDate) : new Date()
+                o.createdDate = moment(o.createdDate,"DD MM YYYY").format('MMM DD')
+            })
             return data
         },
+        displayTimeComp(){
+            let lastEdited;
+            if(this.childFormData.idd){
+                if(this.childFormData.deptForm.model.lastEditedDate){
+                    lastEdited = new Date(this.childFormData.deptForm.model.lastEditedDate)
+                }else{
+                    lastEdited = new Date()
+                }
+            }else{
+                lastEdited = null
+            }
+            let data = {
+                lastEditedDate: lastEdited == null || lastEdited == '' ? '' : moment(lastEdited,"DD MM YYYY").format('Do MMM YYYY'),
+            }
+            return data
+        }
     },
     watch: {
         imageUploaded(newImage, oldImage){
-            console.log("SINI")
             if(newImage != "" && newImage != oldImage){
                 if(newImage.type){
                     let uploadImage = newImage
@@ -245,7 +262,7 @@ export default {
                     o.classList.add('hidden')
                 }
             })
-        }
+        },
     },
     components: {
         "form-app": Form,

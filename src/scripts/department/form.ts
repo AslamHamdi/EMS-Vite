@@ -56,6 +56,12 @@ export default {
             let type = this.formStatus == 1 ? 'update' : 'add'
             let form = new FormData()
             let dataToPost = {}
+            if(type == 'update'){
+                this.deptForm.model.lastEditedDate = new Date()
+            }else if(type == 'add'){
+                this.deptForm.model.createdDate = new Date()
+                this.deptForm.model.lastEditedDate = new Date()
+            }
             dataToPost = this.deptForm.model
 
             form.append('data', JSON.stringify(dataToPost))
@@ -73,6 +79,7 @@ export default {
                     }
                 }).then(resp => {
                     this.__showSuccessToast("Department succesfully saved")
+                    this.clearForm()
                 }).catch(error => {
                     this.__showDangerToast("Some error occured during saving the department details")
                     console.error(new Error('axios catch error: ', error))
@@ -85,7 +92,6 @@ export default {
                 console.error("try catch error: ", error)
             }
             this.$parent.$parent.$parent.imageUploaded = 'assets/developer.jpg' 
-            this.clearForm()
             setTimeout(() => {
                 this.$emit('getDataFromServer')
             }, 500)
@@ -99,6 +105,7 @@ export default {
             this.formStatus = 1
         },
         clearForm(){
+            Object.assign(this.$parent.$parent.$parent.childFormData, this.$options.data.apply(this))
             Object.assign(this.$data, this.$options.data.apply(this))
             this.formStatus = 2
         }
@@ -133,7 +140,7 @@ export default {
                 this.deptForm = newData.deptForm
                 this.idd = newData.idd
                 console.log("NEW DATA: ", newData)
-                console.log("dept from: ", this.idd)
+
             },
             deep: true
         }
