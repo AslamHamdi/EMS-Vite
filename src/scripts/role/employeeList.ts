@@ -1,6 +1,16 @@
+function profileInitialState(){
+    return {
+        name: 'John Doe', 
+        email: 'john.doe@gmail.com',
+        department: 'Software',
+        role: 'Frontend Developer',
+        reportTo: 'Jane Doe',
+        profilePicture: '',
+    }
+}
+
 export default {
     mounted(){
-
     },
     props: {
         roleEmployeeList: Array
@@ -24,11 +34,16 @@ export default {
                 }
             },
             idd: 0,
-            formStatus: 0
+            formStatus: 0,
+            profileData: profileInitialState()
         }
     },
     methods: {
-        
+        viewEmployeeProfile(idd: any){
+            console.log("SELECTED IDD: ", idd)
+            const found = this.roleEmployeeList.find(o => o.idd === idd);
+            this.profileData = found
+        }
     },
     computed:{
         employeeListData(){
@@ -65,6 +80,17 @@ export default {
                 }
             })
             return data
+        },
+        profileDataComp(){
+            let data = {
+                name: this.profileData.firstName ? `${this.profileData.firstName} ${this.profileData.lastName}` : 'John Doe',
+                email: this.profileData.emailAddress ? this.profileData.emailAddress : 'john.doe@gmail.com',
+                department: this.profileData.departmentName ? this.profileData.departmentName : 'Software',
+                role: this.profileData.roleName ? this.profileData.roleName : 'Frontend Developer',
+                profilePicture: this.profileData.profilePicture ? `company_files/${this.profileData.profilePicture}` : '/assets/face3.jpg',
+                reportTo: 'Wokle'
+            }
+            return data
         }
     },
     watch:{
@@ -78,6 +104,7 @@ export default {
         roleEmployeeList:{
             handler: function(newData, oldData){
                 console.log("NEW ROLE DATA: ", newData)
+                this.profileData = profileInitialState()
             },
             immediate: true
         }

@@ -10,7 +10,7 @@ function initialState(){
                 roleName: "",
                 roleId: "",
                 inDepartment: "",
-                roleLeader: "",
+                roleLeader: 0,
                 officeAddress: "",
                 roleDesc: "",
                 createdDate: new Date(),

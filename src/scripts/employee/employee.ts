@@ -143,6 +143,7 @@ export default {
                     ).then(resp => {
                         this.departmentList = resp[0].data.data
                         this.roleList = resp[1].data.data
+                        console.log("ROLE LIST: ", this.roleList)
                         this.employeeList = resp[2].data.data
                     }).catch((error) => {
                         this.__showDangerToast("Some error occured during saving the employee details. Please try again or contact developer")
