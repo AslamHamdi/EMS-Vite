@@ -6,6 +6,7 @@ function initialState () {
             model: {
                 deptName: "",
                 deptId: "",
+                upperDept: 0,
                 deptLeader: 0,
                 officeAddress: "",
                 deptDesc: "",
@@ -25,10 +26,12 @@ export default {
     mounted(){
         let formStat = this.checkFormStatus
         Object.assign(this.$data, initialState())
+        console.log("DEPT LIST: ", this.departmentList)
     },
     props: {
         employeeList: Array,
         childFormData: Object,
+        departmentList: Array
     },
     data(){
         return {
@@ -36,6 +39,7 @@ export default {
                 model: {
                     deptName: "",
                     deptId: "",
+                    upperDept: 0,
                     deptLeader: 0,
                     officeAddress: "",
                     deptDesc: "",
@@ -143,6 +147,11 @@ export default {
 
             },
             deep: true
+        },
+        departmentList: {
+            handler: function(newVal, oldVal){
+                console.log("NEW DEPT LIST: ", newVal)
+            }
         }
     }
 }

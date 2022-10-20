@@ -9,6 +9,7 @@ function initialState () {
             model: {
                 deptName: "",
                 deptId: "",
+                upperDept: 0,
                 deptLeader: 0,
                 officeAddress: "",
                 deptDesc: "",

@@ -123,7 +123,7 @@
                     <Transition name="bounce" mode="out-in">
                         <keep-alive>
                             <component :is="componentNow" ref="childComp" @getDataFromServer="refresh" @passFormStatus="getChildFormStatus"
-                            :child-form-data="childFormData" :employee-list="employeeList" :dept-employee-list="deptEmployeeList"></component>
+                            :child-form-data="childFormData" :employee-list="employeeList" :department-list="departmentList" :dept-employee-list="deptEmployeeList"></component>
                         </keep-alive>
                     </Transition>
                 </div>

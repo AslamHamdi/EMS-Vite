@@ -8,13 +8,13 @@ class Post {
 
     async getAllDepartment(payload) {
         let sql = `call ems.sp_department(
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
             ?,
             @companyId2); 
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [1, null, null, null, 1, null, null, null, null, null, null,
+            [1, null, null, null, null, 1, null, null, null, null, null, null,
                 null,
                 null],
             function (err, result) {
@@ -37,13 +37,13 @@ class Post {
         console.log("DATA: ", payload.query)
 
         let sql = `call ems.sp_department(
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
             ?,
             @companyId2); 
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [2, null, data, null, 1, null, null, null, null, null, null,
+            [2, null, data, null, null, 1, null, null, null, null, null, null,
                 null,
                 null],
             function (err, result) {
@@ -61,6 +61,7 @@ class Post {
                 model: {
                     deptName: dbData.departmentName,
                     deptId: dbData.departmentId,
+                    upperDept: dbData.upperDeptId,
                     deptLeader: dbData.departmentLeadId,
                     officeAddress: dbData.officeAddress,
                     deptDesc: dbData.departmentDesc,
@@ -92,13 +93,13 @@ class Post {
             filePathDb = 'company_name/department/' + data.deptName + '/' + uploadedImage.name
         }
         let sql = `call ems.sp_department(
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
             ?,
             @companyId2); 
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [spType, data.deptName, data.deptId, data.deptLeader, 1, data.officeAddress, data.deptDesc, new Date(data.createdDate), new Date(data.lastEditedDate), 1, filePathDb,
+            [spType, data.deptName, data.deptId, data.upperDept, data.deptLeader, 1, data.officeAddress, data.deptDesc, new Date(data.createdDate), new Date(data.lastEditedDate), 1, filePathDb,
                 idd,
                 null],
             function (err, result) {
@@ -116,13 +117,13 @@ class Post {
         let data = payload.body.data
 
         let sql = `call ems.sp_department(
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
             ?,
             @companyId2); 
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [5, null, data, null, 1, null, null, null, null, null, null,
+            [5, null, data, null, null, 1, null, null, null, null, null, null,
                 null,
                 null],
             function (err, result) {
@@ -140,13 +141,13 @@ class Post {
         let data = payload.query.data
 
         let sql = `call ems.sp_department(
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
             ?,
             @companyId2); 
             SELECT @companyId2;`
 
         const result = await db.query(sql,
-            [6, null, data, null, null, null, null, null, null, null, null,
+            [6, null, data, null, null, null, null, null, null, null, null, null,
                 null,
                 null],
             function (err, result) {

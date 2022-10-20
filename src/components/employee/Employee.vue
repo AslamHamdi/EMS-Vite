@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="text-slate-500 text-sm">
-                            {{this.companyForm.model.position ? `${roleList.find(o => o.id === this.companyForm.model.position).role_name}` : 'Software Developer'}}
+                            {{this.companyForm.model.position ? `${roleList.find(o => o.id === this.companyForm.model.position).roleName}` : 'Software Developer'}}
                         </div>
                         <div class="text-slate-500 text-sm" style="max-width: 100px;">
                             <span class="" style="color: green;">●</span> Active

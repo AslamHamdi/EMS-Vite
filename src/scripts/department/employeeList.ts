@@ -11,7 +11,8 @@ export default {
                 model: {
                     deptName: "",
                     deptId: "",
-                    deptLeader: "",
+                    upperDept: 0,
+                    deptLeader: 0,
                     officeAddress: "",
                     deptDesc: "",
                     profilePicture: "",
