@@ -88,7 +88,7 @@ export default {
                 department: this.profileData.departmentName ? this.profileData.departmentName : 'Software',
                 role: this.profileData.roleName ? this.profileData.roleName : 'Frontend Developer',
                 profilePicture: this.profileData.profilePicture ? `company_files/${this.profileData.profilePicture}` : '/assets/face3.jpg',
-                reportTo: 'Wokle'
+                reportTo: this.profileData.reportTo ? this.profileData.reportTo : 'Jane Doe',
             }
             return data
         }

@@ -24,6 +24,7 @@ function initialState () {
             model: {
                 emailAddress: "",
                 employeeId: "",
+                reportTo: 0,
                 dateReg: "",
                 department: "",
                 position: "",
@@ -71,6 +72,7 @@ export default {
                 model: {
                     emailAddress: "",
                     employeeId: "",
+                    reportTo: 0,
                     dateReg: "",
                     department: "",
                     position: "",
@@ -171,6 +173,7 @@ export default {
                     let data = resp.data.data
                     this.userForm = data.userForm
                     this.companyForm = data.companyForm
+                    console.log("COMPANY: ", this.companyForm )
                     this.emergencyForm = data.emergencyForm
                     let fileName = this.userForm.model.profilePicture.split('/')
                     fileName = fileName[3]

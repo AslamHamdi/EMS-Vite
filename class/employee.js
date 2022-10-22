@@ -14,14 +14,14 @@ class Post {
 
         let sql = `call ems.sp_employee(
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
             ?, ?, ?,
             ?,
             @employeeId2); 
             SELECT @employeeId2;`
         const result = await db.query(sql,
             [1, null, 1, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null,
+                null, null, null, null, null, null, null,
                 null, null, null,
                 null,
                 null],
@@ -44,14 +44,14 @@ class Post {
 
         let sql = `call ems.sp_employee(
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
             ?, ?, ?,
             ?,
             @employeeId2); 
             SELECT @employeeId2;`
         const result = await db.query(sql,
             [2, data.employeeId, 1, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null,
+                null, null, null, null, null, null, null,
                 null, null, null,
                 null,
                 null],
@@ -64,6 +64,7 @@ class Post {
             }
         );
         let dbData = result[0][0][0]
+        console.log("SB DATA: ", dbData)
 
         let returner = {
             userForm: {
@@ -87,6 +88,7 @@ class Post {
                 model: {
                     emailAddress: dbData.emailAddress,
                     employeeId: dbData.employeeId,
+                    reportTo: dbData.reportTo,
                     dateReg: moment(dbData.dateReg).format('YYYY-MM-DD'),// dbData.dateReg, 
                     department: dbData.deptId,
                     position: dbData.roleId,
@@ -121,14 +123,14 @@ class Post {
         }
         let sql = `call ems.sp_employee(
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
             ?, ?, ?,
             ?,
             @employeeId2); 
             SELECT @employeeId2;`
         const result = await db.query(sql,
             [spType, data.companyForm.employeeId, 1, data.userForm.fName, data.userForm.lName, new Date(data.userForm.dateOfBirth), data.userForm.gender, data.userForm.icNum, data.userForm.address, data.userForm.country, data.userForm.state, data.userForm.city, data.userForm.zip, data.userForm.maritalStatus, data.userForm.phoneNum, filePathDb,
-                data.companyForm.emailAddress, new Date(data.companyForm.dateReg), data.companyForm.department, data.companyForm.position, data.companyForm.password,
+                data.companyForm.emailAddress, data.companyForm.reportTo, new Date(data.companyForm.dateReg), data.companyForm.department, data.companyForm.position, data.companyForm.password,
                 data.emergencyForm.name, data.emergencyForm.relationship, data.emergencyForm.phoneNum,
                 idd,
                 null],
@@ -148,14 +150,14 @@ class Post {
 
         let sql = `call ems.sp_employee(
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
             ?, ?, ?,
             ?,
             @employeeId2); 
             SELECT @employeeId2;`
         const result = await db.query(sql,
             [4, data.employeeId, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null,
+                null, null, null, null, null, null, null,
                 null, null, null,
                 null,
                 null],

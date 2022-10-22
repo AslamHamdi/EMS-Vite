@@ -158,7 +158,7 @@ class Post {
         );
 
         let dbData = result[0][0]
-        //console.log("DB DATA: ", dbData)
+        console.log("DB DATA: ", dbData)
         return dbData
     }
 }
