@@ -155,7 +155,7 @@ class Post {
                     console.log("RESULT: ", result)
                 }
             }
-        );//
+        );
 
         let dbData = result[0][0]
         console.log("DB DATA: ", dbData)
