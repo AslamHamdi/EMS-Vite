@@ -24,7 +24,7 @@ function initialState () {
             model: {
                 emailAddress: "",
                 employeeId: "",
-                reportTo: 0,
+                reportTo: "",
                 dateReg: "",
                 department: "",
                 position: "",
@@ -72,7 +72,7 @@ export default {
                 model: {
                     emailAddress: "",
                     employeeId: "",
-                    reportTo: 0,
+                    reportTo: "",
                     dateReg: "",
                     department: "",
                     position: "",
