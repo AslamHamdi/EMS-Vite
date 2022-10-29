@@ -1,3 +1,5 @@
+import accountTab from '../../components/setting/Account.vue'
+
 export default {
     data() {
         return{
@@ -10,7 +12,6 @@ export default {
         }
     },
     mounted(){
-        localStorage.setItem('currentTab', 'setting')
     },
     methods: {
         onSelectTab(component: any){
@@ -24,9 +25,9 @@ export default {
             return component
         }
     },
-    // components:{
-    //     "account-tab": accountTab,
-    //     "security-tab": securityTab,
-    //     "about-tab": aboutTab
-    // }
+    components:{
+        "account-tab": accountTab,
+        // "security-tab": securityTab,
+        // "about-tab": aboutTab
+    }
 }

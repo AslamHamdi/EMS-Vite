@@ -16,11 +16,11 @@
                     class="employee-list cursor-pointer pt-2 pb-2" style="margin-right: 4px;">
                     <div class="flex text-slate-500" style="width: 100%;">
                         <div style="width: 25px;">
-                            <i :class="o.icon"></i>
+                            <i style="color: #2b2770" :class="o.icon"></i>
                         </div>
-                        <div class="font-bold text-slate-500" style="font-size: 15px;">{{ o.name }}</div>
+                        <div class="font-bold text-slate-500" style="font-size: 15px; color: #2b2770">{{ o.name }}</div>
                     </div>
-                    <div class="flex">
+                    <div class="flex hidden lg:block">
                         <div style="width: 25px;"></div>
                         <div class="" style="max-width: 80%">
                             {{ o.description }}
@@ -44,8 +44,10 @@
                     </svg>
                 </button>
             </div>
-            <div>
-                <!-- <component :is="componentNow"></component> -->
+            <div class="" style="margin-left: 1.5rem; margin-right: 1.5rem; height: 100%;">
+                <Transition name="bounce" mode="out-in">
+                    <component :is="componentNow"></component>
+                </Transition>
             </div>
         </div>
     </div>
