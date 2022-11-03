@@ -21,6 +21,7 @@
                             </button>
                         </div>
                     </div>
+                    <!-- test -->
                     <input type="file" name="uploadImage" ref="uploadImageRef" id="uploadFile" hidden>
                     
                     <div class="w-full ">
